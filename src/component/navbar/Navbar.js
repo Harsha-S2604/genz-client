@@ -12,7 +12,7 @@ export default class Navbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeBottomColor: {"borderBottom": "3px solid #002417"},
+            activeBottomColor: {"borderBottom": "3px solid #3500D3"},
             showCollapseMenu: false
         }
     }
@@ -30,7 +30,7 @@ export default class Navbar extends Component {
         return (
             <div>
                 <Router>
-                <nav className="navbar navbar-expand-lg navbar-light bg-transparent navbar-toggleable-md sticky-top">
+                <nav className="navbar navbar-expand-lg navbar-light bg-transparent navbar-toggleable-md">
                     <div className="container">
                         <NavLink className="navbar-brand" id="navbar-title" to="/">Genz</NavLink>
                         <button className="navbar-toggler navbar-toggler-right collapsed" onClick={this.toggleMenu} 
