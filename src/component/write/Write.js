@@ -4,7 +4,9 @@ export default class Write extends Component {
     render() {
         return (
             <div>
-                <p>This is a write page</p>
+                <div className="container">
+                    <p>This is a write page</p>
+                </div>
             </div>
         )
     }

@@ -4,7 +4,9 @@ export default class GetStarted extends Component {
     render() {
         return (
             <div>
-                This is a getstarted page
+                <div className="container">
+                    This is a getstarted page
+                </div>
             </div>
         )
     }
