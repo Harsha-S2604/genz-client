@@ -30,7 +30,7 @@ export default class Navbar extends Component {
         return (
             <div>
                 <Router>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-toggleable-md shadow-sm">
+                <nav className="navbar navbar-expand-lg navbar-light bg-transparent navbar-toggleable-md sticky-top">
                     <div className="container">
                         <NavLink className="navbar-brand" id="navbar-title" to="/">Genz</NavLink>
                         <button className="navbar-toggler navbar-toggler-right collapsed" onClick={this.toggleMenu} 
