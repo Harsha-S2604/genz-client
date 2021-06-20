@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
-import {NavLink, BrowserRouter as Router} from "react-router-dom";
+import {Switch, Route, NavLink, BrowserRouter as Router} from "react-router-dom";
 import {FaSignInAlt, FaUserPlus} from 'react-icons/fa';
 import {RiPencilFill} from 'react-icons/ri';
+import Home from '../home/Home';
+import Signin from '../signin/Signin';
+import GetStarted from '../getStarted/GetStarted';
+import Write from '../write/Write';
 
 export default class Navbar extends Component {
 
@@ -41,6 +45,12 @@ export default class Navbar extends Component {
                         </div>
                     </div>
                 </nav>
+                <Switch>
+                    <Route exact path="/"><Home /></Route>
+                    <Route exact path="/signin"><Signin /></Route>
+                    <Route exact path="/register"><GetStarted /></Route>
+                    <Route exact path="/write"><Write /></Route>
+                </Switch>
                 </Router>
             </div>
         )
