@@ -136,3 +136,11 @@ div {
     width: 100%;
   }
 }
+
+.padding-10 {
+  padding: 10%
+}
+
+.padding-top-10 {
+  padding-top: 10%
+}
