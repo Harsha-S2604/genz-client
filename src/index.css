@@ -34,7 +34,7 @@ div {
 }
 
 .card-width {
-  width: 60%;
+  width: 50%;
 }
 
 .card-config {
@@ -135,10 +135,18 @@ div {
   .card-width {
     width: 100%;
   }
+
+  .width-100 {
+    width: 100%;
+  }
 }
 
 .padding-10 {
   padding: 10%
+}
+
+.width-100 {
+  width: 100%;
 }
 
 .padding-top-10 {
