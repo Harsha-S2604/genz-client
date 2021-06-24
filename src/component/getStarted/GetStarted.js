@@ -20,8 +20,34 @@ export default class GetStarted extends Component {
         })
     }
 
-    handleChange = () => {
-        
+    handleChange = (event) => {
+
+        const {name, value} = event.target;
+        switch(name) {
+            case "email":
+                if(value === "") {
+                    this.setState({
+                        emailErrorMessage: "*Field required",
+                        email: value
+                    })
+                } else {
+                    const emailRegExp = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/
+                    if(value.match(emailRegExp)) {
+                        this.setState({
+                            emailErrorMessage: "",
+                            email: value
+                        })
+                    } else {
+                        this.setState({
+                            emailErrorMessage: "*Invalid email",
+                            email: value
+                        })
+                    }
+                }
+                break;
+            default:
+                break;
+            } 
     }
     render() {
         return (
@@ -37,23 +63,27 @@ export default class GetStarted extends Component {
                                         <p className="text-center">Enter your email address to create an account.</p><br/>
                                         <form>
                                             <div className="form-group">
-                                                {/* <label  className="pb-3" htmlFor="email">Email</label> */}
-                                                <div className="text-center">
-                                                    <input  type="email"
-                                                            name="email"
-                                                            required
-                                                            className="form-control w-75"
-                                                            value={this.state.email}
-                                                            onChange={this.handleChange}
-                                                            id="email" aria-describedby="emailHelp" placeholder="Enter email" />
+                                                <div>
+                                                    <center>
+                                                        <input  type="email"
+                                                                name="email"
+                                                                required
+                                                                className="form-control w-75"
+                                                                value={this.state.email}
+                                                                onChange={this.handleChange}
+                                                                id="email" aria-describedby="emailHelp" placeholder="Enter email" />
+                                                        {this.state.emailErrorMessage !== "" ? <p className="text-danger pt-2">{this.state.emailErrorMessage}</p> : null}
+                                                    </center>
                                                 </div>
-                                                {this.state.emailErrorMessage !== "" ? <p className="text-danger pt-2">{this.state.emailErrorMessage}</p> : null}
                                             </div><br/>
-                                            <div className="form-group">
-                                                <button type="button" className="btn-config btn-primary-col">continue</button>
-                                            </div>
+                                            <center>
+                                                <div className="form-group margin-bottom-15">
+                                                    <button type="button" className="btn-config btn-primary-col">continue</button>
+                                                </div>  
+                                            </center>
+                                            
                                         </form>
-                                        <div className="text-center">
+                                        <div className="text-center margin-bottom-15">
                                             <button className="btn btn-primary" onClick={this.handleShowForm}> Back </button>
                                         </div>
                                     </div>

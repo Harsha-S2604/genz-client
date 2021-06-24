@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Poppins";
-  src: local("Poppins-Regular")
-  ,url("./fonts/Poppins-Regular.ttf") format("truetype");
+  src: local("Poppins-Light")
+  ,url("./fonts/Poppins-Light.ttf") format("truetype");
 }
 
 div {
@@ -151,4 +151,12 @@ div {
 
 .padding-top-10 {
   padding-top: 10%
+}
+
+.margin-bottom-5 {
+  margin-bottom: 5%;
+}
+
+.margin-bottom-15 {
+  margin-bottom: 15%;
 }
