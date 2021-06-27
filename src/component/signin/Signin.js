@@ -79,7 +79,6 @@ export default class Signin extends Component {
         const isEnabled = (this.state.passwordErrorMessage === "" && this.state.emailErrorMessage === "" && this.state.password !== "" && this.state.email !== "")
         return (
             <div>
-                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#signInModalCenter">Signin</button>
                 <div className="modal fade" id="signInModalCenter" tabIndex="-1" role="dialog" aria-labelledby="signInModalCenter" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered" role="document">
                         <div className="modal-content"> 
@@ -88,6 +87,7 @@ export default class Signin extends Component {
                                     <button type="button" className="close remove-button-css" data-dismiss="modal" aria-label="Close">
                                         <span className="font-size-25" aria-hidden="true">&times;</span>
                                     </button>
+                                    <div className="pb-4"></div>
                                     <h2 className="primary-color text-center card-title pt-4">Welcome to GenZ blog</h2><br/>
                                     <div className="container">
                                         <div>

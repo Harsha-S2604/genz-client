@@ -13,9 +13,18 @@ export default class Navbar extends Component {
         super(props);
         this.state = {
             activeBottomColor: {"borderBottom": "3px solid #3500D3"},
-            showCollapseMenu: false
+            showCollapseMenu: false,
+            modalOpen: false
         }
     }
+
+    handleModalOpen = () => {
+        this.setState((prevState) => {
+           return{
+              modalOpen: !prevState.modalOpen
+           }
+        })
+     }
 
     
 
@@ -42,12 +51,12 @@ export default class Navbar extends Component {
                         <div className={"collapse navbar-collapse justify-content-end " + show} id="navbarSupportedContent">
                             <ul className="navbar-nav">
                                 <li className="nav-item">
-                                    <NavLink className="nav-link" to="/signin"
-                                    activeStyle={this.state.activeBottomColor}><FaSignInAlt />{" "}Sign in</NavLink>
+                                    <a data-toggle="modal" href="/signin" data-target="#signInModalCenter" 
+                                       className="pointer nav-link"><FaSignInAlt />{" "}Sign in</a>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink className="nav-link" to="/register"
-                                    activeStyle={this.state.activeBottomColor}><FaUserPlus />{" "}Get Started</NavLink>
+                                    <a  data-toggle="modal" href="/register" data-target="#getStartedModal" 
+                                        className="pointer nav-link"><FaUserPlus />{" "}Get Started</a>
                                 </li>
                                 <li className="nav-item">
                                     <NavLink className="nav-link" to="/write"
@@ -57,11 +66,11 @@ export default class Navbar extends Component {
                         </div>
                     </div>
                 </nav>
+                <Signin />
+                <GetStarted />
                 <Switch>
-                    <Route exact path="/"><Home /></Route>
-                    <Route exact path="/signin"><Signin /></Route>
-                    <Route exact path="/register"><GetStarted /></Route>
-                    <Route exact path="/write"><Write /></Route>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/write" component={Write} />
                 </Switch>
                 </Router>
             </div>

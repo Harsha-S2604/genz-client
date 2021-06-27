@@ -175,3 +175,7 @@ div {
 .font-size-25 {
   font-size: 25px;
 }
+
+.pointer {
+  cursor: pointer;
+}
