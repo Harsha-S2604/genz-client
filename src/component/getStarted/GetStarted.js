@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import {FcGoogle} from 'react-icons/fc';
 import {AiFillFacebook} from 'react-icons/ai';
 import {MdEmail} from 'react-icons/md';
+import UserSignup from "../../model/UserSignup";
+import axios from "axios";
 
 export default class GetStarted extends Component {
 
@@ -12,6 +14,21 @@ export default class GetStarted extends Component {
             email: "",
             emailErrorMessage: ""
         }
+    }
+
+    handleRegister = () => {
+        let email = this.state.email
+        let user = new UserSignup()
+        user.email = email;
+        user.isVerified = false;
+        user.isPasswordSet = false;
+        axios.post('http://localhost:3004/users', user)
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     handleShowForm = () => {
@@ -84,7 +101,7 @@ export default class GetStarted extends Component {
                                                 </div><br/>
                                                 <center>
                                                     <div className="form-group margin-bottom-15">
-                                                        <button type="button" className="btn-config btn-primary-col">continue</button>
+                                                        <button type="button" className="btn-config btn-primary-col" onClick={this.handleRegister}>continue</button>
                                                     </div>  
                                                 </center>
                                                 

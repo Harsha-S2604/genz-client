@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {FcGoogle} from 'react-icons/fc';
 import {AiFillFacebook} from 'react-icons/ai';
+import UserSignin from "../../model/UserSignin";
 
 export default class Signin extends Component {
 
@@ -15,7 +16,11 @@ export default class Signin extends Component {
     }
 
     handleLogin = () => {
-        console.log("login")
+        let email = document.getElementById("email").value
+        let password = document.getElementById("password").value
+        let user = new UserSignin();
+        user.email = email;
+        user.password = password;
     }
 
     handleChange = (event) => {
