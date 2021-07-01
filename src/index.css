@@ -1,12 +1,12 @@
 @font-face {
-  font-family: "Poppins";
-  src: local("Poppins-Light")
-  ,url("./fonts/Poppins-Light.ttf") format("truetype");
+  font-family: "Graphik";
+  src: local("Graphik-Light")
+  ,url("./fonts/Graphik-Font-Family/GraphikLight.otf") format("truetype");
 }
 
 div {
   margin: 0;
-  font-family: 'Poppins';
+  font-family: 'Graphik';
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
