@@ -1,15 +1,23 @@
 @font-face {
-  font-family: "Poppins";
-  src: local("Poppins-Regular")
-  ,url("./fonts/Poppins-Regular.ttf") format("truetype");
+  font-family: "Graphik";
+  src: local("Graphik-Light")
+  ,url("./fonts/Graphik-Font-Family/GraphikRegular.otf") format("truetype");
 }
 
 div {
   margin: 0;
-  font-family: 'Poppins';
+  font-family: 'Graphik';
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.primary-color {
+  color: #3500D3;
+}
+
+.primary-bg-color {
+  background-color: #3500D3
 }
 
 #modify-nav-menu {
@@ -23,4 +31,151 @@ div {
 
 .nav-item.active {
   border-bottom: 3px solid #002417;
+}
+
+.card-width {
+  width: 50%;
+}
+
+.card-config {
+  padding-top: 5%;
+}
+
+.btn-config {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-config:disabled, .btn-config.disabled, fieldset:disabled .btn-config {
+  pointer-events: none;
+  opacity: 0.40;
+}
+
+.btn-primary-col {
+  color: #fff;
+  background-color: #3500D3;
+  border-color: #3500D3;
+}
+
+.btn-primary-col:disabled, .btn-primary-col .disabled {
+  color: #fff;
+  background-color: #3500D3;
+  border-color: #3500D3;
+}
+
+.sep-login-hr {
+  border: none;
+  border-top: 3px double #333;
+  color: #333;
+  overflow: visible;
+  text-align: center;
+  height: 5px;
+}
+
+.sep-login-hr:after {
+  background: #fff;
+  content: attr(data-content);
+  padding: 0 4px;
+  position: relative;
+  top: -13px;
+}
+
+.switch {
+  appearance: none;
+  height: 1em;
+  width: 2em;
+  background-color: #c2c2c2;
+  cursor: pointer;
+  border-radius: 1em;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.switch::before {
+  content: "";
+  height: 100%;
+  width: 50%;
+  background-color: white;
+  position: absolute;
+  border-radius: 50%;
+  border: #c2c2c2 solid 0.2em;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.switch:checked {
+  background-color: #3500D3;
+}
+
+.switch:checked::before {
+  border-color: #3500D3;
+  transform: translateX(100%);
+}
+
+@media screen and (max-width: 500px) {
+  .switch {
+    outline: none;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .card-width {
+    width: 100%;
+  }
+
+  .width-100 {
+    width: 100%;
+  }
+}
+
+.padding-10 {
+  padding: 10%
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.padding-top-10 {
+  padding-top: 10%
+}
+
+.margin-bottom-5 {
+  margin-bottom: 5%;
+}
+
+.margin-bottom-15 {
+  margin-bottom: 15%;
+}
+
+.remove-button-css {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  float: right;
+}
+
+.font-size-25 {
+  font-size: 25px;
+}
+
+.pointer {
+  cursor: pointer;
 }
