@@ -179,3 +179,26 @@ div {
 .pointer {
   cursor: pointer;
 }
+
+.padding-top-3 {
+  padding-top: 3%;
+}
+
+.recent-articles-header-style {
+  border-bottom: 1px solid #3500D3;
+  width: 70%;
+}
+
+.follow-us-header-style {
+  border-bottom: 1px solid #3500D3;
+  width: 100%;
+}
+
+.recent-articles-content-style {
+  padding-top: 3%;
+  max-width: 75%;
+}
+
+.verticle-line {
+  border-left: 1px solid red;
+}
