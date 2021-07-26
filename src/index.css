@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Graphik";
   src: local("Graphik-Light")
-  ,url("./fonts/Graphik-Font-Family/GraphikLight.otf") format("truetype");
+  ,url("./fonts/Graphik-Font-Family/GraphikRegular.otf") format("truetype");
 }
 
 div {

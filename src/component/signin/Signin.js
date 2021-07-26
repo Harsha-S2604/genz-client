@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import {FcGoogle} from 'react-icons/fc';
 import {AiFillFacebook} from 'react-icons/ai';
 import UserSignin from "../../model/UserSignin";
+import axios from 'axios';
+
 
 export default class Signin extends Component {
 
@@ -11,16 +13,44 @@ export default class Signin extends Component {
             email: "",
             password: "",
             emailErrorMessage: "",
-            passwordErrorMessage: ""
+            passwordErrorMessage: "",
+            loginErrorMessage: "",
+            isLoggedIn: false,
+            loggedEmail: "",
+            loggedId: "",
+            loggedAccVerfied: ""
         }
     }
 
-    handleLogin = () => {
+    handleLogin = async () => {
         let email = document.getElementById("email").value
         let password = document.getElementById("password").value
         let user = new UserSignin();
         user.email = email;
         user.password = password;
+        try {
+            const response = await axios.post("http://localhost:8080/genz-server/user-api/login", user)
+            if(response.data.success) {
+                console.log(response.data.data)
+                this.setState({
+                    loggedEmail: response.data.data.Email,
+                    loggedId: response.data.data.id,
+                    loggedAccVerfied: response.data.data.IsVerified,
+                    loginErrorMessage: "", 
+                    isLoggedIn: true
+                })
+            this.props.cookies.set('email', this.state.loggedEmail);
+            this.props.cookies.set('id', this.state.loggedId);
+            this.props.cookies.set('isVerified', this.state.loggedAccVerfied);
+            this.props.cookies.set('isLoggedIn', this.state.isLoggedIn);
+
+            } else {
+                this.setState({loginErrorMessage: response.data.errorMessage, isLoggedIn: false})
+            }
+        } catch(error) {
+            console.log(error);
+        }
+        
     }
 
     handleChange = (event) => {
@@ -81,6 +111,9 @@ export default class Signin extends Component {
     }
 
     render() {
+        if(this.state.isLoggedIn) {
+            window.location = "/";
+        }
         const isEnabled = (this.state.passwordErrorMessage === "" && this.state.emailErrorMessage === "" && this.state.password !== "" && this.state.email !== "")
         return (
             <div>
@@ -129,6 +162,10 @@ export default class Signin extends Component {
                                                 name="show password" onChange={this.handleChange} 
                                                 value="Show Password" />&nbsp;
                                                 <label  className="pb-3" htmlFor="show password">Show password</label>
+                                            </div>
+
+                                            <div>
+                                                {this.state.loginErrorMessage ? <p className="text-danger pt-2">{this.state.loginErrorMessage}</p> : null}
                                             </div>
                                             
                                             <div className="form-group">
