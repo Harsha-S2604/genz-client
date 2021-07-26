@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import RecentArticles from './recent articles/RecentArticles'
+import TrendingArticles from './trending articles/TrendingArticles';
 import FollowUs from './follow us/FollowUs'
 
 export default class Home extends Component {
@@ -7,7 +8,8 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            recentArticles: []
+            recentArticles: [],
+            trendingArticles: []
         }
     }
 
@@ -37,6 +39,65 @@ export default class Home extends Component {
                 "author": "Robert alberto",
                 "createdAt": "2020-12-07",
                 "image":"static/demo.png"
+            },
+            {
+                "id": 4,
+                "title": "demo_title_4",
+                "description": "The sunset filled the entire sky with the deep color of rubies, setting the clouds ablaze. The waves crashed and danced along the shore, moving up and down in a graceful and gentle rhythm like they were dancing.",
+                "author": "Robert alberto",
+                "createdAt": "2020-12-07",
+                "image":"static/demo.png"
+            },
+            {
+                "id": 5,
+                "title": "demo_title_5",
+                "description": "The sunset filled the entire sky with the deep color of rubies, setting the clouds ablaze. The waves crashed and danced along the shore, moving up and down in a graceful and gentle rhythm like they were dancing.",
+                "author": "Robert alberto",
+                "createdAt": "2020-12-07",
+                "image":"static/demo.png"
+            }
+    
+        ],
+        trendingArticles: [
+            {
+                "id": 1,
+                "title": "demo_title_1",
+                "description": "A demo is what you give to show how something works. so they'll know how to use it. Demo is short for demonstrate or demonstration. It can be a verb, as when a tech company demos its new tablet or laptop.",
+                "author": "John wick",
+                "createdAt": "2020-12-06",
+                "image":"static/demo.png"
+            },
+            {
+                "id": 2,
+                "title": "demo_title_2",
+                "description": "Demo is short for demonstrate or demonstration. It can be a verb, as when a tech company demos its new tablet or laptop.",
+                "author": "Mike tyson",
+                "createdAt": "2020-12-07",
+                "image":"static/demo.png"
+            },
+            {
+                "id": 3,
+                "title": "demo_title_3",
+                "description": "The sunset filled the entire sky with the deep color of rubies, setting the clouds ablaze. The waves crashed and danced along the shore, moving up and down in a graceful and gentle rhythm like they were dancing.",
+                "author": "Robert alberto",
+                "createdAt": "2020-12-07",
+                "image":"static/demo.png"
+            },
+            {
+                "id": 4,
+                "title": "demo_title_4",
+                "description": "The sunset filled the entire sky with the deep color of rubies, setting the clouds ablaze. The waves crashed and danced along the shore, moving up and down in a graceful and gentle rhythm like they were dancing.",
+                "author": "Robert alberto",
+                "createdAt": "2020-12-07",
+                "image":"static/demo.png"
+            },
+            {
+                "id": 5,
+                "title": "demo_title_5",
+                "description": "The sunset filled the entire sky with the deep color of rubies, setting the clouds ablaze. The waves crashed and danced along the shore, moving up and down in a graceful and gentle rhythm like they were dancing.",
+                "author": "Robert alberto",
+                "createdAt": "2020-12-07",
+                "image":"static/demo.png"
             }
     
         ]
@@ -45,8 +106,18 @@ export default class Home extends Component {
     
     render() { 
         var recentArticles = []
+        var trendingArticles = []
         for(let i = 0 ; i < this.state.recentArticles.length; i++) {
             recentArticles.push(<RecentArticles 
+                key={this.state.recentArticles[i].id} 
+                title={this.state.recentArticles[i].title}
+                description={this.state.recentArticles[i].description}
+                created={this.state.recentArticles[i].createdAt} 
+                author={this.state.recentArticles[i].author}/>)
+        }
+
+        for(let i = 0 ; i < this.state.trendingArticles.length; i++) {
+            trendingArticles.push(<TrendingArticles 
                 key={this.state.recentArticles[i].id} 
                 title={this.state.recentArticles[i].title}
                 description={this.state.recentArticles[i].description}
@@ -62,6 +133,10 @@ export default class Home extends Component {
                                 <h2 className="recent-articles-header-style">Recent articles</h2>
                                 <div>
                                     {recentArticles}
+                                </div><br/><br /><br/>
+                                <h2 className="recent-articles-header-style">Trending articles</h2>
+                                <div>
+                                    {trendingArticles}
                                 </div>
                             </div>
                         </div>

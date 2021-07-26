@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import demo from '../../../assets/demo.jpg'
 
-export default class RecentArticles extends Component {
+export default class TrendingArticles extends Component {
 
     render() {
         return (
