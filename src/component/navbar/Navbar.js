@@ -110,7 +110,7 @@ class Navbar extends Component {
                 <GetStarted />
                 <Switch>
                     <Route exact path="/" component={() => <Home cookies={this.props.cookies}/>} />
-                    <Route exact path="/write" component={Write} />
+                    <Route exact path="/write" data-target="#signInModalCenter" component={() => <Write cookies={this.props.cookies}/>} />
                     <Route exact path="/favorites" component={() => <Favorties cookies={this.props.cookies}/>} />
                     <Route exact path="/profile" component={() => <Profile cookies={this.props.cookies}/>} />
 

@@ -234,3 +234,37 @@ div {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
+.block-display {
+  display: block;
+}
+
+.title-css {
+  width: 70%;
+  border: none;
+  font-size:20px;
+  outline:none;
+  border-bottom: 1px solid black;
+}
+
+.description-css {
+  width: 70%;
+  border: none;
+  font-size:20px;
+  outline:none;
+  border-bottom: 1px solid black;
+}
+
+.button-remove-bg {
+  background: none;
+  border: none;
+}
+
+.edit-color {
+  color: grey;
+  font-size: 16px;
+}
+
+.hr-width {
+  width: 60%;
+}

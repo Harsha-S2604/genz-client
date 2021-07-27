@@ -5,7 +5,7 @@ import {FcReddit} from 'react-icons/fc';
 export default class FollowUs extends Component {
     render() {
         return (
-            <div>
+            <div style={{position: "fixed"}}>
                 <h3 className="follow-us-header-style">Follow us</h3>
                 <div className="d-flex p-2">
                     <div>
