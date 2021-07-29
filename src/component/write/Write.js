@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import {AiFillEdit} from 'react-icons/ai';
+import Image from './image/Image';
+import {AiFillEdit, AiOutlinePlayCircle, AiOutlinePlus} from 'react-icons/ai';
+import {BiCodeAlt} from 'react-icons/bi';
+import {FiEdit2} from 'react-icons/fi';
+import {BsImage} from 'react-icons/bs';
+import {ImEmbed} from 'react-icons/im';
 
 export default class Write extends Component {
 
@@ -8,8 +13,14 @@ export default class Write extends Component {
         this.state = {
             isEnableTitle: false,
             isEnableDescription: false,
+            isShowPlusToggle: false,
             title: "",
-            description: ""
+            description: "",
+            isImage: false,
+            isWrite: false,
+            isVideo: false,
+            isEmbed: false,
+            isCode: false,
         }
     }
 
@@ -39,10 +50,34 @@ export default class Write extends Component {
         })
     }
 
+    handleMenuChange = (event) => {
+        const {name} = event.currentTarget;
+        console.log(event.currentTarget);
+        console.log(name);
+        switch(name) {
+            
+            case "image":
+                this.setState({
+                    isImage: true,
+                    isShowPlusToggle: false
+                })
+                console.log(this.state.isImage);
+                break;
+
+        }
+    }
+
     handleDescriptionBlur = () => {
         var isEnableDescription = !this.state.isEnableDescription
         this.setState({
             isEnableDescription
+        })
+    }
+
+    handlePlusToggle = () => {
+        var isShowPlusToggle = !this.state.isShowPlusToggle
+        this.setState({
+            isShowPlusToggle
         })
     }
 
@@ -116,7 +151,7 @@ export default class Write extends Component {
                                                 <h4><b>Description</b></h4>
                                             </div>
                                             <div className="col">
-                                                <button className="button-remove-bg no-link" 
+                                                <button className="button-remove-bg" 
                                                     onClick={this.handleDescriptionBlur}>
                                                         <h5 className="edit-color"><AiFillEdit className="pr-1"/>{" "}edit</h5>
                                                 </button>
@@ -127,6 +162,25 @@ export default class Write extends Component {
                                         </div>
 
                                     }
+                                    </div>
+                                    {this.state.isImage ? <Image /> : null}
+                                    <div> 
+                                        <div className="plus-center">
+                                        <button onClick={this.handlePlusToggle} 
+                                        className="button-remove-bg"> 
+                                            <AiOutlinePlus  style={{fontSize: "30px"}}/>
+                                        </button>
+                                        </div>
+                                        {this.state.isShowPlusToggle ?
+                                        <div style={{paddingLeft: "23%"}}>
+                                        <div className="plus-menu-card">
+                                           <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} name="code"><BiCodeAlt className="code-icon-css" /></button>
+                                           <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} name="write"><FiEdit2 className="code-icon-css" /></button>
+                                           <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} id="image" name="image"><BsImage className="code-icon-css" /></button>
+                                           <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} name="video"><AiOutlinePlayCircle className="code-icon-css" /></button>
+                                           <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} name="embed"><ImEmbed className="code-icon-css" /></button>
+                                        </div>
+                                        </div> : null}
                                     </div>
                         </div>
                      </div>

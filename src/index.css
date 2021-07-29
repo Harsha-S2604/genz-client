@@ -268,3 +268,28 @@ div {
 .hr-width {
   width: 60%;
 }
+
+.plus-center {
+  padding-top: 5%;
+  padding-left: 30%;
+}
+
+.plus-menu-card {
+  width: 23%;
+  height: 40px;
+  background: #fff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 40px;
+}
+
+.inline-tooltip {
+  padding: 5px 5px 5px 5%;
+}
+
+.code-icon-css {
+  font-size: 25px;
+}
+
+.image-padding-css {
+  padding-top: 5%;
+}
