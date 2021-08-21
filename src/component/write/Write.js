@@ -1,12 +1,20 @@
 import React, { Component } from "react";
 import Image from './image/Image';
-import {AiFillEdit, AiOutlinePlayCircle, AiOutlinePlus} from 'react-icons/ai';
+import ContentWrite from "./contentWrite/ContentWrite";
+import {AiFillEdit, AiOutlinePlayCircle} from 'react-icons/ai';
 import {BiCodeAlt} from 'react-icons/bi';
 import {FiEdit2} from 'react-icons/fi';
 import {BsImage} from 'react-icons/bs';
 import {ImEmbed} from 'react-icons/im';
+import {connect} from 'react-redux';
+import {addForOptionWriteBlog, resetOptionWriteBlog} from '../../actions/writeConfig';
+import Code from "./code/Code";
+import Video from "./video/Video";
+import Embed from "./embed/Embed";
 
-export default class Write extends Component {
+import './_write.scss'
+
+class Write extends Component {
 
     constructor(props) {
         super(props);
@@ -16,12 +24,42 @@ export default class Write extends Component {
             isShowPlusToggle: false,
             title: "",
             description: "",
-            isImage: false,
-            isWrite: false,
-            isVideo: false,
-            isEmbed: false,
-            isCode: false,
+            blogOptions: []
         }
+    }
+
+    componentDidMount() {
+        this.buildBlogMenuOptions();
+    }
+
+    buildBlogMenuOptions = () => {
+        let blogOptions = []
+        for(let i = 0 ; i < this.props.createBlogArr.length ; i++) {
+            switch(this.props.createBlogArr[i]) {
+                case "image":
+                    blogOptions.push(<Image key={this.props.createBlogArr[i]+" "+i}/>)
+                    break; 
+                case "contentWrite":
+                    blogOptions.push(<ContentWrite key={this.props.createBlogArr[i]+" "+i}/>)
+                    break;
+                case "code":
+                    blogOptions.push(<Code key={this.props.createBlogArr[i]+" "+i} />)
+                    break;
+                case "video":
+                    blogOptions.push(<Video key={this.props.createBlogArr[i]+" "+i} />)
+                    break;
+                case "embed":
+                    blogOptions.push(<Embed key={this.props.createBlogArr[i]+" "+i} />)
+                    break;
+                default:
+                    break;       
+
+            }
+        }
+        
+        this.setState({
+            blogOptions
+        })
     }
 
     handleChange = (event) => {
@@ -52,19 +90,8 @@ export default class Write extends Component {
 
     handleMenuChange = (event) => {
         const {name} = event.currentTarget;
-        console.log(event.currentTarget);
-        console.log(name);
-        switch(name) {
-            
-            case "image":
-                this.setState({
-                    isImage: true,
-                    isShowPlusToggle: false
-                })
-                console.log(this.state.isImage);
-                break;
-
-        }
+        this.props.onClickAddWriteConfig(name);
+        this.buildBlogMenuOptions();
     }
 
     handleDescriptionBlur = () => {
@@ -81,23 +108,33 @@ export default class Write extends Component {
         })
     }
 
+    handleReset = () => {
+        this.props.onClickReset();
+        console.log(this.props.createBlogArr)
+        this.buildBlogMenuOptions();
+    }
+
+
     render() {
         return (
             <div>
                 <div className="container" style={{paddingTop: "3%"}}>
-                    {!(this.props.cookies.get("email") && this.props.cookies.get("id")) ? 
+                    {/* {!(this.props.cookies.get("email") && this.props.cookies.get("id")) ? 
                     <div>
                         <h1>Publish, grow, and earn, all in one place.</h1>
                         <p>If you have a story to tell, knowledge to share, or a perspective to offer — welcome home. Here, your writing can thrive in a network supported by millions of readers — not ads.</p>
                         <button className="btn btn-outline-dark" data-toggle="modal" data-target="#signInModalCenter">Start writing</button>
-                    </div> : 
+                    </div> :  */}
                     <div>
                         <div className="row">
-                            <div className="col">
+                            <div className="col-lg-5 col-md-5 col-sm-5">
                                 <h2 className="primary-color">Create Blog</h2>
                             </div>
-                            <div className="col">
+                            <div className="col-lg-1 col-md-1 col-sm-1">
                                 <button className="btn btn-outline-dark">Preview</button>
+                            </div>
+                            <div className="col-lg-4 col-md-4 col-sm-4">
+                                <button className="btn btn-outline-dark" onClick={this.handleReset}>Reset</button>
                             </div>
                         </div>
                         <div className="padding-top-3">
@@ -163,30 +200,43 @@ export default class Write extends Component {
 
                                     }
                                     </div>
-                                    {this.state.isImage ? <Image /> : null}
+                                    <div>
+                                        {this.state.blogOptions}
+                                    </div>
                                     <div> 
                                         <div className="plus-center">
-                                        <button onClick={this.handlePlusToggle} 
-                                        className="button-remove-bg"> 
-                                            <AiOutlinePlus  style={{fontSize: "30px"}}/>
-                                        </button>
+                                            <div class="wrapper">
+                                                <input type="checkbox" />
+                                                <div class="btn__write-options"></div>
+                                                <div class="tooltip">
+                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="code" name="code"><BiCodeAlt className="code-icon-css" /></button>
+                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="content" name="contentWrite"><FiEdit2 className="code-icon-css" /></button>
+                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="image" id="image" name="image"><BsImage className="code-icon-css" /></button>
+                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="video" name="video"><AiOutlinePlayCircle className="code-icon-css" /></button>
+                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="embed" name="embed"><ImEmbed className="code-icon-css" /></button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        {this.state.isShowPlusToggle ?
-                                        <div style={{paddingLeft: "23%"}}>
-                                        <div className="plus-menu-card">
-                                           <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} name="code"><BiCodeAlt className="code-icon-css" /></button>
-                                           <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} name="write"><FiEdit2 className="code-icon-css" /></button>
-                                           <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} id="image" name="image"><BsImage className="code-icon-css" /></button>
-                                           <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} name="video"><AiOutlinePlayCircle className="code-icon-css" /></button>
-                                           <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} name="embed"><ImEmbed className="code-icon-css" /></button>
-                                        </div>
-                                        </div> : null}
                                     </div>
                         </div>
                      </div>
-                    }
+                    {/* } */}
                 </div>
             </div>
         )
     }
 }
+
+const mapStatetoProps = (state) => {
+    let { writeConfig } = state;
+    return { ...writeConfig }
+  }
+  
+  const mapDispatchProps = (dispatch) => {
+    return {
+        onClickAddWriteConfig: (option) => dispatch(addForOptionWriteBlog(option)),
+        onClickReset: () => dispatch(resetOptionWriteBlog())
+    }
+  }
+
+export default connect(mapStatetoProps, mapDispatchProps)(Write);
