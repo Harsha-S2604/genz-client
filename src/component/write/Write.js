@@ -7,7 +7,7 @@ import {FiEdit2} from 'react-icons/fi';
 import {BsImage} from 'react-icons/bs';
 import {ImEmbed} from 'react-icons/im';
 import {connect} from 'react-redux';
-import {addForOptionWriteBlog, resetOptionWriteBlog} from '../../actions/writeConfig';
+import {addForOptionWriteBlog, resetOptionWriteBlog, deleteBlogOption} from '../../actions/writeConfig';
 import Code from "./code/Code";
 import Video from "./video/Video";
 import Embed from "./embed/Embed";
@@ -30,6 +30,25 @@ class Write extends Component {
 
     componentDidMount() {
         this.buildBlogMenuOptions();
+        window.addEventListener('beforeunload', this.onbeforeunload);
+    }
+
+    onbeforeunload = (event) => {
+        const e = event || window.event;
+        // Cancel the event
+        e.preventDefault();
+        if (e) {
+          e.returnValue = 'Are you sure?'; // Legacy method for cross browser support
+        }
+        return 'Are you sure?'; // Legacy method for cross browser support
+      };
+      
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.createBlogArr.length !== this.props.createBlogArr.length) {
+            this.buildBlogMenuOptions();
+        }
+
     }
 
     buildBlogMenuOptions = () => {
@@ -37,19 +56,19 @@ class Write extends Component {
         for(let i = 0 ; i < this.props.createBlogArr.length ; i++) {
             switch(this.props.createBlogArr[i]) {
                 case "image":
-                    blogOptions.push(<Image key={this.props.createBlogArr[i]+" "+i}/>)
+                    blogOptions.push(<Image {...this.props} buildBlogMenuOptions={this.buildBlogMenuOptions} optionIndex={i} key={this.props.createBlogArr[i]+" "+i}/>)
                     break; 
                 case "contentWrite":
-                    blogOptions.push(<ContentWrite key={this.props.createBlogArr[i]+" "+i}/>)
+                    blogOptions.push(<ContentWrite {...this.props} buildBlogMenuOptions={this.buildBlogMenuOptions} optionIndex={i} key={this.props.createBlogArr[i]+" "+i}/>)
                     break;
                 case "code":
-                    blogOptions.push(<Code key={this.props.createBlogArr[i]+" "+i} />)
+                    blogOptions.push(<Code {...this.props} buildBlogMenuOptions={this.buildBlogMenuOptions} optionIndex={i} key={this.props.createBlogArr[i]+" "+i} />)
                     break;
                 case "video":
-                    blogOptions.push(<Video key={this.props.createBlogArr[i]+" "+i} />)
+                    blogOptions.push(<Video {...this.props} buildBlogMenuOptions={this.buildBlogMenuOptions} optionIndex={i} key={this.props.createBlogArr[i]+" "+i} />)
                     break;
                 case "embed":
-                    blogOptions.push(<Embed key={this.props.createBlogArr[i]+" "+i} />)
+                    blogOptions.push(<Embed {...this.props} buildBlogMenuOptions={this.buildBlogMenuOptions} optionIndex={i} key={this.props.createBlogArr[i]+" "+i} />)
                     break;
                 default:
                     break;       
@@ -91,7 +110,6 @@ class Write extends Component {
     handleMenuChange = (event) => {
         const {name} = event.currentTarget;
         this.props.onClickAddWriteConfig(name);
-        this.buildBlogMenuOptions();
     }
 
     handleDescriptionBlur = () => {
@@ -110,9 +128,8 @@ class Write extends Component {
 
     handleReset = () => {
         this.props.onClickReset();
-        console.log(this.props.createBlogArr)
-        this.buildBlogMenuOptions();
     }
+
 
 
     render() {
@@ -127,14 +144,18 @@ class Write extends Component {
                     </div> :  */}
                     <div>
                         <div className="row">
-                            <div className="col-lg-5 col-md-5 col-sm-5">
+                            <div className="col-lg-9 col-md-7 col-sm-4 col-xs-1">
                                 <h2 className="primary-color">Create Blog</h2>
                             </div>
-                            <div className="col-lg-1 col-md-1 col-sm-1">
-                                <button className="btn btn-outline-dark">Preview</button>
-                            </div>
-                            <div className="col-lg-4 col-md-4 col-sm-4">
-                                <button className="btn btn-outline-dark" onClick={this.handleReset}>Reset</button>
+                            <div className="col">
+                                <div className="d-flex">
+                                    <div style={{marginRight: "2%"}}>
+                                        <button className="btn btn-outline-dark">Preview</button>
+                                    </div>
+                                    <div>
+                                        <button className="btn btn-outline-dark" onClick={this.handleReset}>Reset</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="padding-top-3">
@@ -143,7 +164,7 @@ class Write extends Component {
                                 <div className="form-group">
                                     <label htmlFor="title"><h4><b>Title</b></h4></label><br /><br />
                                     <input 
-                                        className="title-css"
+                                        className="blog__title"
                                         name = "title"
                                         value={this.state.title}
                                         onChange={this.handleChange}
@@ -171,10 +192,10 @@ class Write extends Component {
 
                                     <div style={{paddingTop: "5%"}}>
                                     {!this.state.isEnableDescription ? 
-                                        <div className="form-group">
+                                    <div className="form-group">
                                         <label htmlFor="description"><h4><b>Description</b></h4></label><br /><br />
                                         <input 
-                                            className="description-css"
+                                            className="blog__description"
                                             name = "description"
                                             value={this.state.description}
                                             onChange={this.handleChange}
@@ -203,20 +224,20 @@ class Write extends Component {
                                     <div>
                                         {this.state.blogOptions}
                                     </div>
-                                    <div> 
-                                        <div className="plus-center">
-                                            <div class="wrapper">
+                                    <div className="plus__padding"> 
+                                        <center>
+                                            <div className="wrapper">
                                                 <input type="checkbox" />
-                                                <div class="btn__write-options"></div>
-                                                <div class="tooltip">
-                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="code" name="code"><BiCodeAlt className="code-icon-css" /></button>
-                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="content" name="contentWrite"><FiEdit2 className="code-icon-css" /></button>
-                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="image" id="image" name="image"><BsImage className="code-icon-css" /></button>
-                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="video" name="video"><AiOutlinePlayCircle className="code-icon-css" /></button>
-                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="embed" name="embed"><ImEmbed className="code-icon-css" /></button>
+                                                <div className="btn__write-options"></div>
+                                                <div className="tooltip">
+                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="code" name="code"><BiCodeAlt className="code-icon__css" /></button>
+                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="content" name="contentWrite"><FiEdit2 className="code-icon__css" /></button>
+                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="image" id="image" name="image"><BsImage className="code-icon__css" /></button>
+                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="video" name="video"><AiOutlinePlayCircle className="code-icon__css" /></button>
+                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="embed" name="embed"><ImEmbed className="code-icon__css" /></button>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </center>
                                     </div>
                         </div>
                      </div>
@@ -235,7 +256,8 @@ const mapStatetoProps = (state) => {
   const mapDispatchProps = (dispatch) => {
     return {
         onClickAddWriteConfig: (option) => dispatch(addForOptionWriteBlog(option)),
-        onClickReset: () => dispatch(resetOptionWriteBlog())
+        onClickReset: () => dispatch(resetOptionWriteBlog()),
+        deleteBlogOption: (index) => dispatch(deleteBlogOption(index))
     }
   }
 

@@ -6,20 +6,28 @@ const writeConfig = (state = writeConfigInitState, action) => {
 
     switch(action.type) {
         case "WRITE_CONFIG":
-            let createBlogArr = state.createBlogArr
+            let createBlogArr = [...state.createBlogArr]
             createBlogArr.push(action.data.writeOption);
             return {
                 ...state,
                 createBlogArr: createBlogArr
             }
-        case "RESET_BLOG_OPIONS":
-            state.createBlogArr.splice(0, state.createBlogArr.length)
+        case "DELETE_BLOG_OPION":
             return {
-                ...state
+                ...state,
+                createBlogArr: [
+                    ...state.createBlogArr.slice(0, action.data.index),
+                    ...state.createBlogArr.slice(action.data.index + 1)
+                ],
+            }
+        case "RESET_BLOG_OPIONS":
+            return {
+                ...state,
+                createBlogArr: []
             } 
-        default:
-            return state
     }
+
+    return state;
 
 } 
 

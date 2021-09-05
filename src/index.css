@@ -239,22 +239,6 @@ div {
   display: block;
 }
 
-.title-css {
-  width: 70%;
-  border: none;
-  font-size:20px;
-  outline:none;
-  border-bottom: 1px solid black;
-}
-
-.description-css {
-  width: 70%;
-  border: none;
-  font-size:20px;
-  outline:none;
-  border-bottom: 1px solid black;
-}
-
 .button-remove-bg {
   background: none;
   border: none;
@@ -284,8 +268,4 @@ div {
 
 .inline-tooltip {
   padding: 5px 5px 5px 5%;
-}
-
-.code-icon-css {
-  font-size: 25px;
 }
