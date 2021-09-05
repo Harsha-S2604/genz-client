@@ -101,10 +101,13 @@ class Write extends Component {
     }
 
     handleTitleBlur = () => {
-        var isEnableTitle = !this.state.isEnableTitle;
-        this.setState({
-            isEnableTitle
-        })
+        if(this.state.title) {
+            var isEnableTitle = !this.state.isEnableTitle;
+            this.setState({
+                isEnableTitle
+            })
+        }
+        
     }
 
     handleMenuChange = (event) => {
@@ -113,10 +116,15 @@ class Write extends Component {
     }
 
     handleDescriptionBlur = () => {
-        var isEnableDescription = !this.state.isEnableDescription
-        this.setState({
-            isEnableDescription
-        })
+        if(this.state.description) {
+            var isEnableDescription = !this.state.isEnableDescription
+            this.setState({
+                isEnableDescription
+            })
+        }
+
+        
+        
     }
 
     handlePlusToggle = () => {
