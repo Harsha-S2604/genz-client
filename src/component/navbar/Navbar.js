@@ -37,7 +37,6 @@ class Navbar extends Component {
     }
 
      handleSignout = () => {
-         console.log(this.props.cookies)
          this.props.cookies.remove("email")
          this.props.cookies.remove("id")
          this.props.cookies.remove("isVerified")

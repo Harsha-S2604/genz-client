@@ -21,7 +21,6 @@ class Write extends Component {
         this.state = {
             isEnableTitle: false,
             isEnableDescription: false,
-            isShowPlusToggle: false,
             title: "",
             description: "",
             blogOptions: []
@@ -127,14 +126,13 @@ class Write extends Component {
         
     }
 
-    handlePlusToggle = () => {
-        var isShowPlusToggle = !this.state.isShowPlusToggle
-        this.setState({
-            isShowPlusToggle
-        })
-    }
-
     handleReset = () => {
+        this.setState({
+            title: "",
+            description: "",
+            isEnableTitle: false,
+            isEnableDescription: false,
+        })
         this.props.onClickReset();
     }
 
@@ -183,7 +181,7 @@ class Write extends Component {
 
                                     <div>
                                         <div className="row">
-                                            <div className="col">
+                                            <div className="col-lg-9 col-md-7 col-sm-4 col-xs-1">
                                                 <h4><b>Title</b></h4>
                                             </div>
                                             <div className="col">
@@ -193,7 +191,7 @@ class Write extends Component {
                                                 </button>
                                             </div>
                                         </div>
-                                        <hr className="hr-width"/>
+                                        <hr className="hr__width"/>
                                         <h3>{this.state.title}</h3>
                                     </div>
                                      }
@@ -202,18 +200,18 @@ class Write extends Component {
                                     {!this.state.isEnableDescription ? 
                                     <div className="form-group">
                                         <label htmlFor="description"><h4><b>Description</b></h4></label><br /><br />
-                                        <input 
+                                        <textarea 
                                             className="blog__description"
                                             name = "description"
                                             value={this.state.description}
                                             onChange={this.handleChange}
                                             type="text" id="description" 
                                             required 
-                                            placeholder="enter the description" onBlur={this.handleDescriptionBlur}/> 
+                                            placeholder="Enter the description..." onBlur={this.handleDescriptionBlur}/> 
                                     </div> :
                                         <div>
                                         <div className="row">
-                                            <div className="col">
+                                            <div className="col-lg-9 col-md-7 col-sm-4 col-xs-1">
                                                 <h4><b>Description</b></h4>
                                             </div>
                                             <div className="col">

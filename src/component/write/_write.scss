@@ -22,6 +22,27 @@
   font-size: 25px;
 }
 
+
+.blog__description::-webkit-input-placeholder { /* WebKit browsers */
+  font-size: 18px; /* 1em -> input font-size * 1 -> 40px * 1 = 40px */
+}
+
+.blog__description:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  font-size: 18px;
+}
+
+.blog__description::-moz-placeholder { /* Mozilla Firefox 19+ */
+   font-size: 18px;
+}
+
+.blog__description:-ms-input-placeholder { /* Internet Explorer 10+ */
+  font-size: 18px;
+}
+
+.hr__width {
+  width: 100%;
+}
+
 .wrapper {
     --background: #3500D3;;
     --icon-color: #414856;
