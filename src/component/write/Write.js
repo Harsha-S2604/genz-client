@@ -120,10 +120,11 @@ class Write extends Component {
             this.setState({
                 isEnableDescription
             })
-        }
+        }  
+    }
 
-        
-        
+    handlePlusButton = () => {
+        console.log("handle plus button");
     }
 
     handleReset = () => {

@@ -93,7 +93,7 @@
       height: 75px;
       border-radius: 70px;
       position: absolute;
-      background: #fff;
+      background: white;
       z-index: 2;
       padding: 0 15px;
       box-shadow: 0 10px 30px rgba(#414856, 0.05);
@@ -129,14 +129,15 @@
         content: "";
         width: 20px;
         height: 20px;
-        background: #fff;
+        background:white;
         border-radius: 3px;
         position: absolute;
         left: 50%;
         margin-left: -10px;
-        bottom: -8px;
+        top: -8px;
         transform: rotate(45deg);
         z-index: 0;
+        box-shadow: 0 10px 30px rgba(#414856, 0.05);
       }
     }
     > svg {
@@ -180,7 +181,7 @@
           width: 190px;
           height: 70px;
           animation: stretch-animation 1s ease-out forwards .15s;
-          top: -90px;
+          top: 60px;
           opacity: 1;
         }
       }
