@@ -21,3 +21,34 @@ export const deleteBlogOption = (index) => {
     }
 
 }
+
+export const updateFileName = (id, fileName) => {
+
+    return (dispatch) => {
+        dispatch({type: "UPDATE_FILE_NAME", data: {id, fileName}})
+    }
+}
+
+export const unsetFileName = (id) => {
+
+    return (dispatch) => {
+        dispatch({type: "UNSET_FILENAME", data: {id}})
+    }
+    
+}
+
+export const setBlogData = (id, data) => {
+
+    return (dispatch) => {
+        dispatch({type: "SET_BLOG_DATA", data: {id, data}})
+    }
+
+}
+
+export const unsetBlogData = (id) => {
+
+    return (dispatch) => {
+        dispatch({type: "UNSET_BLOG_DATA", data: {id}})
+    }
+
+}

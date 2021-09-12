@@ -7,7 +7,8 @@ import {FiEdit2} from 'react-icons/fi';
 import {BsImage} from 'react-icons/bs';
 import {ImEmbed} from 'react-icons/im';
 import {connect} from 'react-redux';
-import {addForOptionWriteBlog, resetOptionWriteBlog, deleteBlogOption} from '../../actions/writeConfig';
+import {addForOptionWriteBlog, resetOptionWriteBlog, deleteBlogOption,
+        updateFileName, setBlogData, unsetBlogData, unsetFileName} from '../../actions/writeConfig';
 import Code from "./code/Code";
 import Video from "./video/Video";
 import Embed from "./embed/Embed";
@@ -44,7 +45,8 @@ class Write extends Component {
       
 
     componentDidUpdate(prevProps) {
-        if(prevProps.createBlogArr.length !== this.props.createBlogArr.length) {
+
+        if(prevProps.createBlogArr.length !== this.props.createBlogArr.length || prevProps.createBlogArr !== this.props.createBlogArr) {
             this.buildBlogMenuOptions();
         }
 
@@ -53,9 +55,9 @@ class Write extends Component {
     buildBlogMenuOptions = () => {
         let blogOptions = []
         for(let i = 0 ; i < this.props.createBlogArr.length ; i++) {
-            switch(this.props.createBlogArr[i]) {
+            switch(this.props.createBlogArr[i].name) {
                 case "image":
-                    blogOptions.push(<Image {...this.props} buildBlogMenuOptions={this.buildBlogMenuOptions} optionIndex={i} key={this.props.createBlogArr[i]+" "+i}/>)
+                    blogOptions.push(<Image {...this.props} createBlogArrObj={this.props.createBlogArr[i]} buildBlogMenuOptions={this.buildBlogMenuOptions} optionIndex={i} key={this.props.createBlogArr[i].name+"_"+this.props.createBlogArr[i].id}/>)
                     break; 
                 case "contentWrite":
                     blogOptions.push(<ContentWrite {...this.props} buildBlogMenuOptions={this.buildBlogMenuOptions} optionIndex={i} key={this.props.createBlogArr[i]+" "+i}/>)
@@ -264,7 +266,11 @@ const mapStatetoProps = (state) => {
     return {
         onClickAddWriteConfig: (option) => dispatch(addForOptionWriteBlog(option)),
         onClickReset: () => dispatch(resetOptionWriteBlog()),
-        deleteBlogOption: (index) => dispatch(deleteBlogOption(index))
+        deleteBlogOption: (index) => dispatch(deleteBlogOption(index)),
+        updateFileName: (id, fileName) => dispatch(updateFileName(id, fileName)),
+        setBlogData: (id, data) => dispatch(setBlogData(id, data)),
+        unsetFileName: (id) => dispatch(unsetFileName(id)),
+        unsetBlogData: (id) => dispatch(unsetBlogData(id))
     }
   }
 
