@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import WriteOptionCancel from '../../extras/WriteOptionCancel';
-import './_image.scss'
+import './_image.scss';
+import toast from 'react-hot-toast';
+
 export default class Image extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             fileName: "",
+            imageURL: "",
             error : {
                 fileNameErrorMsg: ""
             }
@@ -18,13 +21,34 @@ export default class Image extends Component {
         this.props.unsetBlogData(this.props.createBlogArrObj.id);
     }
 
-    handleImageChange = (event) => {
+
+    // generate base64 for an image file
+    getDataURL = (image) => new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onloadend = () => resolve(reader.result)
+        reader.onerror = reject
+        reader.readAsDataURL(image)
+    })
+
+    handleImageChange = async (event) => {
         const image = event.target.files[0];
         const mimetype = image['type'];
         if(mimetype.split('/')[0] === "image") {
-            // const url = URL.createObjectURL(event.target.files[0]);
-            this.props.updateFileName(this.props.createBlogArrObj.id, image.name);
-            // this.props.setBlogData(this.props.createBlogArrObj.id, url);
+            await this.getDataURL(image)
+                .then(dataURL => {
+                    // update filename
+                    this.props.updateFileName(this.props.createBlogArrObj.id, image.name);
+
+                    // set url
+                    this.props.setBlogData(this.props.createBlogArrObj.id, dataURL);
+                })
+                .catch((error) => {
+                    toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later", {
+                        duration: 5000,
+                        position: 'top-right',
+                    })
+                })
+            
             this.setState({
                 fileName: this.props.createBlogArrObj.fileName,
                 error : {
