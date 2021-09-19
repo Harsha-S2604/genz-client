@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Image from './image/Image';
 import ContentWrite from "./contentWrite/ContentWrite";
 import {AiFillEdit, AiOutlinePlayCircle} from 'react-icons/ai';
+import { confirmAlert } from 'react-confirm-alert'; // Import
 import {BiCodeAlt} from 'react-icons/bi';
 import {FiEdit2} from 'react-icons/fi';
 import {BsImage} from 'react-icons/bs';
@@ -14,6 +15,7 @@ import Video from "./video/Video";
 import Embed from "./embed/Embed";
 
 import './_write.scss'
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class Write extends Component {
 
@@ -129,7 +131,7 @@ class Write extends Component {
         console.log("handle plus button");
     }
 
-    handleReset = () => {
+    clearAllData = () => {
         this.setState({
             title: "",
             description: "",
@@ -137,6 +139,26 @@ class Write extends Component {
             isEnableDescription: false,
         })
         this.props.onClickReset();
+    }
+
+    handleReset = () => {
+        if(this.state.title || this.state.description || this.state.isEnableTitle || this.state.isEnableDescription
+            || this.props.createBlogArr.length > 0) {
+            confirmAlert({
+                title: 'Are you sure?',
+                message: 'Information you’ve entered may not be saved.',
+                buttons: [
+                  {
+                    label: 'Reset',
+                    onClick: () => this.clearAllData()
+                  },
+                  {
+                    label: 'Cancel',
+                  }
+                ]
+            });
+        }
+        
     }
 
 

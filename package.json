@@ -17,6 +17,7 @@
         "popper": "*",
         "popper.js": "*",
         "react": "*",
+        "react-confirm-alert": "^2.7.0",
         "react-cookie": "^4.1.1",
         "react-dom": "*",
         "react-draft-wysiwyg": "^1.14.7",

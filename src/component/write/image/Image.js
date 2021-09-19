@@ -43,7 +43,7 @@ export default class Image extends Component {
                     this.props.setBlogData(this.props.createBlogArrObj.id, dataURL);
                 })
                 .catch((error) => {
-                    toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later", {
+                    toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later.", {
                         duration: 5000,
                         position: 'top-right',
                     })
