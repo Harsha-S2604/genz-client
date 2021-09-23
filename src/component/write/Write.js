@@ -144,6 +144,8 @@ class Write extends Component {
     handleReset = () => {
         if(this.state.title || this.state.description || this.state.isEnableTitle || this.state.isEnableDescription
             || this.props.createBlogArr.length > 0) {
+
+            // confitmation message to reset button
             confirmAlert({
                 title: 'Are you sure?',
                 message: 'Information you’ve entered may not be saved.',
@@ -261,7 +263,7 @@ class Write extends Component {
                                                 <input type="checkbox" />
                                                 <div className="btn__write-options"></div>
                                                 <div className="tooltip">
-                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="code" name="code"><BiCodeAlt className="code-icon__css" /></button>
+                                                    {/* <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="code" name="code"><BiCodeAlt className="code-icon__css" /></button> */}
                                                     <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="content" name="contentWrite"><FiEdit2 className="code-icon__css" /></button>
                                                     <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="image" id="image" name="image"><BsImage className="code-icon__css" /></button>
                                                     <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="video" name="video"><AiOutlinePlayCircle className="code-icon__css" /></button>

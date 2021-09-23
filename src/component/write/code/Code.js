@@ -13,8 +13,6 @@ export default class Code extends Component {
                     <div className="col">
                         <WriteOptionCancel {...this.props} />
                     </div>
-
-
                 </div>
             </div>
         )
