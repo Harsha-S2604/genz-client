@@ -146,6 +146,7 @@ class Write extends Component {
             description: "",
             isEnableTitle: false,
             isEnableDescription: false,
+            editorState: ""
         })
         this.props.onClickReset();
     }
@@ -190,7 +191,7 @@ class Write extends Component {
 
 
     render() {
-        const isSubmitDisabled = this.state.title
+        const isSubmitDisabled = !(this.state.title && this.state.description && this.state.editorState)
         return (
             <div>
                 <div className="container" style={{paddingTop: "3%"}}>
@@ -221,7 +222,7 @@ class Write extends Component {
                                         onChange={this.handleChange}
                                         type="text" id="title" 
                                         required 
-                                        placeholder="enter the title" onBlur={this.handleTitleBlur}/> 
+                                        placeholder="Type here..." onBlur={this.handleTitleBlur}/> 
                                 </div>:
 
                                 <div>
@@ -251,7 +252,7 @@ class Write extends Component {
                                         onChange={this.handleChange}
                                         type="text" id="description" 
                                         required 
-                                        placeholder="Enter the description..." onBlur={this.handleDescriptionBlur}/> 
+                                        placeholder="Type here..." onBlur={this.handleDescriptionBlur}/> 
                                 </div> :
                                 <div style={{paddingTop: "5%"}}>
                                     <div className="row">
@@ -292,10 +293,10 @@ class Write extends Component {
                             <div className="blog__submit">
                                 <div className="d-flex flex-row">
                                     <div className="p-2">
-                                        <button className="btn btn-outline-dark" disabled>Save</button>
+                                        <button className="btn btn-outline-dark" disabled={isSubmitDisabled}>Save</button>
                                     </div>
                                     <div className="p-2">
-                                        <button className="btn btn-outline-dark" disabled>Submit</button>
+                                        <button className="btn btn-outline-dark" disabled={isSubmitDisabled}>Submit</button>
                                     </div>
                                 </div>
                             </div>
