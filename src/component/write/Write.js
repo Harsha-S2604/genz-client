@@ -1,19 +1,25 @@
+/* Hey dude, do not remove any imports below. 
+There are here for purposes. So, be careful while developing. 
+Thanks.*/
+
+import {AiFillEdit} from 'react-icons/ai';
+// import {BiCodeAlt} from 'react-icons/bi';
+// import {FiEdit2} from 'react-icons/fi';
+// import {BsImage} from 'react-icons/bs';
+// import {ImEmbed} from 'react-icons/im';
+
 import React, { Component } from "react";
 import Image from './image/Image';
 import ContentWrite from "./contentWrite/ContentWrite";
-import {AiFillEdit, AiOutlinePlayCircle} from 'react-icons/ai';
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import {BiCodeAlt} from 'react-icons/bi';
-import {FiEdit2} from 'react-icons/fi';
-import {BsImage} from 'react-icons/bs';
-import {ImEmbed} from 'react-icons/im';
+import { confirmAlert } from 'react-confirm-alert';
+import {convertToRaw} from 'draft-js';
 import {connect} from 'react-redux';
 import {addForOptionWriteBlog, resetOptionWriteBlog, deleteBlogOption,
         updateFileName, setBlogData, unsetBlogData, unsetFileName} from '../../actions/writeConfig';
 import Code from "./code/Code";
 import Video from "./video/Video";
 import Embed from "./embed/Embed";
-
+import { Editor } from 'react-draft-wysiwyg';
 import './_write.scss'
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
@@ -26,7 +32,8 @@ class Write extends Component {
             isEnableDescription: false,
             title: "",
             description: "",
-            blogOptions: []
+            blogOptions: [],
+            editorState: "",
         }
     }
 
@@ -127,8 +134,10 @@ class Write extends Component {
         }  
     }
 
-    handlePlusButton = () => {
-        console.log("handle plus button");
+    handleContentWrite = (editorState) => {
+        this.setState({
+            editorState
+        })
     }
 
     clearAllData = () => {
@@ -141,9 +150,24 @@ class Write extends Component {
         this.props.onClickReset();
     }
 
+
+    uploadImgCallBack = (image) => {
+        return new Promise(
+            (resolve, reject) => {
+                const reader = new FileReader()
+                reader.onloadend = () => {
+                    resolve({ data: { link: reader.result } })
+                }
+                reader.onerror = reject
+                reader.readAsDataURL(image)
+            }
+        )
+    }
+
+
     handleReset = () => {
         if(this.state.title || this.state.description || this.state.isEnableTitle || this.state.isEnableDescription
-            || this.props.createBlogArr.length > 0) {
+            || this.props.createBlogArr.length > 0 || this.state.editorState) {
 
             // confitmation message to reset button
             confirmAlert({
@@ -166,6 +190,7 @@ class Write extends Component {
 
 
     render() {
+        const isSubmitDisabled = this.state.title
         return (
             <div>
                 <div className="container" style={{paddingTop: "3%"}}>
@@ -176,24 +201,17 @@ class Write extends Component {
                         <button className="btn btn-outline-dark" data-toggle="modal" data-target="#signInModalCenter">Start writing</button>
                     </div> :  */}
                     <div>
-                        <div className="row">
-                            <div className="col-lg-9 col-md-7 col-sm-4 col-xs-1">
-                                <h2 className="primary-color">Create Blog</h2>
+                        <div className="d-flex flex-row">
+                            <div className="col-lg-9 col-md-7 col-sm-2 col-xs-2" style={{paddingRight: "35%"}}>
+                                <h2 className="primary-color">Write Blog</h2>
                             </div>
                             <div className="col">
-                                <div className="d-flex">
-                                    <div style={{marginRight: "2%"}}>
-                                        <button className="btn btn-outline-dark">Preview</button>
-                                    </div>
-                                    <div>
-                                        <button className="btn btn-outline-dark" onClick={this.handleReset}>Reset</button>
-                                    </div>
-                                </div>
+                                <button className="btn btn-outline-dark" onClick={this.handleReset}>Reset</button>
                             </div>
                         </div>
+                        
                         <div className="padding-top-3">
-                           
-                                {!this.state.isEnableTitle ?
+                            {!this.state.isEnableTitle ?
                                 <div className="form-group">
                                     <label htmlFor="title"><h4><b>Title</b></h4></label><br /><br />
                                     <input 
@@ -206,72 +224,102 @@ class Write extends Component {
                                         placeholder="enter the title" onBlur={this.handleTitleBlur}/> 
                                 </div>:
 
-                                    <div>
-                                        <div className="row">
-                                            <div className="col-lg-9 col-md-7 col-sm-4 col-xs-1">
-                                                <h4><b>Title</b></h4>
-                                            </div>
-                                            <div className="col">
-                                                <button className="button-remove-bg no-link" 
-                                                    onClick={this.handleTitleBlur}>
-                                                        <h5 className="edit-color"><AiFillEdit className="pr-1"/>{" "}edit</h5>
-                                                </button>
-                                            </div>
+                                <div>
+                                    <div className="row">
+                                        <div className="col-lg-9 col-md-7 col-sm-4 col-xs-1">
+                                            <h4><b>Title</b></h4>
                                         </div>
-                                        <hr className="hr__width"/>
-                                        <h3>{this.state.title}</h3>
+                                        <div className="col">
+                                            <button className="button-remove-bg no-link" 
+                                                onClick={this.handleTitleBlur}>
+                                                    <h5 className="edit-color"><AiFillEdit className="pr-1"/>{" "}edit</h5>
+                                            </button>
+                                        </div>
                                     </div>
-                                     }
+                                    <hr className="hr__width"/>
+                                    <h3>{this.state.title}</h3>
+                                </div>
+                            }
 
-                                    <div style={{paddingTop: "5%"}}>
-                                    {!this.state.isEnableDescription ? 
-                                    <div className="form-group">
-                                        <label htmlFor="description"><h4><b>Description</b></h4></label><br /><br />
-                                        <textarea 
-                                            className="blog__description"
-                                            name = "description"
-                                            value={this.state.description}
-                                            onChange={this.handleChange}
-                                            type="text" id="description" 
-                                            required 
-                                            placeholder="Enter the description..." onBlur={this.handleDescriptionBlur}/> 
-                                    </div> :
-                                        <div>
-                                        <div className="row">
-                                            <div className="col-lg-9 col-md-7 col-sm-4 col-xs-1">
-                                                <h4><b>Description</b></h4>
-                                            </div>
-                                            <div className="col">
-                                                <button className="button-remove-bg" 
-                                                    onClick={this.handleDescriptionBlur}>
-                                                        <h5 className="edit-color"><AiFillEdit className="pr-1"/>{" "}edit</h5>
-                                                </button>
-                                            </div>
+                            {!this.state.isEnableDescription ? 
+                                <div className="form-group" style={{paddingTop: "5%"}}>
+                                    <label htmlFor="description"><h4><b>Description</b></h4></label><br /><br />
+                                    <textarea 
+                                        className="blog__description"
+                                        name = "description"
+                                        value={this.state.description}
+                                        onChange={this.handleChange}
+                                        type="text" id="description" 
+                                        required 
+                                        placeholder="Enter the description..." onBlur={this.handleDescriptionBlur}/> 
+                                </div> :
+                                <div style={{paddingTop: "5%"}}>
+                                    <div className="row">
+                                        <div className="col-lg-9 col-md-7 col-sm-4 col-xs-1">
+                                            <h4><b>Description</b></h4>
                                         </div>
-                                        <hr className="hr-width"/>
-                                        <h5>{this.state.description}</h5>
+                                        <div className="col">
+                                            <button className="button-remove-bg" 
+                                                onClick={this.handleDescriptionBlur}>
+                                                    <h5 className="edit-color"><AiFillEdit className="pr-1"/>{" "}edit</h5>
+                                            </button>
                                         </div>
+                                    </div>
+                                    <hr className="hr-width"/>
+                                    <h5>{this.state.description}</h5>
+                                </div>
+                            }
 
-                                    }
+                            <div className="contentwrite-padding">
+                                <h4 style={{paddingBottom: "1%"}}>Content</h4>
+                                <Editor id="content" className="form-control"
+                                    toolbarClassName="editor__toolbar"
+                                    editorState={this.state.editorState}
+                                    placeholder="Type here..."
+                                    onEditorStateChange={(event) => this.handleContentWrite(event)} 
+                                    required
+                                    toolbar={{
+                                        inline: { inDropdown: true },
+                                        list: { inDropdown: true },
+                                        textAlign: { inDropdown: true },
+                                        link: { inDropdown: true },
+                                        image:{
+                                            uploadCallback: this.uploadImgCallBack,
+                                            inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
+                                            alt: { present: true, mandatory: false },}
+                                        }} />
+                            </div>
+                            <div className="blog__submit">
+                                <div className="d-flex flex-row">
+                                    <div className="p-2">
+                                        <button className="btn btn-outline-dark" disabled>Save</button>
                                     </div>
-                                    <div>
-                                        {this.state.blogOptions}
+                                    <div className="p-2">
+                                        <button className="btn btn-outline-dark" disabled>Submit</button>
                                     </div>
-                                    <div className="plus__padding"> 
-                                        <center>
-                                            <div className="wrapper">
-                                                <input type="checkbox" />
-                                                <div className="btn__write-options"></div>
-                                                <div className="tooltip">
-                                                    {/* <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="code" name="code"><BiCodeAlt className="code-icon__css" /></button> */}
-                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="content" name="contentWrite"><FiEdit2 className="code-icon__css" /></button>
-                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="image" id="image" name="image"><BsImage className="code-icon__css" /></button>
-                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="video" name="video"><AiOutlinePlayCircle className="code-icon__css" /></button>
-                                                    <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="embed" name="embed"><ImEmbed className="code-icon__css" /></button>
-                                                </div>
-                                            </div>
-                                        </center>
+                                </div>
+                            </div>
+                                    
+                            {/* FOR LATER DEVELOPMENT*/}
+                            {/* <div>
+                                {this.state.blogOptions}
+                            </div> */}
+
+                            {/* <div className="plus__padding"> 
+                                <center>
+                                    <div className="wrapper">
+                                        <input type="checkbox" />
+                                        <div className="btn__write-options"></div>
+                                        <div className="tooltip">
+                                            <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="code" name="code"><BiCodeAlt className="code-icon__css" /></button>
+                                            <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="content" name="contentWrite"><FiEdit2 className="code-icon__css" /></button>
+                                            <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="image" id="image" name="image"><BsImage className="code-icon__css" /></button>
+                                            <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="video" name="video"><AiOutlinePlayCircle className="code-icon__css" /></button>
+                                            <button className="button-remove-bg inline-tooltip" onClick={this.handleMenuChange} title="embed" name="embed"><ImEmbed className="code-icon__css" /></button>
+                                        </div>
                                     </div>
+                                </center>
+                            </div> */}
                         </div>
                      </div>
                     {/* } */}

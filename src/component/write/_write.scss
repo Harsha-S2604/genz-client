@@ -268,3 +268,36 @@
 @media (min-width:961px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
 @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
 @media (min-width:1281px) { /* hi-res laptops and desktops */ }
+
+// to be removed later
+.contentwrite-padding {
+  padding-top: 5%;
+}
+
+.editor-content__draft {
+  width: 800px;
+}
+
+.editor__toolbar {
+  width: 100%;
+  margin-bottom: 2%;
+  position: relative;
+  padding: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.blog__submit {
+  padding-bottom: 5%;
+  padding-top: 3%;
+}
+
+.rdw-image-modal-upload-option-label {
+  display: block;
+  max-height: 90px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.editor__toolbar {
+  padding-left: 0px;
+}

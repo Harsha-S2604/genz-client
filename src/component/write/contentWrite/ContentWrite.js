@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import WriteOptionCancel from '../../extras/WriteOptionCancel';
 import { Editor } from 'react-draft-wysiwyg';
-import {convertToRaw} from 'draft-js'
+// import {convertToRaw} from 'draft-js'
 // import draftToHtml from 'draftjs-to-html';
 // import convert from 'htmr';
 

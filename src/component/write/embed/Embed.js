@@ -7,7 +7,8 @@ export default class Embed extends Component {
             <div className="embed-padding">
                 <div className="row">
                     <div className="col">
-                        <input type="text" placeholder="embed" />
+                        <input type="text" className="embed__input" placeholder="embed" disabled />
+                        <i style={{color: "red"}}>*Still in development</i>
                     </div>
                     <div className="col">
                         <WriteOptionCancel {...this.props}/>
