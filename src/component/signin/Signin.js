@@ -3,6 +3,7 @@ import {FcGoogle} from 'react-icons/fc';
 import {AiFillFacebook} from 'react-icons/ai';
 import UserSignin from "../../model/UserSignin";
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 export default class Signin extends Component {
@@ -28,14 +29,20 @@ export default class Signin extends Component {
         let user = new UserSignin();
         user.email = email;
         user.password = password;
+        let reqConfig = {
+            headers: {
+                "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",
+                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }
         try {
-            const response = await axios.post("http://localhost:8080/genz-server/user-api/login", user)
+            const response = await axios.post("http://localhost:8080/genz-server/user-api/login", user, reqConfig)
+            console.log("Response", response.data)
             if(response.data.success) {
-                console.log(response.data.data)
                 this.setState({
                     loggedEmail: response.data.data.Email,
-                    loggedId: response.data.data.id,
-                    loggedAccVerfied: response.data.data.IsVerified,
+                    loggedId: response.data.data.UserId,
+                    loggedAccVerfied: response.data.data.IsEmailVerified,
                     loginErrorMessage: "", 
                     isLoggedIn: true
                 })
@@ -45,10 +52,11 @@ export default class Signin extends Component {
             this.props.cookies.set('isLoggedIn', this.state.isLoggedIn);
 
             } else {
-                this.setState({loginErrorMessage: response.data.errorMessage, isLoggedIn: false})
+                this.setState({loginErrorMessage: response.data.message, isLoggedIn: false})
             }
         } catch(error) {
             console.log(error);
+            toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later.")
         }
         
     }
@@ -132,7 +140,7 @@ export default class Signin extends Component {
                                             <button type="button" className="btn btn-light col-12"><FcGoogle />&nbsp; Sign in with Google</button><br/><br/>
                                             <button type="button" className="btn btn-light col-12"><AiFillFacebook />&nbsp; Sign in with Facebook</button><br/><br/>
                                         </div><br/>
-                                        <hr className="sep-login-hr" data-content="Have password? continue with your email address" /><br/>
+                                        <hr className="sep-login-hr" data-content="Have an account? continue with your email address" /><br/>
                                         <form>
                                             <div className="form-group">
                                                 <label  className="pb-3" htmlFor="email">Email</label>
@@ -143,7 +151,7 @@ export default class Signin extends Component {
                                                         value={this.state.email}
                                                         onChange={this.handleChange}
                                                         id="email" aria-describedby="emailHelp" placeholder="Enter email" />
-                                                {this.state.emailErrorMessage !== "" ? <p className="text-danger pt-2">{this.state.emailErrorMessage}</p> : null}
+                                                {this.state.emailErrorMessage !== "" ? <div className="error_message_css_config pt-2"><i>{this.state.emailErrorMessage}</i></div> : null}
                                             </div><br/>
                                             <div className="form-group">
                                                 <label  className="pb-3" htmlFor="password">Password</label>
@@ -154,7 +162,7 @@ export default class Signin extends Component {
                                                         value={this.state.password}
                                                         onChange={this.handleChange}
                                                         id="password" placeholder="Enter password" />
-                                                {this.state.passwordErrorMessage !== "" ? <p className="text-danger pt-2">{this.state.passwordErrorMessage}</p> : null}
+                                                {this.state.passwordErrorMessage !== "" ? <div className="error_message_css_config pt-2"><i>{this.state.passwordErrorMessage}</i></div> : null}
                                                         
                                             </div><br/>
                                             <div className="form-group">
@@ -165,7 +173,7 @@ export default class Signin extends Component {
                                             </div>
 
                                             <div>
-                                                {this.state.loginErrorMessage ? <p className="text-danger pt-2">{this.state.loginErrorMessage}</p> : null}
+                                                {this.state.loginErrorMessage ? <div className="error_message_css_config pb-2"><i>{"*"+this.state.loginErrorMessage}</i></div> : null}
                                             </div>
                                             
                                             <div className="form-group">

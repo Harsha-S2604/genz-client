@@ -265,3 +265,7 @@ div {
 .inline-tooltip {
   padding: 5px 5px 5px 5%;
 }
+
+.error_message_css_config {
+  color: red;
+}
