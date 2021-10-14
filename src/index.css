@@ -172,6 +172,10 @@ div {
   float: right;
 }
 
+.back-button__css {
+  float: left;
+}
+
 .font-size-25 {
   font-size: 25px;
 }
