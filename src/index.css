@@ -272,4 +272,14 @@ div {
 
 .error_message_css_config {
   color: red;
+  font-weight: 900;
+}
+
+.success_message_css_config {
+  color: green;
+  font-weight: 900;
+}
+
+.font_weight__900 {
+  font-weight: 900;
 }

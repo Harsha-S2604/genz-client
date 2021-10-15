@@ -1,5 +1,6 @@
 export default class UserSignup {
+    name;
     email;
-    isVerified;
-    isPasswordSet;
+    password;
+    isEmailVerified;
 }

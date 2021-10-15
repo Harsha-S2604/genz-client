@@ -4,6 +4,8 @@ import {AiFillFacebook} from 'react-icons/ai';
 import {MdEmail} from 'react-icons/md';
 import UserSignup from "../../model/UserSignup";
 import axios from "axios";
+import { toast } from 'react-toastify';
+
 
 export default class GetStarted extends Component {
 
@@ -20,22 +22,63 @@ export default class GetStarted extends Component {
             confirmPasswordErrorMessage: "",
             usernameErrorMessage: "",
             passwordShow: false,
+            registerMessage: "",
+            isRegistering: false,
+            isRegistered: false
         }
     }
 
     handleRegister = () => {
-        let email = this.state.email
+        this.setState({
+            isRegistering: true
+        })
         let user = new UserSignup()
-        user.email = email;
-        user.isVerified = false;
-        user.isPasswordSet = false;
-        axios.post('http://localhost:3004/users', user)
+        user.email = this.state.email;
+        user.name = this.state.username
+        user.isEmailVerified = false;
+        user.password = this.state.password;
+        let reqConfig = {
+            headers: {
+                "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",
+                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }
+        axios.post('http://localhost:8080/genz-server/user-api/register', user, reqConfig)
             .then(response => {
-                console.log(response.data)
+                if(response.data.success) {
+                        this.setState({
+                            registerMessage: response.data.message,
+                            isRegistered: true
+                        })
+                        this.resetRegisterState();
+                } else {
+                    this.setState({
+                        isRegistering: false
+                    })
+                    toast.error(response.data.message);
+                }
             })
             .catch((err) => {
-                console.log(err)
+                this.setState({
+                    isRegistering: false
+                })
+                toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later.")
             })
+    }
+
+    resetRegisterState = () => {
+        this.setState({
+            email: "",
+            username: "",
+            password: "",
+            confirmPassword: "",
+            emailErrorMessage: "",
+            passwordErrorMessage: "",
+            confirmPasswordErrorMessage: "",
+            usernameErrorMessage: "",
+            passwordShow: false,
+            isRegistering: false
+        })
     }
 
     handleShowForm = () => {
@@ -154,6 +197,11 @@ export default class GetStarted extends Component {
             } 
     }
     render() {
+        if(this.state.isRegistered) {
+            window.location = "/email_verification";
+        }
+        const isButtonDisabled = (this.state.emailErrorMessage === "" && this.state.passwordErrorMessage === "" && this.state.confirmPasswordErrorMessage === "" && this.state.usernameErrorMessage === "" 
+        && this.state.email !== "" && this.state.password !== "" && this.state.confirmPassword !== "" && this.state.username !== "")
         return (
             <div>
                 <div className="modal fade" id="getStartedModal" tabIndex="-1" role="dialog" aria-labelledby="getStartedModal" aria-hidden="true">
@@ -187,7 +235,7 @@ export default class GetStarted extends Component {
                                                                 value={this.state.username}
                                                                 onChange={this.handleChange}
                                                                 id="username" aria-describedby="usernameHelp" placeholder="Name" />
-                                                        {this.state.usernameErrorMessage !== "" ? <p className="text-danger pt-2" style={{marginBottom: "0px"}}><i>{this.state.usernameErrorMessage}</i></p> : null}
+                                                        {this.state.usernameErrorMessage !== "" ? <p className="error_message_css_config pt-2" style={{marginBottom: "0px"}}><i>{this.state.usernameErrorMessage}</i></p> : null}
                                                         
                                                     </div>
                                                 </div>
@@ -200,7 +248,7 @@ export default class GetStarted extends Component {
                                                                 value={this.state.email}
                                                                 onChange={this.handleChange}
                                                                 id="email" aria-describedby="emailHelp" placeholder="Email" />
-                                                        {this.state.emailErrorMessage !== "" ? <p className="text-danger pt-2" style={{marginBottom: "0px"}}><i>{this.state.emailErrorMessage}</i></p> : null}
+                                                        {this.state.emailErrorMessage !== "" ? <p className="error_message_css_config pt-2" style={{marginBottom: "0px"}}><i>{this.state.emailErrorMessage}</i></p> : null}
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
@@ -212,7 +260,7 @@ export default class GetStarted extends Component {
                                                                 value={this.state.password}
                                                                 onChange={this.handleChange}
                                                                 id="password" aria-describedby="passwordHelp" placeholder="Password" />
-                                                        {this.state.passwordErrorMessage !== "" ? <p className="text-danger pt-2" style={{marginBottom: "0px"}}><i>{this.state.passwordErrorMessage}</i></p> : null}
+                                                        {this.state.passwordErrorMessage !== "" ? <p className="error_message_css_config pt-2" style={{marginBottom: "0px"}}><i>{this.state.passwordErrorMessage}</i></p> : null}
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
@@ -224,7 +272,7 @@ export default class GetStarted extends Component {
                                                                 value={this.state.confirmPassword}
                                                                 onChange={this.handleChange}
                                                                 id="confirmPassword" aria-describedby="confirmPasswordHelp" placeholder="Confirm Password" />
-                                                        {this.state.confirmPasswordErrorMessage !== "" ? <p className="text-danger pt-2" style={{marginBottom: "0px"}}><i>{this.state.confirmPasswordErrorMessage}</i></p> : null}
+                                                        {this.state.confirmPasswordErrorMessage !== "" ? <p className="error_message_css_config pt-2" style={{marginBottom: "0px"}}><i>{this.state.confirmPasswordErrorMessage}</i></p> : null}
                                                     </div>
                                                 </div><br/>
                                                 <div className="form-group">
@@ -233,10 +281,25 @@ export default class GetStarted extends Component {
                                                     value="Show Password" />&nbsp;
                                                     <label  className="pb-3" htmlFor="show_password">Show Password</label>
                                                 </div>
+                                                {
+                                                    this.state.registerMessage ? 
+                                                    <p className="primary-color font_weight__900"><i>{"*"+this.state.registerMessage}</i></p> : null
+
+                                                }
                                                 <center>
                                                     <div className="form-group margin-bottom-15 mt-3">
-                                                        <button type="button" className="btn-config btn-primary-col" onClick={this.handleRegister}>Continue</button>
-                                                    </div>  
+                                                        {
+                                                            this.state.isRegistering ? 
+                                                            <button class="btn-config btn-primary-col" type="button" disabled>
+                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{" "}
+                                                                <span class="sr-only">Signing Up...</span>
+                                                            </button> : 
+                                                            <button type="button" className="btn-config btn-primary-col" onClick={this.handleRegister} disabled={!isButtonDisabled}>Continue</button>
+
+                                                        }
+                                                        
+                                                    </div>
+                                                      
                                                 </center>
                                                 
                                             </form>

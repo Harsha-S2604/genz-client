@@ -10,7 +10,6 @@ export default class App extends Component {
     return (
       <Provider store={store}>
           <ToastContainer 
-            theme="dark"
             position="bottom-center" 
           />
         <Navbar />

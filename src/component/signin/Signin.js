@@ -37,7 +37,6 @@ export default class Signin extends Component {
         }
         try {
             const response = await axios.post("http://localhost:8080/genz-server/user-api/login", user, reqConfig)
-            console.log("Response", response.data)
             if(response.data.success) {
                 this.setState({
                     loggedEmail: response.data.data.Email,

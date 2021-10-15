@@ -11,6 +11,7 @@ import Write from '../write/Write';
 import Favorties from '../favorites/Favorites';
 import Profile from '../profile/Profile';
 import { withCookies } from 'react-cookie';
+import EmailVerificationMessage from '../emailVerify/EmailVerificationMessage';
 
 class Navbar extends Component {
 
@@ -112,7 +113,7 @@ class Navbar extends Component {
                     <Route exact path="/write" data-target="#signInModalCenter" component={() => <Write cookies={this.props.cookies}/>} />
                     <Route exact path="/favorites" component={() => <Favorties cookies={this.props.cookies}/>} />
                     <Route exact path="/profile" component={() => <Profile cookies={this.props.cookies}/>} />
-
+                    <Route exact path="/email_verification" component={() => <EmailVerificationMessage />} />
                 </Switch>
                 </Router>
             </div>
