@@ -12,10 +12,14 @@ export default class GetStarted extends Component {
         this.state = {
             showForm: false,
             email: "",
+            username: "",
+            password: "",
+            confirmPassword: "",
             emailErrorMessage: "",
             passwordErrorMessage: "",
             confirmPasswordErrorMessage: "",
-            usernameErrorMessage: ""
+            usernameErrorMessage: "",
+            passwordShow: false,
         }
     }
 
@@ -65,6 +69,86 @@ export default class GetStarted extends Component {
                     }
                 }
                 break;
+            
+            case "username":
+                if(value === "") {
+                    this.setState({
+                        usernameErrorMessage: "*Field required",
+                        username: value
+                    })
+                } else {
+                    this.setState({
+                        usernameErrorMessage: "",
+                        username: value
+                    })
+                }
+                break;
+            case "password":
+                var passwordPattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$");
+                if(this.state.confirmPassword) {
+                    if(value === this.state.confirmPassword) {
+                        this.setState({
+                            confirmPasswordErrorMessage: "" 
+                        })
+                    } else {
+                        this.setState({
+                            confirmPasswordErrorMessage: "*Password do not match."
+                        })
+                    }
+                }
+                
+                if(value === "") {
+                    this.setState({
+                        passwordErrorMessage: "*Field required",
+                        password: value
+                    })
+                } else if(!(value.length > 5)) {
+                    this.setState({
+                        passwordErrorMessage: "*Minimum 6 characters required.",
+                        password: value
+                    })
+                } else {
+                    if(passwordPattern.test(value)) {
+                        this.setState({
+                            passwordErrorMessage: "",
+                            password: value
+                        })
+                    } else {
+                        this.setState({
+                            passwordErrorMessage: "*should contain atleast 1 uppercase letter, 1 lowercase letter, 1 numeric, 1 special character.",
+                            password: value
+                        })
+                    }
+                    
+                }
+                break;
+
+            case "confirmPassword":
+                if(value !== this.state.password) {
+                    this.setState({
+                        confirmPasswordErrorMessage: "*password do not match.",
+                        confirmPassword: value
+                    })
+                } else {
+                    this.setState({
+                        confirmPasswordErrorMessage: "",
+                        confirmPassword: value
+                    })
+                }
+                break;
+
+            case "show_password":
+                if(event.target.checked) {
+                    this.setState({
+                        passwordShow: true
+                    })
+                } else {
+                    this.setState({
+                        passwordShow: false
+                    })
+                }
+                
+
             default:
                 break;
             } 
@@ -121,33 +205,33 @@ export default class GetStarted extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="pb-3">
-                                                        <input  type="password"
+                                                        <input  type={this.state.passwordShow ? "text" : "password"}
                                                                 name="password"
                                                                 required
                                                                 className="form-control"
                                                                 value={this.state.password}
                                                                 onChange={this.handleChange}
                                                                 id="password" aria-describedby="passwordHelp" placeholder="Password" />
-                                                        {this.state.passwordErrorMessage !== "" ? <p className="text-danger pt-2" style={{marginBottom: "0px"}}>{this.state.passwordErrorMessage}</p> : null}
+                                                        {this.state.passwordErrorMessage !== "" ? <p className="text-danger pt-2" style={{marginBottom: "0px"}}><i>{this.state.passwordErrorMessage}</i></p> : null}
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="pb-3">
-                                                        <input  type="password"
+                                                        <input  type={this.state.passwordShow ? "text" : "password"}
                                                                 name="confirmPassword"
                                                                 required
                                                                 className="form-control"
                                                                 value={this.state.confirmPassword}
                                                                 onChange={this.handleChange}
                                                                 id="confirmPassword" aria-describedby="confirmPasswordHelp" placeholder="Confirm Password" />
-                                                        {this.state.confirmPasswordErrorMessage !== "" ? <p className="text-danger pt-2" style={{marginBottom: "0px"}}>{this.state.confirmPasswordErrorMessage}</p> : null}
+                                                        {this.state.confirmPasswordErrorMessage !== "" ? <p className="text-danger pt-2" style={{marginBottom: "0px"}}><i>{this.state.confirmPasswordErrorMessage}</i></p> : null}
                                                     </div>
                                                 </div><br/>
                                                 <div className="form-group">
-                                                    <input type="checkbox" className="switch" id="show password" 
-                                                    name="show password" onChange={this.handleChange} 
+                                                    <input type="checkbox" className="switch" id="show_password" 
+                                                    name="show_password" onChange={this.handleChange} 
                                                     value="Show Password" />&nbsp;
-                                                    <label  className="pb-3" htmlFor="show password">Show password</label>
+                                                    <label  className="pb-3" htmlFor="show_password">Show Password</label>
                                                 </div>
                                                 <center>
                                                     <div className="form-group margin-bottom-15 mt-3">
