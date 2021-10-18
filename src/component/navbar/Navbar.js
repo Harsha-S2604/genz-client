@@ -12,6 +12,7 @@ import Favorties from '../favorites/Favorites';
 import Profile from '../profile/Profile';
 import { withCookies } from 'react-cookie';
 import EmailVerificationMessage from '../emailVerify/EmailVerificationMessage';
+import NotFound from '../notfound/NotFound';
 
 class Navbar extends Component {
 
@@ -107,13 +108,14 @@ class Navbar extends Component {
                     </div>
                 </nav>
                 <Signin cookies={this.props.cookies} handleLoggedIn={this.handleLoggedIn}/>
-                <GetStarted />
+                <GetStarted {...this.props}/>
                 <Switch>
                     <Route exact path="/" component={() => <Home cookies={this.props.cookies}/>} />
                     <Route exact path="/write" data-target="#signInModalCenter" component={() => <Write cookies={this.props.cookies}/>} />
                     <Route exact path="/favorites" component={() => <Favorties cookies={this.props.cookies}/>} />
                     <Route exact path="/profile" component={() => <Profile cookies={this.props.cookies}/>} />
-                    <Route exact path="/email_verification" component={() => <EmailVerificationMessage />} />
+                    <Route exact path="/email_verification" component={() => <EmailVerificationMessage cookies={this.props.cookies}/>} />
+                    <Route component={() => <NotFound />} />
                 </Switch>
                 </Router>
             </div>

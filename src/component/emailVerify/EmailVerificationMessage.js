@@ -1,16 +1,83 @@
 import React, {Component} from 'react';
-import {AiOutlineMail, AiOutlineSmile} from 'react-icons/ai';
+import {AiOutlineMail} from 'react-icons/ai';
+import NotFound from '../notfound/NotFound';
+import { withCookies } from 'react-cookie';
 
-export default class EmailVerificationMessage extends Component {
+
+class EmailVerificationMessage extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            verificationCode: "",
+            hiddenEmail : ""
+        }
+    }
+
+    composeHiddenEmail = (email) => {
+        let replacedEmail = email[0];
+        let emailAtIndex = email.indexOf("@")
+        for(let i = 1 ; i < emailAtIndex; i++) {
+            replacedEmail += "*"
+        }
+        return replacedEmail+email.substring(emailAtIndex)
+    };
+
+    componentDidMount() {
+        if(this.props.cookies.get("registeredEmail")) {
+            let emailFromRegisterForm = this.props.cookies.get("registeredEmail")
+            // let emailFromRegisterForm = "harsha@gmail.com"
+            let finalHiddenEmail = this.composeHiddenEmail(emailFromRegisterForm)
+            this.setState({
+                hiddenEmail: finalHiddenEmail
+            })
+        }
+        
+    }
+
     render() {
-        return (
-            <div style={{marginTop: "50px"}}>
-                <center>
-                    <AiOutlineMail style={{fontSize:"250px"}}/>
-                    <h3 style={{color: "#3500D3"}}>Your account has been made. <br /> Please verify it by clicking the activation link that has been sent to your email within 48 hours... Thank you <AiOutlineSmile /></h3>
-                </center>
-
-            </div>
-        )
+        if(this.props.cookies.get("registeredEmail")) {
+            return (
+                <div style={{marginTop: "50px"}}>
+                    <center>
+                        <div>
+                            <AiOutlineMail style={{fontSize:"80px"}}/>
+                            <h3 className="primary-color">Email Verification</h3>
+                        </div>
+                        <div className="pt-3">
+                            <div className="card p-2 shadow-sm" style={{width: "30rem"}}>
+                                <div className="card-body">
+                                    <form>
+                                        <div className="form-group">
+                                            <label  className="pb-3" style={{float:"left"}} htmlFor="email">Verification Code</label>
+                                            <input  type="text"
+                                                    name="verification_code"
+                                                    required
+                                                    className="form-control"
+                                                    onChange={this.handleChange}
+                                                    id="verification_code" aria-describedby="verification_codeHelp" placeholder="Enter 6-Digit Code" />
+                                        </div>
+                                        <div className="form-group pt-3">
+                                            <button className="btn btn-success form-control" type="button">Verify</button>
+                                        </div>
+                                    </form>
+                                    <p className="pt-3">
+                                        {"We sent you a verification code to your email " + this.state.hiddenEmail + ". The code will expire at 1:29PM UTC"}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </center>
+    
+                </div>
+            )
+        } else {
+            return (
+                <NotFound />
+            )
+        }
+        
     }
 }
+
+export default withCookies(EmailVerificationMessage);

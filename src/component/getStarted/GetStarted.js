@@ -46,11 +46,12 @@ export default class GetStarted extends Component {
         axios.post('http://localhost:8080/genz-server/user-api/register', user, reqConfig)
             .then(response => {
                 if(response.data.success) {
-                        this.setState({
-                            registerMessage: response.data.message,
-                            isRegistered: true
-                        })
-                        this.resetRegisterState();
+                    this.props.cookies.set('registeredEmail', this.state.email);
+                    this.setState({
+                        registerMessage: response.data.message,
+                        isRegistered: true,
+                    })
+                    this.resetRegisterState();
                 } else {
                     this.setState({
                         isRegistering: false
@@ -62,6 +63,8 @@ export default class GetStarted extends Component {
                 this.setState({
                     isRegistering: false
                 })
+                console.log("Err", err,);
+                console.log("Errors", this.props)
                 toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later.")
             })
     }
@@ -290,9 +293,9 @@ export default class GetStarted extends Component {
                                                     <div className="form-group margin-bottom-15 mt-3">
                                                         {
                                                             this.state.isRegistering ? 
-                                                            <button class="btn-config btn-primary-col" type="button" disabled>
-                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{" "}
-                                                                <span class="sr-only">Signing Up...</span>
+                                                            <button className="btn-config btn-primary-col" type="button" disabled>
+                                                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{" "}
+                                                                <span className="sr-only">Signing Up...</span>
                                                             </button> : 
                                                             <button type="button" className="btn-config btn-primary-col" onClick={this.handleRegister} disabled={!isButtonDisabled}>Continue</button>
 
