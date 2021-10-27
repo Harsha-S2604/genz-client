@@ -47,6 +47,7 @@ export default class GetStarted extends Component {
             .then(response => {
                 if(response.data.success) {
                     this.props.cookies.set('registeredEmail', this.state.email);
+                    this.props.cookies.set('createdTime', response.data.data)
                     this.setState({
                         registerMessage: response.data.message,
                         isRegistered: true,

@@ -49,6 +49,7 @@ export default class Signin extends Component {
             this.props.cookies.set('id', this.state.loggedId);
             this.props.cookies.set('isVerified', this.state.loggedAccVerfied);
             this.props.cookies.set('isLoggedIn', this.state.isLoggedIn);
+            this.props.cookies.set('name', response.data.data.Name)
 
             } else {
                 this.setState({loginErrorMessage: response.data.message, isLoggedIn: false})

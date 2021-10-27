@@ -40,19 +40,7 @@ class Write extends Component {
 
     componentDidMount() {
         this.buildBlogMenuOptions();
-        window.addEventListener('beforeunload', this.onbeforeunload);
     }
-
-    onbeforeunload = (event) => {
-        const e = event || window.event;
-        // Cancel the event
-        e.preventDefault();
-        if (e) {
-          e.returnValue = 'Are you sure?'; // Legacy method for cross browser support
-        }
-        return 'Are you sure?'; // Legacy method for cross browser support
-      };
-      
 
     componentDidUpdate(prevProps) {
 

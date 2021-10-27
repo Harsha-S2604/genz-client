@@ -10,10 +10,11 @@ import GetStarted from '../getStarted/GetStarted';
 import Write from '../write/Write';
 import Favorties from '../favorites/Favorites';
 import Profile from '../profile/Profile';
+import ProfileMenu from './ProfileMenu';
 import { withCookies } from 'react-cookie';
 import EmailVerificationMessage from '../emailVerify/EmailVerificationMessage';
 import NotFound from '../notfound/NotFound';
-
+import { Popover, OverlayTrigger } from 'react-bootstrap';
 class Navbar extends Component {
 
     constructor(props) {
@@ -22,7 +23,8 @@ class Navbar extends Component {
             activeBottomColor: {"borderBottom": "3px solid #3500D3"},
             showCollapseMenu: false,
             modalOpen: false,
-            isLoggedIn: false
+            isLoggedIn: false,
+            isShowProfileMenu: false
         }
     }
 
@@ -38,13 +40,14 @@ class Navbar extends Component {
         }
     }
 
-     handleSignout = () => {
-         this.props.cookies.remove("email")
-         this.props.cookies.remove("id")
-         this.props.cookies.remove("isVerified")
-         this.props.cookies.remove("isLoggedIn")
-         window.location = "/"
-     }
+    handleSignout = () => {
+        this.props.cookies.remove("email")
+        this.props.cookies.remove("id")
+        this.props.cookies.remove("isVerified")
+        this.props.cookies.remove("isLoggedIn")
+        this.props.cookies.remove("name")
+        window.location = "/"
+    }
 
     
 
@@ -53,9 +56,31 @@ class Navbar extends Component {
             showCollapseMenu: !this.state.showCollapseMenu
         })       
     }
+
+    handleShowProfileMenu = () => {
+        let isShowProfileMenu = !this.state.isShowProfileMenu
+        this.setState({
+            isShowProfileMenu
+        })
+    }
     
     render() {
         const show = this.state.showCollapseMenu ? "show" : "";
+        const popOverProfileMenuStyle = {
+            borderBottom: "1px solid #D3D3D3",
+            backgroundColor: "#fff",
+            textAlign: "center",
+            fontSize: "20px",
+            paddingTop: "20px"
+        } 
+        const popoverProfileMenu = (
+            <Popover id="popover-basic" style={{boxShadow: "rgb(230, 230, 230) 0px 1px 4px"}}>
+              <Popover.Header style={popOverProfileMenuStyle}>{"Hi, " + this.props.cookies.get("name")}</Popover.Header>
+              <Popover.Body style={{padding: "20px", width:"225px"}}>
+                <ProfileMenu />
+              </Popover.Body>
+            </Popover>
+          );
         return (
             <div>
                 <Router>
@@ -73,33 +98,34 @@ class Navbar extends Component {
                                 <ul className="navbar-nav">
                                     <li className="nav-item">
                                         <a data-toggle="modal" href="/signin" data-target="#signInModalCenter" 
-                                        className="pointer nav-link"><FaSignInAlt />{" "}Sign in</a>
+                                        className="pointer nav-link"><FaSignInAlt style={{marginRight: "5px"}}/>Sign in</a>
                                     </li>
                                     <li className="nav-item">
                                         <a  data-toggle="modal" href="/register" data-target="#getStartedModal" 
-                                            className="pointer nav-link"><FaUserPlus />{" "}Get Started</a>
+                                            className="pointer nav-link"><FaUserPlus style={{marginRight: "5px"}}/>Get Started</a>
                                     </li>
                                     <li className="nav-item">
                                         <NavLink className="nav-link" to="/write"
-                                        activeStyle={this.state.activeBottomColor}><RiPencilFill />{" "}Write</NavLink>
+                                        activeStyle={this.state.activeBottomColor}><RiPencilFill style={{marginRight: "5px"}}/>Write</NavLink>
                                     </li>
                                 </ul>
                             </div> : <div className={"collapse navbar-collapse justify-content-end " + show} id="navbarSupportedContent">
                                 <ul className="navbar-nav">
                                     <li className="nav-item">
-                                        <a data-toggle="modal" href="/signout" onClick={this.handleSignout} className="pointer nav-link"><FaSignOutAlt />{" "}Sign out</a>
+                                        <a href="/signout" onClick={this.handleSignout} className="pointer nav-link"><FaSignOutAlt style={{marginRight: "5px"}}/>Sign out</a>
                                     </li>
                                     <li className="nav-item">
                                         <NavLink className="nav-link" to="/favorites"
-                                        activeStyle={this.state.activeBottomColor}><BsFillBookmarksFill />{" "}Favorites</NavLink>
+                                        activeStyle={this.state.activeBottomColor}><BsFillBookmarksFill style={{marginRight: "5px"}}/>Favorites</NavLink>
                                     </li>
                                     <li className="nav-item">
                                         <NavLink className="nav-link" to="/write"
-                                        activeStyle={this.state.activeBottomColor}><RiPencilFill />{" "}Write</NavLink>
+                                        activeStyle={this.state.activeBottomColor}><RiPencilFill style={{marginRight: "5px"}}/>Write</NavLink>
                                     </li>
                                     <li className="nav-item">
-                                        <NavLink className="nav-link" to="/profile"
-                                        activeStyle={this.state.activeBottomColor}><CgProfile />{" "}Profile</NavLink>
+                                    <OverlayTrigger trigger="click" placement="bottom" overlay={popoverProfileMenu}>
+                                        <button className="btn nav-link" onClick={this.handleShowProfileMenu}><CgProfile style={{marginRight: "5px"}}/>Profile</button>
+                                    </OverlayTrigger>
                                     </li>
                                 </ul>
                             </div>

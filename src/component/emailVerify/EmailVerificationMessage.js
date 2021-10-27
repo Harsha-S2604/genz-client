@@ -10,7 +10,8 @@ class EmailVerificationMessage extends Component {
         super(props);
         this.state = {
             verificationCode: "",
-            hiddenEmail : ""
+            hiddenEmail : "",
+            createdTime: ""
         }
     }
 
@@ -24,19 +25,23 @@ class EmailVerificationMessage extends Component {
     };
 
     componentDidMount() {
-        if(this.props.cookies.get("registeredEmail")) {
+        if(this.props.cookies.get("registeredEmail") && this.props.cookies.get("createdTime")) {
             let emailFromRegisterForm = this.props.cookies.get("registeredEmail")
             // let emailFromRegisterForm = "harsha@gmail.com"
+            let createdTime = new Date(this.props.cookies.get("createdTime"))
+            createdTime.setHours(createdTime.getHours() + 1);
+            let finalCreatedTime = new Date(createdTime.getTime()).toLocaleTimeString();
             let finalHiddenEmail = this.composeHiddenEmail(emailFromRegisterForm)
             this.setState({
-                hiddenEmail: finalHiddenEmail
+                hiddenEmail: finalHiddenEmail,
+                createdTime: finalCreatedTime
             })
         }
         
     }
 
     render() {
-        if(this.props.cookies.get("registeredEmail")) {
+        if(this.props.cookies.get("registeredEmail") && this.props.cookies.get("createdTime")) {
             return (
                 <div style={{marginTop: "50px"}}>
                     <center>
@@ -62,8 +67,9 @@ class EmailVerificationMessage extends Component {
                                         </div>
                                     </form>
                                     <p className="pt-3">
-                                        {"We sent you a verification code to your email " + this.state.hiddenEmail + ". The code will expire at 1:29PM UTC"}
+                                        {"We sent you a verification code to your email " + this.state.hiddenEmail + ". The code will expire at " + this.state.createdTime}
                                     </p>
+                                    <button className="btn-config btn-primary-col" type="button">re-send verification code</button>
                                 </div>
                             </div>
                         </div>
