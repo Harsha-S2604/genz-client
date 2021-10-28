@@ -13,11 +13,11 @@ div {
 }
 
 .primary-color {
-  color: #3500D3;
+  color: #673ab7;
 }
 
 .primary-bg-color {
-  background-color: #3500D3
+  background-color: #673ab7
 }
 
 #modify-nav-menu {
@@ -67,14 +67,14 @@ div {
 
 .btn-primary-col {
   color: #fff;
-  background-color: #3500D3;
-  border-color: #3500D3;
+  background-color: #673ab7;
+  border-color: #673ab7;
 }
 
 .btn-primary-col:disabled, .btn-primary-col .disabled {
   color: #fff;
-  background-color: #3500D3;
-  border-color: #3500D3;
+  background-color: #673ab7;
+  border-color: #673ab7;
 }
 
 .sep-login-hr {
@@ -117,11 +117,11 @@ div {
 }
 
 .switch:checked {
-  background-color: #3500D3;
+  background-color: #673ab7;
 }
 
 .switch:checked::before {
-  border-color: #3500D3;
+  border-color: #673ab7;
   transform: translateX(100%);
 }
 
@@ -189,12 +189,12 @@ div {
 }
 
 .recent-articles-header-style {
-  border-bottom: 1px solid #3500D3;
+  border-bottom: 1px solid #673ab7;
   width: 70%;
 }
 
 .follow-us-header-style {
-  border-bottom: 1px solid #3500D3;
+  border-bottom: 1px solid #673ab7;
   width: 100%;
 }
 

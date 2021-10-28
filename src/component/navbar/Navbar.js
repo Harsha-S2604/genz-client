@@ -20,7 +20,7 @@ class Navbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeBottomColor: {"borderBottom": "3px solid #3500D3"},
+            activeBottomColor: {"borderBottom": "3px solid #673ab7"},
             showCollapseMenu: false,
             modalOpen: false,
             isLoggedIn: false,
@@ -124,7 +124,7 @@ class Navbar extends Component {
                                     </li>
                                     <li className="nav-item">
                                     <OverlayTrigger trigger="click" placement="bottom" overlay={popoverProfileMenu}>
-                                        <button className="btn nav-link" onClick={this.handleShowProfileMenu}><CgProfile style={{marginRight: "5px"}}/>Profile</button>
+                                        <button className="btn-config nav-link" onClick={this.handleShowProfileMenu}><CgProfile style={{marginRight: "5px"}}/>Profile</button>
                                     </OverlayTrigger>
                                     </li>
                                 </ul>
