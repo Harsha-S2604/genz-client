@@ -160,7 +160,7 @@
   }
   
   .insights {
-    margin: 2rem 0;
+    margin-top: 2rem;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -172,21 +172,6 @@
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
-  }
-  
-  .insights .insight {
-    width: 280px;
-    padding: 1rem;
-    border-radius: 8px;
-    outline: 2px solid var(--border);
-    -webkit-transition: all 200ms ease-in-out;
-    transition: all 200ms ease-in-out;
-  }
-  
-  .insights .insight:hover {
-    color: white;
-    background-color: var(--primary);
-    outline: none;
   }
   
   .insights .insight .heading {
@@ -298,4 +283,46 @@
   #profileHome, #profileAbout, #profileContacts {
     margin-top: 40px;
   }
+
+
+  .blog_analysis__box {
+    border: 1px solid #ABB0B8;
+    border-radius: 3%;
+    padding: 16px;
+    width: 280px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    -webkit-transition: all 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
+  }
+
+  .blog_analysis__box:hover {
+    color: white;
+    background-color: #673ab7;
+  }
+
+  .contact__reddit {
+    font-size: 35px;
+    color: #ff4500;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+
+  .contact__fb {
+    font-size: 35px;
+    color: #3b5998;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+
+  .contact__tw {
+    font-size: 35px;
+    color: #00acee;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+
+  .contact__insta {
+    font-size: 35px;
+    color: #000;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+
+  
   
