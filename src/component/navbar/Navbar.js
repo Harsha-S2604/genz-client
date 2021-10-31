@@ -77,7 +77,7 @@ class Navbar extends Component {
             <Popover id="popover-basic" style={{boxShadow: "rgb(230, 230, 230) 0px 1px 4px"}}>
               <Popover.Header style={popOverProfileMenuStyle}>{"Hi, " + this.props.cookies.get("name")}</Popover.Header>
               <Popover.Body style={{padding: "20px", width:"225px"}}>
-                <ProfileMenu />
+                <ProfileMenu {...this.props}/>
               </Popover.Body>
             </Popover>
           );
