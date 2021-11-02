@@ -21,7 +21,7 @@ class Profile extends Component {
         try {
             this.props.userProfileLoader();
             setTimeout(async () => {
-                await this.props.getUserProfileAndStore("GB-1")
+                await this.props.getUserProfileAndStore(this.props.cookies.get("id"))
                 await this.setState({
                     userProfileData: this.props.userProfileData
                 })
@@ -74,7 +74,6 @@ class Profile extends Component {
 
 
     render() {
-        let cookies = this.props.cookies.cookies;
         return (
             <div className="outer">
                 <div className="container pt-5">
@@ -134,11 +133,19 @@ class Profile extends Component {
                                                 </div>
                                             </div>
                                             <div id="profileAbout" className="tab-pane">
-                                                <p>{this.state.userProfile["about"]}</p>
+                                                <p>{this.state.userProfile["about"] ? this.state.userProfile["about"] : 
+                                                <div>
+                                                    <h3>{"About "+this.state.userProfileData["Name"]}</h3>
+                                                    <p style={{color: "gray"}}>Click edit to change your description</p>
+                                                </div>}</p>
                                             </div>
                                             <div id="profileContacts" className="tab-pane">
                                             <div className="row">
-                                                {this.state.contactsJSX}
+                                                {this.state.contactsJSX.length > 0 ? this.state.contactsJSX:
+                                                    <div>
+                                                        <h3>No Contacts</h3>
+                                                        <p style={{color: "gray"}}>Click edit to add your contacts</p>
+                                                    </div>}
                                             </div>
                                             </div>
                                         </div>

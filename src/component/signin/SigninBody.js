@@ -1,18 +1,11 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {FcGoogle} from 'react-icons/fc';
 import {AiFillFacebook} from 'react-icons/ai';
 import UserSignin from "../../model/UserSignin";
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import GetStarted from "../getStarted/GetStarted";
-import SigninBody from "./SigninBody";
-import GetStartedBody from "../getStarted/GetStartedBody";
-import { showRegisterForm } from "../../actions/signinConfig";
-import { connect } from "react-redux";
-import { showLoginForm } from "../../actions/signupConfig";
 
-
-class Signin extends Component {
+export default class SigninBody extends Component {
 
     constructor(props) {
         super(props);
@@ -64,12 +57,12 @@ class Signin extends Component {
             this.props.cookies.set('isVerified', this.state.loggedAccVerfied);
             this.props.cookies.set('isLoggedIn', this.state.isLoggedIn);
             this.props.cookies.set('name', response.data.data.Name)
+            window.location="/"
 
             } else {
                 this.setState({loginErrorMessage: response.data.message, isLoggedIn: false})
             }
         } catch(error) {
-            console.log(error);
             toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later.")
         }
         
@@ -131,44 +124,63 @@ class Signin extends Component {
                 break;
         }
     }
-
     render() {
-        if(this.state.isLoggedIn) {
-            window.location = "/";
-        }
-        return (          
+        const isEnabled = (this.state.passwordErrorMessage === "" && this.state.emailErrorMessage === "" && this.state.password !== "" && this.state.email !== "")
+        return (
             <div>
-                <div className="modal fade" id="signInModalCenter" tabIndex="-1" role="dialog" aria-labelledby="signInModalCenter" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered" role="document">
-                        <div className="modal-content"> 
-                            <div className="modal-body">
-                                {
-                                    this.props.isShowRegisterForm ? <div><GetStartedBody {...this.props}/></div>:
-                                    <div className="container">
-                                        <SigninBody {...this.props} cookies={this.props.cookies} handleLoggedIn={this.props.handleLoggedIn}/>
-                                        <p className="container">Don't have an account? <a className="primary-color" onClick={() => this.props.showRegisterForm(true)}href="#signup">Sign up</a></p>
-                                    </div>
-                                }
-                            </div>
+                <button type="button" onClick={() => this.props.showLoginForm(false)} className="close remove-button-css" data-dismiss="modal" aria-label="Close">
+                    <span className="font-size-25" aria-hidden="true">&times;</span>
+                </button>
+                <div className="pb-4"></div>
+                <h2 className="primary-color text-center card-title pt-4">Welcome to GenZ blog</h2><br/>
+                <div className="container">
+                    <div>
+                        <button type="button" className="btn btn-light col-12"><FcGoogle />&nbsp; Sign in with Google</button><br/><br/>
+                        <button type="button" className="btn btn-light col-12"><AiFillFacebook />&nbsp; Sign in with Facebook</button><br/><br/>
+                    </div><br/>
+                    <hr className="sep-login-hr" data-content="Have an account? continue with your email address" /><br/>
+                    <form>
+                        <div className="form-group">
+                            <label  className="pb-3" htmlFor="email">Email</label>
+                            <input  type="email"
+                                    name="email"
+                                    required
+                                    className="form-control"
+                                    value={this.state.email}
+                                    onChange={this.handleChange}
+                                    id="email" aria-describedby="emailHelp" placeholder="Enter email" />
+                            {this.state.emailErrorMessage !== "" ? <div className="error_message_css_config pt-2"><i>{this.state.emailErrorMessage}</i></div> : null}
+                        </div><br/>
+                        <div className="form-group">
+                            <label  className="pb-3" htmlFor="password">Password</label>
+                            <input  type="password" 
+                                    name="password"
+                                    required
+                                    className="form-control" 
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                    id="password" placeholder="Enter password" />
+                            {this.state.passwordErrorMessage !== "" ? <div className="error_message_css_config pt-2"><i>{this.state.passwordErrorMessage}</i></div> : null}
+                                    
+                        </div><br/>
+                        <div className="form-group">
+                            <input type="checkbox" className="switch" id="show password" 
+                            name="show password" onChange={this.handleChange} 
+                            value="Show Password" />&nbsp;
+                            <label  className="pb-3" htmlFor="show password">Show password</label>
                         </div>
-                    </div>
-                </div>
-                
+
+                        <div>
+                            {this.state.loginErrorMessage ? <div className="error_message_css_config pb-2"><i>{"*"+this.state.loginErrorMessage}</i></div> : null}
+                        </div>
+                        
+                        <div className="form-group">
+                            <button type="button" onClick={this.handleLogin} className="btn-config btn-primary-col" disabled={!isEnabled}>Log in</button>
+                        </div>
+                    </form><br/>
+                </div>  
             </div>
+
         )
     }
 }
-
-const mapStatetoProps = (state) => {
-    const {signinConfig} = state;
-    return {...signinConfig}
-}
-
-const mapDispatchProps = (dispatch) => {
-    return {
-        showRegisterForm: (isShowRegisterForm) => dispatch(showRegisterForm(isShowRegisterForm)),
-        showLoginForm: (isShowLoginForm) => dispatch(showLoginForm(isShowLoginForm))
-    }
-}
-
-export default connect(mapStatetoProps, mapDispatchProps)(Signin)

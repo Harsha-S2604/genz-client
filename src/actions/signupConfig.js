@@ -6,3 +6,12 @@ export const saveRegisteredEmail = (email) => {
     }
 
 }
+
+export const showLoginForm = (isShowLoginForm) => {
+    console.log("Sdfd")
+
+    return (dispatch) => {
+        dispatch({type: "SHOW_LOGIN_FORM", data: {isShowLoginForm}})
+    }
+
+}

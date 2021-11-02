@@ -1,5 +1,6 @@
 const signupConfigInitState = {
-    registeredEmail: ""
+    registeredEmail: "",
+    isShowLoginForm: false
 }
 
 const signupConfig = (state = signupConfigInitState, action) => {
@@ -11,6 +12,13 @@ const signupConfig = (state = signupConfigInitState, action) => {
             return {
                 ...state,
                 registeredEmail: action.data.email
+            }
+
+        case "SHOW_LOGIN_FORM":
+            return {
+                ...state,
+                isShowLoginForm: action.data.isShowLoginForm
+
             }
     }
 

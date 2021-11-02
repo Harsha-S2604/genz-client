@@ -6,3 +6,15 @@
 .link__config:hover {
     color: #673ab7;
 }
+
+#basic-nav-profile-dropdown::after {
+    display: none;
+}
+
+.dropdown-item {
+    background-color: white;
+}
+
+.bg-transparent {
+    background-color: transparent;
+}
