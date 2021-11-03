@@ -13,9 +13,11 @@ import Image from './image/Image';
 import ContentWrite from "./contentWrite/ContentWrite";
 import { confirmAlert } from 'react-confirm-alert';
 import {convertToRaw} from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 import {connect} from 'react-redux';
 import {addForOptionWriteBlog, resetOptionWriteBlog, deleteBlogOption,
-        updateFileName, setBlogData, unsetBlogData, unsetFileName} from '../../actions/writeConfig';
+        updateFileName, setBlogData, unsetBlogData, unsetFileName, setBlogTitle, setBlogDescription, 
+        setBlogEditorState, blogPublishLoader} from '../../actions/writeConfig';
 import Code from "./code/Code";
 import Video from "./video/Video";
 import Embed from "./embed/Embed";
@@ -23,6 +25,12 @@ import { Editor } from 'react-draft-wysiwyg';
 import './_write.scss'
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import StartWriting from './startwriting/StartWriting';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import UserSignin from '../../model/UserSignin';
+import AddBlog from '../../model/AddBlog';
+import { Redirect } from 'react-router-dom';
+
 
 class Write extends Component {
 
@@ -35,6 +43,7 @@ class Write extends Component {
             description: "",
             blogOptions: [],
             editorState: "",
+            isBlogPostSuccess: false
         }
     }
 
@@ -84,23 +93,18 @@ class Write extends Component {
         const {name, value} = event.target;
         switch(name) {
             case "title":
-                this.setState({
-                    title: value
-                })
+                this.props.setBlogTitle(value);
                 break;
             case "description":
-                this.setState({
-                    description: value
-                })
+                this.props.setBlogDescription(value);
                 break;
-            
             default:
                 break;
         }
     }
 
     handleTitleBlur = () => {
-        if(this.state.title) {
+        if(this.props.title) {
             var isEnableTitle = !this.state.isEnableTitle;
             this.setState({
                 isEnableTitle
@@ -115,7 +119,7 @@ class Write extends Component {
     }
 
     handleDescriptionBlur = () => {
-        if(this.state.description) {
+        if(this.props.description) {
             var isEnableDescription = !this.state.isEnableDescription
             this.setState({
                 isEnableDescription
@@ -124,15 +128,11 @@ class Write extends Component {
     }
 
     handleContentWrite = (editorState) => {
-        this.setState({
-            editorState
-        })
+        this.props.setBlogEditorState(editorState)
     }
 
     clearAllData = () => {
         this.setState({
-            title: "",
-            description: "",
             isEnableTitle: false,
             isEnableDescription: false,
             editorState: ""
@@ -154,10 +154,50 @@ class Write extends Component {
         )
     }
 
+    handleAddBlog = async (htmlMarkup) => {
+        let addBlog = new AddBlog();
+        addBlog.blogTitle = this.props.title;
+        addBlog.blogDescription = this.props.description;
+        addBlog.blogContent = htmlMarkup;
+        let user = new UserSignin();
+        user.email = this.props.cookies.get("email")
+        addBlog.user = user;
+        let reqConfig = {
+            headers: {
+                "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",
+                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }
+        try {
+            const response = await axios.post("http://localhost:8080/genz-server/blog-api/add-blog", addBlog, reqConfig)
+            if(response.data.success) {
+                this.props.blogPublishLoader(false);
+                this.setState({
+                    isBlogPostSuccess: true
+                })
+            } else {
+                this.props.blogPublishLoader(false);
+                toast.error(response.data.message)
+            }
+        } catch(error) {
+            this.props.blogPublishLoader(false);
+            toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later.")
+        }
+    }
+
+    handleSubmitBlog = () => {
+        this.props.blogPublishLoader(true);
+        const rawContentState = convertToRaw(this.props.editorContent.getCurrentContent()); 
+        const markup = draftToHtml(rawContentState);
+        setTimeout(() => {
+            this.handleAddBlog(markup);
+        }, 2000)
+    }
+
 
     handleReset = () => {
-        if(this.state.title || this.state.description || this.state.isEnableTitle || this.state.isEnableDescription
-            || this.props.createBlogArr.length > 0 || this.state.editorState) {
+        if(this.props.title || this.props.description || this.state.isEnableTitle || this.state.isEnableDescription
+            || this.props.createBlogArr.length > 0 || this.props.editorContent) {
 
             // confitmation message to reset button
             confirmAlert({
@@ -180,7 +220,15 @@ class Write extends Component {
 
 
     render() {
-        const isSubmitDisabled = !(this.state.title && this.state.description && this.state.editorState)
+        const isSubmitDisabled = !(this.props.title && this.props.description && this.props.editorContent)
+        if(this.state.isBlogPostSuccess) {
+            return (
+                <Redirect to={{
+                    pathname: "/write/published",
+                    state: {"isBlogPostSuccess": this.state.isBlogPostSuccess}
+                }}/>
+            )
+        }
         return (
             <div>
                 <div className="container" style={{paddingTop: "3%"}}>
@@ -203,7 +251,7 @@ class Write extends Component {
                                         <input 
                                             className="blog__title"
                                             name = "title"
-                                            value={this.state.title}
+                                            value={this.props.title}
                                             onChange={this.handleChange}
                                             type="text" id="title" 
                                             required 
@@ -223,7 +271,7 @@ class Write extends Component {
                                             </div>
                                         </div>
                                         <hr className="hr__width"/>
-                                        <h3>{this.state.title}</h3>
+                                        <h3>{this.props.title}</h3>
                                     </div>
                                 }
 
@@ -233,7 +281,7 @@ class Write extends Component {
                                         <textarea 
                                             className="blog__description"
                                             name = "description"
-                                            value={this.state.description}
+                                            value={this.props.description}
                                             onChange={this.handleChange}
                                             type="text" id="description" 
                                             required 
@@ -252,7 +300,7 @@ class Write extends Component {
                                             </div>
                                         </div>
                                         <hr className="hr-width"/>
-                                        <h5>{this.state.description}</h5>
+                                        <h5>{this.props.description}</h5>
                                     </div>
                                 }
 
@@ -260,7 +308,7 @@ class Write extends Component {
                                     <h4 style={{paddingBottom: "1%"}}>Content</h4>
                                     <Editor id="content" className="form-control"
                                         toolbarClassName="editor__toolbar"
-                                        editorState={this.state.editorState}
+                                        editorState={this.props.editorContent}
                                         placeholder="Type here..."
                                         onEditorStateChange={(event) => this.handleContentWrite(event)} 
                                         required
@@ -276,14 +324,19 @@ class Write extends Component {
                                             }} />
                                 </div>
                                 <div className="blog__submit">
-                                    <div className="d-flex flex-row">
-                                        <div className="p-2">
-                                            <button className="btn btn-outline-dark" disabled={isSubmitDisabled}>Save</button>
+                                    {
+                                        this.props.isBlogPublishLoader ? 
+                                        <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>: 
+                                    
+                                        <div className="d-flex flex-row">
+                                            <div className="p-2">
+                                                <button className="btn btn-outline-dark" disabled={isSubmitDisabled}>Save to draft</button>
+                                            </div>
+                                            <div className="p-2">
+                                                <button className="btn btn-outline-dark" onClick={this.handleSubmitBlog} disabled={isSubmitDisabled}>Publish</button>
+                                            </div>
                                         </div>
-                                        <div className="p-2">
-                                            <button className="btn btn-outline-dark" disabled={isSubmitDisabled}>Submit</button>
-                                        </div>
-                                    </div>
+                                    }
                                 </div>
                                         
                                 {/* FOR LATER DEVELOPMENT*/}
@@ -328,7 +381,11 @@ const mapStatetoProps = (state) => {
         updateFileName: (id, fileName) => dispatch(updateFileName(id, fileName)),
         setBlogData: (id, data) => dispatch(setBlogData(id, data)),
         unsetFileName: (id) => dispatch(unsetFileName(id)),
-        unsetBlogData: (id) => dispatch(unsetBlogData(id))
+        unsetBlogData: (id) => dispatch(unsetBlogData(id)),
+        setBlogTitle: (title) => dispatch(setBlogTitle(title)),
+        setBlogDescription: (description) => dispatch(setBlogDescription(description)),
+        setBlogEditorState: (editorState) => dispatch(setBlogEditorState(editorState)),
+        blogPublishLoader: (isBlogPublishLoader) => dispatch(blogPublishLoader(isBlogPublishLoader))
     }
   }
 

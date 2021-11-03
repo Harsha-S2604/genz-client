@@ -2,12 +2,20 @@
 
 const writeConfigInitState = {
     createBlogArr : [],
-    previousId: 0
+    previousId: 0,
+    title: "",
+    description: "",
+    editorContent: "",
+    isBlogPublishLoader: false
 }
 
 const resetWriteConfigInitState = {
     createBlogArr: [],
-    previousId: 0
+    previousId: 0,
+    title: "",
+    description: "",
+    editorContent: "",
+    isBlogPublishLoader: false
 }
 
 const getWriteOptionObjById = (id, createBlogArr) => {
@@ -118,6 +126,33 @@ const writeConfig = (state = writeConfigInitState, action) => {
                 ...state,
                 createBlogArr: createBlogArrToUnsetData
             }
+        
+        case "SET_BLOG_TITLE":
+            return {
+                ...state,
+                title: action.data.title
+            }
+        
+        case "SET_BLOG_DESCRIPTION":
+            return {
+                ...state,
+                description: action.data.description
+            }
+
+        case "SET_BLOG_EDITOR_STATE":
+            return {
+                ...state,
+                editorContent: action.data.editorState
+            }
+        
+        case "BLOG_PUBLISH_LOADER":
+            return {
+                ...state,
+                isBlogPublishLoader: action.data.isBlogPublishLoader
+            }
+
+        default:
+            break;
 
     }
 

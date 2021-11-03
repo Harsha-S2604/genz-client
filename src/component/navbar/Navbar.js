@@ -16,6 +16,7 @@ import { withCookies } from 'react-cookie';
 import EmailVerificationMessage from '../emailVerify/EmailVerificationMessage';
 import NotFound from '../notfound/NotFound';
 import { Popover, OverlayTrigger, NavDropdown } from 'react-bootstrap';
+import Published from '../write/Published';
 class Navbar extends Component {
 
     constructor(props) {
@@ -119,6 +120,7 @@ class Navbar extends Component {
                     <Route exact path="/write" data-target="#signInModalCenter" component={() => <Write cookies={this.props.cookies}/>} />
                     <Route exact path="/favorites" component={() => <Favorties cookies={this.props.cookies}/>} />
                     <Route exact path="/profile" component={() => <Profile cookies={this.props.cookies}/>} />
+                    <Route exact path="/write/published"  render={(props) => <Published {...props}/>} />
                     <Route exact path="/email_verification" component={() => <EmailVerificationMessage cookies={this.props.cookies}/>} />
                     <Route component={() => <NotFound />} />
                 </Switch>

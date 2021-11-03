@@ -52,3 +52,27 @@ export const unsetBlogData = (id) => {
     }
 
 }
+
+export const setBlogTitle = (title) => {
+    return (dispatch) => {
+        dispatch({type: "SET_BLOG_TITLE", data:{title}})
+    }
+}
+
+export const setBlogDescription = (description) => {
+    return (dispatch) => {
+        dispatch({type: "SET_BLOG_DESCRIPTION", data: {description}})
+    }
+}
+
+export const setBlogEditorState = (editorState) => {
+    return (dispatch) => {
+        dispatch({type:"SET_BLOG_EDITOR_STATE", data:{editorState}})
+    }
+}
+
+export const blogPublishLoader = (isBlogPublishLoader) => {
+    return (dispatch) => {
+        dispatch({type: "BLOG_PUBLISH_LOADER", data: {isBlogPublishLoader}})
+    }
+}

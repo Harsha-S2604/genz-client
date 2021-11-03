@@ -280,7 +280,7 @@
     }
   }
 
-  #profileHome, #profileAbout, #profileContacts {
+  #profileHome, #profileAbout, #profileContacts, #profileStories {
     margin-top: 40px;
   }
 
@@ -379,6 +379,29 @@
       transform: translate(24px, 0);
     }
   }
+
+.stories__description {
+  font-size: 14px;
+  color: rgb(117, 117, 117);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%;
+  padding-top: 5px;
+}
+
+.stories__title {
+  text-decoration: none;
+  color: black;
+}
+
+.stories__title:hover {
+  color: black
+}
+
+.profileStories__margin-bottom {
+  margin-bottom: 30px;
+}
   
 
   
