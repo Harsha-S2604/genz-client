@@ -32,6 +32,7 @@ class Stories extends Component {
             this.setState({
                 blogs: this.props.blogs
             })
+            console.log("demo blogs")
         }
     }
 
@@ -54,7 +55,11 @@ class Stories extends Component {
                                     this.props.blogs.map((blog, index) => {
                                         return (
                                             <div>
-                                                <DisplayBlog key={blog.BlogID+""+index} blog={blog} /><hr />
+                                                <DisplayBlog 
+                                                    key={blog.BlogID+""+index} blog={blog} 
+                                                    fetchStoriesLoader={this.props.fetchStoriesLoader}
+                                                    fetchBlogs={this.fetchBlogs}
+                                                    cookies={this.props.cookies}/><hr />
                                             </div>
                                         )
                                     })
