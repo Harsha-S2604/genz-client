@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getUserProfileAndStore, userProfileLoader } from '../../actions/profileConfig';
 import './__profile.scss';
 import StoryCard from './StoryCard';
+import Loader from '../extras/Loader';
 class Profile extends Component {
 
     constructor(props){
@@ -135,9 +136,7 @@ class Profile extends Component {
                         <div className="card-body">
                             {
                                 this.props.userProfileDataFetchLoader ? 
-                                    <center>
-                                        <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-                                    </center> :
+                                    <Loader /> :
                                     this.props.userProfileDataError ? <h4>{this.props.userProfileDataError}</h4> :
                                     <div>
                                         <div className="row">
@@ -163,7 +162,7 @@ class Profile extends Component {
                                         </div>
                                         <hr />
                                         <ul id="profile__tab" className="nav navlinks">
-                                            <li className="active"><a data-toggle="tab" href="#profileHome">Home</a></li>
+                                            <li><a data-toggle="tab" className="active" href="#profileHome">Home</a></li>
                                             <li><a data-toggle="tab" href="#profileAbout">About</a></li>
                                             <li><a data-toggle="tab" href="#profileStories" onClick={this.fetchStories}>Stories</a></li>
                                             <li><a data-toggle="tab" href="#profileContacts">Contact</a></li>

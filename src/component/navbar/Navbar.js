@@ -18,6 +18,7 @@ import { NavDropdown } from 'react-bootstrap';
 import Published from '../write/Published';
 
 import "./__navbar.scss"
+import Stories from '../stories/Stories';
 
 class Navbar extends Component {
 
@@ -101,7 +102,7 @@ class Navbar extends Component {
                             </div> : <div className={"collapse navbar-collapse justify-content-end"} id="navbarSupportedContent">
                                 <ul className="navbar-nav">
                                     <li className="nav-item">
-                                        <NavDropdown title={<div><CgProfile style={{fontSize: "18px", color: "black", marginRight: "5px"}}/>{" "}Hi, {this.props.cookies.get("name")}</div>} id="basic-nav-profile-dropdown" alignRight style={{content: "none"}}>
+                                        <NavDropdown title={<div><CgProfile style={{fontSize: "18px", color: "black", marginRight: "5px"}}/>{" "}Hi, {this.props.cookies.get("name")}</div>} id="basic-nav-profile-dropdown" style={{content: "none"}}>
                                             <NavDropdown.Item href="/profile"><CgProfile />{" "}Your Profile</NavDropdown.Item>
                                             <NavDropdown.Item href="/write"><RiPencilFill />{" "}Write</NavDropdown.Item>
                                             <NavDropdown.Item href="/stories"><MdOutlineAutoStories />{" "}Stories</NavDropdown.Item>
@@ -120,6 +121,7 @@ class Navbar extends Component {
                 <Switch>
                     <Route exact path="/" component={() => <Home cookies={this.props.cookies}/>} />
                     <Route exact path="/write" data-target="#signInModalCenter" component={() => <Write cookies={this.props.cookies}/>} />
+                    <Route exact path="/stories" component={() => <Stories cookies={this.props.cookies}/>} />
                     <Route exact path="/favorites" component={() => <Favorties cookies={this.props.cookies}/>} />
                     <Route exact path="/profile" component={() => <Profile cookies={this.props.cookies}/>} />
                     <Route exact path="/write/published"  render={(props) => <Published {...props}/>} />

@@ -1,0 +1,28 @@
+.display-blog__href {
+    text-decoration: none;
+    color: black
+}
+
+.display-blog__href:hover {
+    text-decoration: none;
+    color: #673ab7
+}
+
+.display-blog__description {
+    font-size: 14px;
+    color: rgb(117, 117, 117);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 5px;
+    max-width: 250px;
+}
+
+.display-blog__img {
+    padding-bottom: 20px;
+}
+.display-blog__img-radius {
+    border-radius: 50%;
+    width: 28x;
+    height: 28px; 
+}
