@@ -35,6 +35,9 @@ const profileConfig = (state = profileConfigInitState, action) => {
                 ...state,
                 userProfileDataFetchLoader: false
             }
+        
+        default:
+            break;
     }
 
     return state;

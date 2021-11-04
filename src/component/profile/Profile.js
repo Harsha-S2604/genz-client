@@ -105,16 +105,16 @@ class Profile extends Component {
         for(let social in contactsJSON) {
             switch(social) {
                 case "reddit":
-                    contactsJSX.push(<div key="reddit" className="col-lg-1"><a target="_blank" href={contactsJSON[social]}><BsReddit className="contact__reddit"/></a></div>)
+                    contactsJSX.push(<div key="reddit" className="col-lg-1"><a target="_blank" href={contactsJSON[social]} rel="noreferrer"><BsReddit className="contact__reddit"/></a></div>)
                     break;
                 case "twitter":
-                    contactsJSX.push(<div key="tw" className="col-lg-1"><a target="_blank" href={contactsJSON[social]}><BsTwitter className="contact__tw"/></a></div>);
+                    contactsJSX.push(<div key="tw" className="col-lg-1"><a target="_blank" href={contactsJSON[social]} rel="noreferrer"><BsTwitter className="contact__tw"/></a></div>);
                     break;
                 case "facebook":
-                    contactsJSX.push(<div key="fb" className="col-lg-1"><a target="_blank" href={contactsJSON[social]}><BsFacebook className="contact__fb"/></a></div>);
+                    contactsJSX.push(<div key="fb" className="col-lg-1"><a target="_blank" href={contactsJSON[social]} rel="noreferrer"><BsFacebook className="contact__fb"/></a></div>);
                     break;
                 case "instagram":
-                    contactsJSX.push(<div key="ig" className="col-lg-1"><a target="_blank" href={contactsJSON[social]}><BsInstagram className="contact__insta"/></a></div>);
+                    contactsJSX.push(<div key="ig" className="col-lg-1"><a target="_blank" href={contactsJSON[social]} rel="noreferrer"><BsInstagram className="contact__insta"/></a></div>);
                     break;
                 default:
                     break;

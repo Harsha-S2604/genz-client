@@ -11,12 +11,14 @@ import GetStarted from '../getStarted/GetStarted';
 import Write from '../write/Write';
 import Favorties from '../favorites/Favorites';
 import Profile from '../profile/Profile';
-import ProfileMenu from './ProfileMenu';
 import { withCookies } from 'react-cookie';
 import EmailVerificationMessage from '../emailVerify/EmailVerificationMessage';
 import NotFound from '../notfound/NotFound';
-import { Popover, OverlayTrigger, NavDropdown } from 'react-bootstrap';
+import { NavDropdown } from 'react-bootstrap';
 import Published from '../write/Published';
+
+import "./__navbar.scss"
+
 class Navbar extends Component {
 
     constructor(props) {

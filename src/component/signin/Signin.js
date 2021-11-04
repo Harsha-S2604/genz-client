@@ -1,10 +1,4 @@
 import React, { Component } from "react";
-import {FcGoogle} from 'react-icons/fc';
-import {AiFillFacebook} from 'react-icons/ai';
-import UserSignin from "../../model/UserSignin";
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import GetStarted from "../getStarted/GetStarted";
 import SigninBody from "./SigninBody";
 import GetStartedBody from "../getStarted/GetStartedBody";
 import { showRegisterForm } from "../../actions/signinConfig";
@@ -37,100 +31,7 @@ class Signin extends Component {
         })
     }
 
-    handleLogin = async () => {
-        let email = document.getElementById("email").value
-        let password = document.getElementById("password").value
-        let user = new UserSignin();
-        user.email = email;
-        user.password = password;
-        let reqConfig = {
-            headers: {
-                "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",
-                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        }
-        try {
-            const response = await axios.post("http://localhost:8080/genz-server/user-api/login", user, reqConfig)
-            if(response.data.success) {
-                this.setState({
-                    loggedEmail: response.data.data.Email,
-                    loggedId: response.data.data.UserId,
-                    loggedAccVerfied: response.data.data.IsEmailVerified,
-                    loginErrorMessage: "", 
-                    isLoggedIn: true
-                })
-            this.props.cookies.set('email', this.state.loggedEmail);
-            this.props.cookies.set('id', this.state.loggedId);
-            this.props.cookies.set('isVerified', this.state.loggedAccVerfied);
-            this.props.cookies.set('isLoggedIn', this.state.isLoggedIn);
-            this.props.cookies.set('name', response.data.data.Name)
 
-            } else {
-                this.setState({loginErrorMessage: response.data.message, isLoggedIn: false})
-            }
-        } catch(error) {
-            console.log(error);
-            toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later.")
-        }
-        
-    }
-
-    handleChange = (event) => {
-        const {name, value} = event.target;
-        switch(name) {
-            case "email":
-                if(value === "") {
-                    this.setState({
-                        emailErrorMessage: "*Field required",
-                        email: value
-                    })
-                } else {
-                    const emailRegExp = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/
-                    if(value.match(emailRegExp)) {
-                        this.setState({
-                            emailErrorMessage: "",
-                            email: value
-                        })
-                    } else {
-                        this.setState({
-                            emailErrorMessage: "*Invalid email",
-                            email: value
-                        })
-                    }
-                }
-                break;
-            case "password":
-                if(value === "") {
-                    this.setState({
-                        passwordErrorMessage: "*Field required",
-                        password: value
-                    })
-                } else {
-                    if(value.length < 6) {
-                        this.setState({
-                            password: value,
-                            passwordErrorMessage: "*Password must be at least 6 characters"
-                        })    
-                    } else {
-                        this.setState({
-                            password: value,
-                            passwordErrorMessage: ""
-                        })
-                    }
-                }
-                break;
-            case "show password":
-                let passwordField = document.getElementById("password")
-                if(event.target.checked) {
-                    passwordField.type = "text" 
-                } else {
-                    passwordField.type = "password"
-                }
-                break;
-            default:
-                break;
-        }
-    }
 
     render() {
         if(this.state.isLoggedIn) {

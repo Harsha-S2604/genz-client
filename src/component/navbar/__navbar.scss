@@ -11,6 +11,10 @@
     display: none;
 }
 
+.dropdown-toggle::after {
+    display: none;
+}
+
 .dropdown-item {
     background-color: white;
 }

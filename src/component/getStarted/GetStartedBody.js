@@ -193,6 +193,7 @@ export default class GetStartedBody extends Component {
                         passwordShow: false
                     })
                 }
+                break;
                 
 
             default:

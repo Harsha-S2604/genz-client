@@ -5,7 +5,7 @@ class StoryCard extends Component {
         return (
             <div className="row">
                 <div className="col-lg-9">
-                    <a href="#" className="stories__title"><h5><b>{this.props.story.title}</b></h5></a>
+                    <a href="/title" className="stories__title"><h5><b>{this.props.story.title}</b></h5></a>
                     <p className="stories__description">{this.props.story.description}</p>
                 </div>
                 <div className="col">

@@ -20,6 +20,9 @@ const signupConfig = (state = signupConfigInitState, action) => {
                 isShowLoginForm: action.data.isShowLoginForm
 
             }
+        
+        default:
+            break;
     }
 
     return state;

@@ -10,6 +10,8 @@ const signinConfig = (state = signinConfigInitState, action) => {
                 ...state,
                 isShowRegisterForm: action.data.isShowRegisterForm
             }
+        default:
+            break;
     }
 
     return state;
