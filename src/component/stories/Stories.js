@@ -56,7 +56,7 @@ class Stories extends Component {
                                         return (
                                             <div>
                                                 <DisplayBlog 
-                                                    key={blog.BlogID+""+index} blog={blog} 
+                                                    key={index} blog={blog} 
                                                     fetchStoriesLoader={this.props.fetchStoriesLoader}
                                                     fetchBlogs={this.fetchBlogs}
                                                     cookies={this.props.cookies}/><hr />

@@ -154,14 +154,16 @@ class Write extends Component {
         )
     }
 
-    handleAddBlog = async (htmlMarkup) => {
-        let addBlog = new AddBlog();
-        addBlog.blogTitle = this.props.title;
-        addBlog.blogDescription = this.props.description;
-        addBlog.blogContent = htmlMarkup;
+    handleAddBlog = async (htmlMarkup, is_draft) => {
+        let blog = new AddBlog();
+        blog.blogTitle = this.props.title;
+        blog.blogDescription = this.props.description;
+        blog.blogContent = htmlMarkup;
+        blog.blogIsDraft = is_draft;
         let user = new UserSignin();
         user.email = this.props.cookies.get("email")
-        addBlog.user = user;
+        blog.user = user;
+        console.log("ADD blog", blog)
         let reqConfig = {
             headers: {
                 "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",
@@ -169,12 +171,17 @@ class Write extends Component {
             }
         }
         try {
-            const response = await axios.post("http://localhost:8080/genz-server/blog-api/add-blog", addBlog, reqConfig)
+            const response = await axios.post("http://localhost:8080/genz-server/blog-api/add-blog", blog, reqConfig)
             if(response.data.success) {
                 this.props.blogPublishLoader(false);
-                this.setState({
-                    isBlogPostSuccess: true
-                })
+                if(!is_draft) {
+                    this.setState({
+                        isBlogPostSuccess: true
+                    })
+                } else {
+                    toast.success("Blog saved to draft successfully.")
+                }
+                
             } else {
                 this.props.blogPublishLoader(false);
                 toast.error(response.data.message)
@@ -185,12 +192,12 @@ class Write extends Component {
         }
     }
 
-    handleSubmitBlog = () => {
+    handleSubmitBlog = (is_draft) => {
         this.props.blogPublishLoader(true);
         const rawContentState = convertToRaw(this.props.editorContent.getCurrentContent()); 
         const markup = draftToHtml(rawContentState);
         setTimeout(() => {
-            this.handleAddBlog(markup);
+            this.handleAddBlog(markup, is_draft);
         }, 2000)
     }
 
@@ -330,10 +337,10 @@ class Write extends Component {
                                     
                                         <div className="d-flex flex-row">
                                             <div className="p-2">
-                                                <button className="btn btn-outline-dark" disabled={isSubmitDisabled}>Save to draft</button>
+                                                <button className="btn btn-outline-dark" onClick={() => this.handleSubmitBlog(true)} disabled={isSubmitDisabled}>Save to draft</button>
                                             </div>
                                             <div className="p-2">
-                                                <button className="btn btn-outline-dark" onClick={this.handleSubmitBlog} disabled={isSubmitDisabled}>Publish</button>
+                                                <button className="btn btn-outline-dark" onClick={() => this.handleSubmitBlog(false)} disabled={isSubmitDisabled}>Publish</button>
                                             </div>
                                         </div>
                                     }

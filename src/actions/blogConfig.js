@@ -3,6 +3,7 @@ export const fetchBlogsAndStore = (email) => {
         try {
             var url = new URL("http://localhost:8080/genz-server/blog-api/fetch-blogs")
             url.searchParams.append("email", email)
+            url.searchParams.append("get_draft", false)
             const response = await fetch(url, {
                 method: 'GET', // *GET, POST, PUT, DELETE, etc.
                 mode: 'cors', // no-cors, *cors, same-origin
