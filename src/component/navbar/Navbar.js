@@ -19,6 +19,7 @@ import Published from '../write/Published';
 
 import "./__navbar.scss"
 import Stories from '../stories/Stories';
+import ViewBlog from '../viewblog/ViewBlog';
 
 class Navbar extends Component {
 
@@ -126,6 +127,7 @@ class Navbar extends Component {
                     <Route exact path="/profile" component={() => <Profile cookies={this.props.cookies}/>} />
                     <Route exact path="/write/published"  render={(props) => <Published {...props}/>} />
                     <Route exact path="/email_verification" component={() => <EmailVerificationMessage cookies={this.props.cookies}/>} />
+                    <Route exact path="/stories/:id/:title" component={(props) => <ViewBlog {...props}/>} />
                     <Route component={() => <NotFound />} />
                 </Switch>
                 </Router>

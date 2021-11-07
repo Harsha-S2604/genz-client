@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import axios from "axios";
 
 import './__displayblog.scss';
+import { Link } from 'react-router-dom';
 
 export default class DisplayBlog extends Component {
 
@@ -28,7 +29,8 @@ export default class DisplayBlog extends Component {
                         toast.error(response.data.message)
                     }
                 })
-                .catch(error => {
+                .catch((error) => {
+                    this.props.fetchStoriesLoader(false);
                     toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later.")
                 })
         } catch(error) {
@@ -48,7 +50,11 @@ export default class DisplayBlog extends Component {
             <div>
                 <div className="d-flex justify-content-between">
                     <div>
-                        <a className="display-blog__href" href={"/stories/"+this.props.blog.BlogID+"/"+this.props.blog.BlogTitle.split(" ").join("-")}><h3>{this.props.blog.BlogTitle}</h3></a>
+                        <Link className="display-blog__href" 
+                        to={{
+                            pathname: "/stories/"+this.props.blog.BlogID+"/"+this.props.blog.BlogTitle.split(" ").join("-"),
+                            state: { blogId: this.props.blog.BlogID, email: this.props.cookies.get("email"), isGetDraft: this.props.blog.BlogIsDraft}
+                          }}><h3>{this.props.blog.BlogTitle}</h3></Link>
                         <p className="display-blog__description">{this.props.blog.BlogDescription}</p>
                         <p style={{color: "gray"}}>{"Created on "+Buffer.from(this.props.blog.BlogCreatedAt, 'base64').toString()+", Last updated on " + Buffer.from(this.props.blog.BlogLastUpdatedAt, 'base64').toString()}</p>
                     </div>

@@ -1,0 +1,142 @@
+.view-blog__padding {
+    padding-top: 50px;
+}
+
+main {
+    display: block;
+}
+
+.view-blog__article-layout {
+    margin-bottom: 48px;
+}
+
+.view-blog__header-layout {
+    margin-bottom: 48px;
+}
+
+.view-blog__title-layout {
+    margin: 0 0 18px;
+}
+
+.view-blog__title {
+    font-size: 44px;
+    line-height: 48px;
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.view-blog__description-layout {
+    margin: 0 0 18px;
+}
+
+.view-blog__description {
+    text-align: center;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+.view-blog__author-layout {
+    text-align: center;
+    margin-bottom: 56px;
+}
+
+.view-blog__author {
+    font-size: 24px;
+    line-height: 32px;
+}
+
+.view-blog__author-profile {
+    color: #673ab7;
+    text-decoration: none;
+}
+
+address {
+    font-style: normal;
+}
+
+.view-blog__root {
+    max-width: 665px;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.view-blog__utility {
+    max-width: 665px;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
+.view-blog__utility::after{
+    content: "";
+    border-bottom: .25px solid rgba(0,0,0,.15);
+    display: block;
+    width: 100%;
+ }
+
+.view-blog__time {
+    font-family: Goldwyn,monospace;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: .06em;
+    line-height: 14px;
+    text-transform: uppercase;
+}
+
+.view-blog__share {
+    position: relative;
+    padding: 32px 0;
+}
+
+.view-blog__share::after {
+    box-sizing: inherit;
+}
+
+.view-blog__share-button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    color: #000;
+    font-family: Goldwyn,monospace;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: .06em;
+    line-height: 14px;
+    overflow: hidden;
+    text-transform: uppercase;
+}
+
+.view-blog__body {
+    font-size: 22px;
+    line-height: 1.5em;
+    max-width: 665px;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    color: #000;
+}
+
+.view-blog__body::after {
+    content: "";
+    border-bottom: .25px solid rgba(0,0,0,.15);
+    display: block;
+    width: 100%;
+}

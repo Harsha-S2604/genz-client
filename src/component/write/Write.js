@@ -43,7 +43,8 @@ class Write extends Component {
             description: "",
             blogOptions: [],
             editorState: "",
-            isBlogPostSuccess: false
+            isBlogPostSuccess: false,
+            editorConfig: {}
         }
     }
 
@@ -319,6 +320,7 @@ class Write extends Component {
                                         placeholder="Type here..."
                                         onEditorStateChange={(event) => this.handleContentWrite(event)} 
                                         required
+                                        handlePastedText={() => false}
                                         toolbar={{
                                             inline: { inDropdown: true },
                                             list: { inDropdown: true },
@@ -327,7 +329,12 @@ class Write extends Component {
                                             image:{
                                                 uploadCallback: this.uploadImgCallBack,
                                                 inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
-                                                alt: { present: true, mandatory: false },}
+                                                alt: { present: true, mandatory: false },
+                                                defaultSize: {
+                                                    height: '354',
+                                                    width: '680',
+                                                  },
+                                                }
                                             }} />
                                 </div>
                                 <div className="blog__submit">
