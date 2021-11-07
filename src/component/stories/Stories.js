@@ -13,14 +13,14 @@ class Stories extends Component {
         }
     }
     componentDidMount() {
-        this.fetchBlogs();
+        this.fetchBlogs(this.props.cookies.get("email"), false);
     }
 
-    fetchBlogs = () => {
+    fetchBlogs = (email, isGetDraft) => {
         try {
             this.props.fetchStoriesLoader(true);
-            this.props.fetchBlogsAndStore(this.props.cookies.get("email"));
-            this.props.fetchStoriesLoader(false);
+            this.props.fetchBlogsAndStore(email, isGetDraft);
+            // this.props.fetchStoriesLoader(false);
         } catch(err) {
             console.log(err);
         }
@@ -41,8 +41,8 @@ class Stories extends Component {
             <div className="container stories__config">
                 <h3><b>Your Stories</b></h3>
                 <ul id="your_stories__tab" className="nav navlinks">
-                    <li><a className="active" data-toggle="tab" href="#published" onClick={this.fetchBlogs}>Published</a></li>
-                    <li><a data-toggle="tab" href="#draft">Draft</a></li>
+                    <li><a className="active" data-toggle="tab" href="#published" onClick={() => this.fetchBlogs(this.props.cookies.get("email"), false)}>Published</a></li>
+                    <li><a data-toggle="tab" href="#draft" onClick={() => this.fetchBlogs(this.props.cookies.get("email"), true)}>Draft</a></li>
                 </ul>
                 <div className="tab-content">
                     <div id="published" style={{paddingTop: "50px"}} className="tab-pane active">
@@ -76,7 +76,34 @@ class Stories extends Component {
                         }
                     </div>
                     <div id="draft" className="tab-pane" style={{paddingTop: "50px"}}>
-                        <h3>Display drafts content here</h3>
+                        {
+                            this.props.isFetchStoriesLoader ?
+                            <Loader />: 
+                            (this.props.blogs.length > 0) ?
+                            <div>
+                                {
+                                    this.props.blogs.map((blog, index) => {
+                                        return (
+                                            <div>
+                                                <DisplayBlog 
+                                                    key={index} blog={blog} 
+                                                    fetchStoriesLoader={this.props.fetchStoriesLoader}
+                                                    fetchBlogs={this.fetchBlogs}
+                                                    cookies={this.props.cookies}/><hr />
+                                            </div>
+                                        )
+                                    })
+                                }
+
+                            </div> :
+                            !(this.props.blogsFetchError) ?
+                            <div style={{paddingTop: "30px"}}>
+                                    <h4>There are no drafts yet.</h4>
+                            </div> : 
+                            <div>
+                                <h4>{this.props.blogsFetchError}</h4>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -91,7 +118,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchProps = (dispatch) => {
     return {
-        fetchBlogsAndStore: (email) => dispatch(fetchBlogsAndStore(email)),
+        fetchBlogsAndStore: (email, isGetDraft) => dispatch(fetchBlogsAndStore(email, isGetDraft)),
         fetchStoriesLoader: (isFetchStoriesLoader) => dispatch(fetchStoriesLoader(isFetchStoriesLoader))
     }
 }

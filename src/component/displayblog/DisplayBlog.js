@@ -6,7 +6,7 @@ import './__displayblog.scss';
 
 export default class DisplayBlog extends Component {
 
-    handleBlogDelete = async (blogId, email) => {
+    handleBlogDelete = async (blogId, email, isDraft) => {
         try {
             this.props.fetchStoriesLoader(true);
             let reqConfig = {
@@ -21,7 +21,7 @@ export default class DisplayBlog extends Component {
             axios.post(url, {}, reqConfig)
                 .then((response) => {
                     if(response.data.success) {
-                        this.props.fetchBlogs();
+                        this.props.fetchBlogs(email, isDraft);
                         toast.success("Blog deleted successfully.");
                     } else {
                         this.props.fetchStoriesLoader(false);
@@ -54,7 +54,7 @@ export default class DisplayBlog extends Component {
                     </div>
                     <div>
                         <button className="btn btn-outline-dark" style={{margin: "5px"}} onClick={() => this.handleBlogEdit(this.props.blog.BlogID, this.props.cookies.get("email"))}>Edit</button>
-                        <span><button className="btn btn-outline-dark" onClick={() => this.handleBlogDelete(this.props.blog.BlogID, this.props.cookies.get("email"))}>Delete</button></span>
+                        <span><button className="btn btn-outline-dark" onClick={() => this.handleBlogDelete(this.props.blog.BlogID, this.props.cookies.get("email"), this.props.blog.BlogIsDraft)}>Delete</button></span>
                     </div>
                 </div>
             </div>

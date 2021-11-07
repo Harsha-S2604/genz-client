@@ -1,9 +1,9 @@
-export const fetchBlogsAndStore = (email) => {
+export const fetchBlogsAndStore = (email, isGetDraft) => {
     return async(dispatch) => {
         try {
             var url = new URL("http://localhost:8080/genz-server/blog-api/fetch-blogs")
             url.searchParams.append("email", email)
-            url.searchParams.append("get_draft", false)
+            url.searchParams.append("get_draft", isGetDraft)
             const response = await fetch(url, {
                 method: 'GET', // *GET, POST, PUT, DELETE, etc.
                 mode: 'cors', // no-cors, *cors, same-origin

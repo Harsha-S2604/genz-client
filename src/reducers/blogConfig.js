@@ -17,7 +17,8 @@ const blogConfig = (state = blogConfigInitialState, action) => {
             return {
                 ...state,
                 blogs: blogsData,
-                blogsFetchError: ""
+                blogsFetchError: "",
+                isFetchStoriesLoader: false,
             }
         case "FETCH_BLOGS_ERROR":
             return {
