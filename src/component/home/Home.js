@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import RecentArticles from './recent articles/RecentArticles'
-import TrendingArticles from './trending articles/TrendingArticles';
+import ArticlesCard from './recent articles/ArticlesCard'
 import FollowUs from './follow us/FollowUs'
 
 export default class Home extends Component {
@@ -108,7 +107,7 @@ export default class Home extends Component {
         var recentArticles = []
         var trendingArticles = []
         for(let i = 0 ; i < this.state.recentArticles.length; i++) {
-            recentArticles.push(<RecentArticles 
+            recentArticles.push(<ArticlesCard 
                 key={this.state.recentArticles[i].id} 
                 title={this.state.recentArticles[i].title}
                 description={this.state.recentArticles[i].description}
@@ -117,7 +116,7 @@ export default class Home extends Component {
         }
 
         for(let i = 0 ; i < this.state.trendingArticles.length; i++) {
-            trendingArticles.push(<TrendingArticles 
+            trendingArticles.push(<ArticlesCard 
                 key={this.state.recentArticles[i].id} 
                 title={this.state.recentArticles[i].title}
                 description={this.state.recentArticles[i].description}
@@ -129,7 +128,7 @@ export default class Home extends Component {
                 <div className="container padding-top-3">
                     <div className="row">
                         <div className="col-lg-10 col-md-10 col-sm-10">
-                            <div>
+                            <div style={{width: "80%"}}>
                                 <h2 className="recent-articles-header-style">Recent articles</h2>
                                 <div>
                                     {recentArticles}
