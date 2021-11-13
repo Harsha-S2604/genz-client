@@ -7,11 +7,34 @@ import {MdOutlineBookmarkAdd} from 'react-icons/md';
 
 export default class ArticlesCard extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+          isDesktop: false
+        };
+    }
+
+    componentDidMount() {
+        this.updatePredicate();
+        window.addEventListener("resize", this.updatePredicate);
+    }
+
+
+    updatePredicate  = () => {
+        this.setState
+        ({ isDesktop: window.innerWidth > 625 });
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updatePredicate);
+    }
+
     handleSaveStory = () => {
         console.log("SAVE STORY")
     }
 
     render() {
+        const isDesktop = this.state.isDesktop;
         return (
             <div className="articles__style">
                 <article>
@@ -43,7 +66,12 @@ export default class ArticlesCard extends Component {
                                                 </div>
                                             </div>
                                             <div className="articles__card-image">
-                                                <img src={demo} width="112" height="112" alt="demo goes here" />
+                                                {
+                                                    isDesktop?
+                                                    <img src={demo} width="112" height="112" alt="demo goes here" />:
+                                                    <img src={demo} width="56" height="56" alt="demo goes here" />
+
+                                                }
                                             </div>
                                         </div>
                                     </div>

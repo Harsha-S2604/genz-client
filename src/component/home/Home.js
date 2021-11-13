@@ -128,7 +128,7 @@ export default class Home extends Component {
                 <div className="container padding-top-3">
                     <div className="row">
                         <div className="col-lg-10 col-md-10 col-sm-10">
-                            <div style={{width: "80%"}}>
+                            <div className="recent-articles-content-style">
                                 <h2 className="recent-articles-header-style">Recent articles</h2>
                                 <div>
                                     {recentArticles}

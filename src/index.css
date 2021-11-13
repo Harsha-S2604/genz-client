@@ -198,8 +198,14 @@ div {
 }
 
 .recent-articles-content-style {
-  padding-top: 3%;
-  max-width: 75%;
+  width: 80%;
+}
+
+
+@media screen and (max-width: 800px) {
+  .recent-articles-content-style {
+      width: 100%;
+  }
 }
 
 .verticle-line {
