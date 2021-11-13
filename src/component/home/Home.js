@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ArticlesCard from './recent articles/ArticlesCard'
 import FollowUs from './follow us/FollowUs'
+import "./__home.scss";
 
 export default class Home extends Component {
 
@@ -128,12 +129,14 @@ export default class Home extends Component {
                 <div className="container padding-top-3">
                     <div className="row">
                         <div className="col-lg-10 col-md-10 col-sm-10">
-                            <div className="recent-articles-content-style">
-                                <h2 className="recent-articles-header-style">Recent articles</h2>
+                            <div className="articles-content-style">
+                                <h2 className="articles-header-style"><b>Recent articles</b></h2>
+                                <hr className="hr__articles"/>
                                 <div>
                                     {recentArticles}
                                 </div><br/><br /><br/>
-                                <h2 className="recent-articles-header-style">Trending articles</h2>
+                                <h2 className="articles-header-style"><b>Trending articles</b></h2>
+                                <hr className="hr__articles"/>
                                 <div>
                                     {trendingArticles}
                                 </div>

@@ -188,8 +188,10 @@ div {
   padding-top: 3%;
 }
 
-.recent-articles-header-style {
-  border-bottom: 1px solid #673ab7;
+.articles-header-style {
+  font-weight: 900;
+  font-size: 35px;
+  /* border-bottom: 1px solid #673ab7; */
 }
 
 .follow-us-header-style {
@@ -197,13 +199,13 @@ div {
   width: 100%;
 }
 
-.recent-articles-content-style {
+.articles-content-style {
   width: 80%;
 }
 
 
 @media screen and (max-width: 800px) {
-  .recent-articles-content-style {
+  .articles-content-style {
       width: 100%;
   }
 }
