@@ -70,3 +70,36 @@ export const displayBlog = (blogId, email, isGetDraft) => {
         }
     }
 }
+
+export const homeLoader = (isHomeLoader) => {
+    return (dispatch) => {
+        dispatch({type:"HOME_LOADER", data:{isHomeLoader}})
+    }
+}
+
+export const fetchRecentBlogs = () => {
+    return async(dispatch) => {
+        try {
+            var url = new URL("http://localhost:8080/genz-server/blog-api/recent-blogs")
+            const response = await fetch(url, {
+                method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Genz-Token': '4439EA5BDBA8B179722265789D029477'
+
+                }
+            })
+            const json = await response.json()
+            if(json.success) {
+                dispatch({type: "RECENT_BLOGS_DATA", data: json.data})
+            } else {
+                dispatch({type: "RECENT_BLOGS_DATA_ERROR", message: json.message})
+            }
+        } catch(error) {
+            return dispatch({type: "RECENT_BLOGS_DATA_ERROR", message: "Sorry, something went wrong. Our team is working on it. Please, try again later."})
+        }
+    }
+}

@@ -90,12 +90,16 @@
     max-height: 84px;
     line-height: 28px;
     font-size: 22px;
-    font-weight: 700;
+    font-weight: 900;
     -moz-box-orient: vertical;
     display: -webkit-box;
     text-overflow: ellipsis;
     overflow: hidden;
     color: rgb(41, 41, 41);
+}
+
+.articles__card-header__main:hover {
+    color: #673ab7;
 }
 
 .articles__card-description {
@@ -120,4 +124,9 @@
 
 img {
     vertical-align: middle;
+}
+
+.articles-blog__href {
+    text-decoration: none;
+    color: black;
 }

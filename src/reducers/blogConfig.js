@@ -7,6 +7,9 @@ const blogConfigInitialState = {
     viewBlogData: {},
     viewBlogDataError: "",
     isFetchStoryLoader: false,
+    recentBlogData: [],
+    isHomeLoader: false,
+    trendingBlogData: [],
 }
 
 const decodeTimeToBase64 = (time) => {
@@ -65,6 +68,22 @@ const blogConfig = (state = blogConfigInitialState, action) => {
                 viewBlogData: {},
                 viewBlogDataError: action.message,
                 isFetchStoryLoader: false,
+            }
+        case "RECENT_BLOGS_DATA":
+            return {
+                ...state,
+                recentBlogData: action.data,
+
+            }
+        case "TRENDING_BLOGS_DATA":
+            return {
+                ...state,
+                trendingBlogData: action.data,
+            }
+        case "HOME_LOADER":
+            return {
+                ...state,
+                isHomeLoader: action.data.isHomeLoader
             }
             
         default:

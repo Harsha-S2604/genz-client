@@ -3,5 +3,7 @@ export default class AddBlog {
     blogDescription;
     blogContent;
     blogIsDraft;
+    blogTotalViews;
+    blogTotalLikes;
     user;
 }

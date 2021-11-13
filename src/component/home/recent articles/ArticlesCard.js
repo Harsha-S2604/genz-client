@@ -3,6 +3,7 @@ import demo from '../../../assets/demo.jpg'
 import "./__articlescard.scss";
 import moment from 'moment';
 import {MdOutlineBookmarkAdd} from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 
 export default class ArticlesCard extends Component {
@@ -48,7 +49,7 @@ export default class ArticlesCard extends Component {
                                         </div>
                                         <div className="author__name">
                                             <div>
-                                                <p className="author__name_1">{this.props.author}<span className="post__time"> .{moment(this.props.created).format('ll')}</span></p>
+                                                <p className="author__name_1">{this.props.blog.User.Email.split("@")[0]}<span className="post__time"> .{moment(Buffer.from(this.props.blog.BlogCreatedAt, 'base64').toString()).format('ll')}</span></p>
                                             </div>
                                         </div>
                                         <div>
@@ -59,10 +60,14 @@ export default class ArticlesCard extends Component {
                                         <div className="articles__flex">
                                             <div className="articles__card-cont">
                                                 <div className="articles__card-header articles__card-position">
-                                                    <h2 className="articles__card-header__main">{this.props.title}</h2>
+                                                <Link className="articles-blog__href" 
+                                                    to={{
+                                                        pathname: "/stories/"+this.props.blog.BlogID+"/"+this.props.blog.BlogTitle.split(" ").join("-"),
+                                                        state: { blogId: this.props.blog.BlogID, email: this.props.blog.User.Email, isGetDraft: this.props.blog.BlogIsDraft}
+                                                    }}><h3 className="articles__card-header__main">{this.props.blog.BlogTitle}</h3></Link>
                                                 </div>
                                                 <div>
-                                                    <p className="articles__card-description">{this.props.description}</p>
+                                                    <p className="articles__card-description">{this.props.blog.BlogDescription}</p>
                                                 </div>
                                             </div>
                                             <div className="articles__card-image">

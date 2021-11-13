@@ -161,10 +161,11 @@ class Write extends Component {
         blog.blogDescription = this.props.description;
         blog.blogContent = htmlMarkup;
         blog.blogIsDraft = is_draft;
+        blog.blogTotalViews = 0;
+        blog.blogTotalLikes = 0;
         let user = new UserSignin();
         user.email = this.props.cookies.get("email")
         blog.user = user;
-        console.log("ADD blog", blog)
         let reqConfig = {
             headers: {
                 "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",

@@ -13,43 +13,44 @@ class ViewBlog extends Component {
         this.props.displayBlog(this.props.location.state.blogId, this.props.location.state.email, this.props.location.state.isGetDraft);
     }
     render() {
+        // console.log("this.props.viewBlogData", this.props.viewBlogData.User.Email.split("@")[0])
         return (
             <div className="view-blog__padding">
-                <div>
+                <div className="view-blog__main">
                     {
                         this.props.isFetchStoryLoader ? 
                         <center>
                             <Loader />
                         </center> :
-                        <main>
-                            <article className="view-blog__article-layout">
-                                <header className="view-blog__header-layout">
-                                    <div className="view-blog__root">
-                                        <div className="view-blog__title-layout">
-                                            <h1 className="view-blog__title">{this.props.viewBlogData.BlogTitle}</h1>
-                                        </div>
-                                        <div className="view-blog__description-layout">
-                                            <p className="view-blog__description">{this.props.viewBlogData.BlogDescription}</p>
-                                        </div>
-                                        <div className="view-blog__author-layout">
-                                            <div className="view-blog__author">
-                                                <address id="byline">By <a className="view-blog__author-profile" href="/profile">John</a></address>
-                                            </div>
+                        <main className="view-blog__main-content">
+                            <section className="view-blog__content-section">
+                                <header>
+                                    <div className="view-blog__content-header">
+                                        GENZ
+                                    </div>
+                                    <h1 className="view-blog__content-title">{this.props.viewBlogData.BlogTitle}</h1>
+                                    <p className="view-blog__time" dateTime={this.props.viewBlogData.BlogCreatedAt}>{moment(this.props.viewBlogData.BlogCreatedAt).format('LL')}</p>
+                                    <h2 className="view-blog__content__description">{this.props.viewBlogData.BlogDescription}</h2>
+                                    <div className="view-blog__author-layout">
+                                        <div className="view-blog__author">
+                                            <address id="byline">By <a className="view-blog__author-profile" href="/profile">John</a></address>
                                         </div>
                                     </div>
-                                    <div className="view-blog__utility">
-                                        <time className="view-blog__time" dateTime={this.props.viewBlogData.BlogCreatedAt}>{moment(this.props.viewBlogData.BlogCreatedAt).format('LL')}</time>
-                                        <div className="view-blog__share">
-                                            <button className="view-blog__share-button" aria-haspopup="true"
-                                            aria-controls="expanded-share-kit" >Share</button>
-                                        </div>
-                                    </div>
+                                    <hr />
                                 </header>
-                                <section className="view-blog__body">
-                                    <Markup content={this.props.viewBlogData.BlogContent} />
-                                </section>
-                            </article>
+                            </section>
+                            <section className="view-blog__content-section">
+                                <div className="content-body">
+                                    <article>
+                                        <section className="view-blog__body-content">
+                                            <Markup content={this.props.viewBlogData.BlogContent} />
+                                        </section>
+                                    </article>
+                                </div>
+                            </section>
+                            <div className="dotted_hr"></div>
                         </main>
+
                     }
                 </div>
             </div>
