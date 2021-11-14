@@ -4,6 +4,10 @@ import NotFound from '../notfound/NotFound';
 
 export default class Published extends Component {
 
+    componentDidMount() {
+        document.title = "Genz - Published"
+    }
+
     render() {
         return (
             <div className="pt-5">

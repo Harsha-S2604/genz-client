@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 
 export default class Favorties extends Component {
+    componentDidMount() {
+        document.title = "Genz - Your Favorites"
+    }
+    
     render() {
         return (
             <div>

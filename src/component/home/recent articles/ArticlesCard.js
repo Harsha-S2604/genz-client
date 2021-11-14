@@ -53,7 +53,7 @@ export default class ArticlesCard extends Component {
                                             </div>
                                         </div>
                                         <div>
-                                            <button className="btn-config" onClick={this.handleSaveStory}><MdOutlineBookmarkAdd title="Add to your favorites" style={{fontSize: "20px"}}/></button>
+                                            <button className="btn-config" onClick={this.handleSaveStory}><MdOutlineBookmarkAdd title="Add to your favorites to read it later." style={{fontSize: "20px"}}/></button>
                                         </div>
                                     </div>
                                     <div className="articles__card-body">

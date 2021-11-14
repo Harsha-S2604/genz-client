@@ -49,6 +49,7 @@ class Write extends Component {
     }
 
     componentDidMount() {
+        document.title = "Genz - Write"
         this.buildBlogMenuOptions();
     }
 

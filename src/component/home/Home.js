@@ -17,13 +17,14 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        document.title = "Genz - Home"
         this.props.homeLoader(true);
         this.props.fetchRecentBlogs();
         this.props.homeLoader(false);
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.recentBlogData != this.props.recentBlogData) {
+        if(prevProps.recentBlogData !== this.props.recentBlogData) {
             this.setState({
                 recentArticles: this.props.recentBlogData
             })

@@ -7,10 +7,11 @@ import moment from 'moment';
 import { Markup } from 'interweave';
 
 class ViewBlog extends Component {
-    componentDidMount() {
+    async componentDidMount() {
         // console.log(this.props.location.state.email, this.props.location.state.blogId)
         this.props.fetchStoryLoader(true);
-        this.props.displayBlog(this.props.location.state.blogId, this.props.location.state.email, this.props.location.state.isGetDraft);
+        await this.props.displayBlog(this.props.location.state.blogId, this.props.location.state.email, this.props.location.state.isGetDraft);
+        document.title = "Genz - " + this.props.viewBlogData.BlogTitle
     }
     render() {
         // console.log("this.props.viewBlogData", this.props.viewBlogData.User.Email.split("@")[0])

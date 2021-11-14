@@ -13,6 +13,7 @@ class Stories extends Component {
         }
     }
     componentDidMount() {
+        document.title = "Genz - Your Stories"
         this.fetchBlogs(this.props.cookies.get("email"), false);
     }
 
