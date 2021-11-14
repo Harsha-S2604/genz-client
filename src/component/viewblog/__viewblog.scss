@@ -339,3 +339,18 @@ address {
     width: 100%;
     margin-bottom: 1rem;
 }
+
+.went_wrong {
+    padding-left: 50px;
+    height: 500px;
+    width: 500px;
+}
+
+@media screen and (max-width: 599px) {
+    .went_wrong {
+        width: 100%;
+        height: 100%;
+        padding-left: 50px;
+    }
+    
+}

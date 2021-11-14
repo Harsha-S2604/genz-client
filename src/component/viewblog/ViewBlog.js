@@ -5,13 +5,20 @@ import Loader from '../extras/Loader';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Markup } from 'interweave';
+import went_wrong from '../../assets/went_wrong.jpg'
+
 
 class ViewBlog extends Component {
     async componentDidMount() {
         // console.log(this.props.location.state.email, this.props.location.state.blogId)
+        let blogId = window.location.href.split("/")[4]
         this.props.fetchStoryLoader(true);
-        await this.props.displayBlog(this.props.location.state.blogId, this.props.location.state.email, this.props.location.state.isGetDraft);
-        document.title = "Genz - " + this.props.viewBlogData.BlogTitle
+        await this.props.displayBlog(blogId, false);
+        if(!this.props.viewBlogDataError) {
+            document.title = "Genz - " + this.props.viewBlogData.BlogTitle
+        } else {
+            document.title = "Genz - Sorry something went wrong"
+        }
     }
     render() {
         // console.log("this.props.viewBlogData", this.props.viewBlogData.User.Email.split("@")[0])
@@ -23,6 +30,11 @@ class ViewBlog extends Component {
                         <center>
                             <Loader />
                         </center> :
+                        this.props.viewBlogDataError ? 
+                        <center>
+                            <h3>Sorry something went wrong, please try again later.</h3>
+                            <img src={went_wrong} className="went_wrong" alt="something_went_wrong" />
+                        </center>:
                         <main className="view-blog__main-content">
                             <section className="view-blog__content-section">
                                 <header>
