@@ -6,7 +6,9 @@ const writeConfigInitState = {
     title: "",
     description: "",
     editorContent: "",
-    isBlogPublishLoader: false
+    isBlogPublishLoader: false,
+    imageName: "",
+    blogImage: {},
 }
 
 const resetWriteConfigInitState = {
@@ -15,7 +17,9 @@ const resetWriteConfigInitState = {
     title: "",
     description: "",
     editorContent: "",
-    isBlogPublishLoader: false
+    isBlogPublishLoader: false,
+    imageName: "",
+    blogImage: {},
 }
 
 const getWriteOptionObjById = (id, createBlogArr) => {
@@ -150,6 +154,14 @@ const writeConfig = (state = writeConfigInitState, action) => {
                 ...state,
                 isBlogPublishLoader: action.data.isBlogPublishLoader
             }
+
+        case "SET_BLOG_IMAGE":
+            return {
+                ...state,
+                imageName: action.data.name,
+                blogImage: action.data
+            }
+
 
         default:
             break;

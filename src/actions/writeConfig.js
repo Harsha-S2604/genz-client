@@ -65,6 +65,12 @@ export const setBlogDescription = (description) => {
     }
 }
 
+export const setBlogImage = (file) => {
+    return (dispatch) => {
+        dispatch({type: "SET_BLOG_IMAGE", data: file})
+    }
+}
+
 export const setBlogEditorState = (editorState) => {
     return (dispatch) => {
         dispatch({type:"SET_BLOG_EDITOR_STATE", data:{editorState}})
