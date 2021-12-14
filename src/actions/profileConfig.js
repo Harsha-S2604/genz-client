@@ -40,3 +40,19 @@ export const userProfileLoaderFalse = () => {
         dispatch({type: "IS_PROFILE_LOADER_FALSE"})
     }
 }
+
+export const editUserName = (userName) => {
+    return(dispatch) => {
+        dispatch({type:"EDIT_USER_NAME", userName})
+    }
+}
+
+export const updateUserName = (userName, userId) => {
+    return async(dispatch) => {
+        try {
+
+        } catch(error) {
+
+        }
+    }
+}

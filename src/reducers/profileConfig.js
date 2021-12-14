@@ -1,7 +1,8 @@
 const profileConfigInitState = {
     userProfileData: {},
     userProfileDataError: "",
-    userProfileDataFetchLoader: false
+    userProfileDataFetchLoader: false,
+    userName: ""
 }
 
 
@@ -12,6 +13,7 @@ const profileConfig = (state = profileConfigInitState, action) => {
             return {
                 ...state,
                 userProfileData: action.data,
+                userName: action.data["Name"],
                 userProfileDataError: "",
                 userProfileDataFetchLoader: false
             }
@@ -34,6 +36,22 @@ const profileConfig = (state = profileConfigInitState, action) => {
             return {
                 ...state,
                 userProfileDataFetchLoader: false
+            }
+
+        case "EDIT_USER_NAME":
+            let userName = action.userName
+            return {
+                ...state,
+                userName
+            }
+
+        case "EDIT_USER_NAME_SUCCESS":
+            let chngdUserName = action.userName
+            let userProfileData = state.userProfileData
+            userProfileData["Name"] = chngdUserName
+            return {
+                ...state,
+                userProfileData
             }
         
         default:

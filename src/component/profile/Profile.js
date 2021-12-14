@@ -5,8 +5,9 @@ import {MdModeEditOutline} from 'react-icons/md';
 import { connect } from 'react-redux';
 import { getUserProfileAndStore, userProfileLoader } from '../../actions/profileConfig';
 import './__profile.scss';
-import StoryCard from './StoryCard';
 import Loader from '../extras/Loader';
+import EditName from './EditModal/EditName';
+
 class Profile extends Component {
 
     constructor(props){
@@ -46,59 +47,6 @@ class Profile extends Component {
         })
         this.buildContacts()
 
-    }
-
-    handleEditProfile = () => {
-        console.log("SHow edit profile")
-    }
-
-    fetchStories = () => {
-        let userStories = [
-            {
-                "id": 1,
-                "title": "demo_title_1",
-                "description": "A demo is what you give to show how something works. so they'll know how to use it. Demo is short for demonstrate or demonstration. It can be a verb, as when a tech company demos its new tablet or laptop.",
-                "author": "John wick",
-                "createdAt": "2020-12-06",
-                "image":"static/demo.png"
-            },
-            {
-                "id": 2,
-                "title": "demo_title_2",
-                "description": "Demo is short for demonstrate or demonstration. It can be a verb, as when a tech company demos its new tablet or laptop.",
-                "author": "Mike tyson",
-                "createdAt": "2020-12-07",
-                "image":"static/demo.png"
-            },
-            {
-                "id": 3,
-                "title": "demo_title_3",
-                "description": "The sunset filled the entire sky with the deep color of rubies, setting the clouds ablaze. The waves crashed and danced along the shore, moving up and down in a graceful and gentle rhythm like they were dancing.",
-                "author": "Robert alberto",
-                "createdAt": "2020-12-07",
-                "image":"static/demo.png"
-            },
-            {
-                "id": 4,
-                "title": "demo_title_4",
-                "description": "The sunset filled the entire sky with the deep color of rubies, setting the clouds ablaze. The waves crashed and danced along the shore, moving up and down in a graceful and gentle rhythm like they were dancing.",
-                "author": "Robert alberto",
-                "createdAt": "2020-12-07",
-                "image":"static/demo.png"
-            },
-            {
-                "id": 5,
-                "title": "demo_title_5",
-                "description": "The sunset filled the entire sky with the deep color of rubies, setting the clouds ablaze. The waves crashed and danced along the shore, moving up and down in a graceful and gentle rhythm like they were dancing.",
-                "author": "Robert alberto",
-                "createdAt": "2020-12-07",
-                "image":"static/demo.png"
-            }
-        ]
-
-        this.setState({
-            userStories
-        })
     }
 
     buildContacts = () => {
@@ -187,7 +135,10 @@ class Profile extends Component {
                                             <span><b>{this.state.userProfileData["Name"]}</b></span>
                                         </div>
                                         <div>
-                                            <span><a className="edit_css" href="#edit_name"><MdModeEditOutline />{" "}Edit name</a></span>
+                                            <span><a
+                                                data-toggle="modal" 
+                                                data-target="#editModalCenter" 
+                                                className="edit_css" href="#edit_name"><MdModeEditOutline />{" "}Edit name</a></span>
                                         </div>
                                     </div>
                                 </div>
@@ -302,6 +253,7 @@ class Profile extends Component {
                     </div>
                     </div>
                 </div>
+                <EditName />
             </div>
             // <div className="outer">
             //     <div className="container pt-5">
