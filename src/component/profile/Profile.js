@@ -9,6 +9,7 @@ import Loader from '../extras/Loader';
 import EditName from './EditModal/EditName';
 import EditAboutYou from './EditModal/EditAboutYou';
 import EditContact from './EditModal/EditContact';
+import ChangePassword from './EditModal/ChangePassword';
 
 class Profile extends Component {
 
@@ -98,7 +99,10 @@ class Profile extends Component {
                             </div>
                         </div>
                         <div className="profile_chnge-passwd">
-                            <a className="edit_css" href="#change_password"><FaKey />{" "}Change Password</a>
+                            <a className="edit_css"
+                                data-toggle="modal" 
+                                data-target="#chng_passwd"
+                                href="#chng_passwd"><FaKey />{" "}Change Password</a>
                         </div>
                     </div>
                     <div className="profile_main">
@@ -263,6 +267,7 @@ class Profile extends Component {
                 <EditName />
                 <EditAboutYou />
                 <EditContact />
+                <ChangePassword />
             </div>
             // <div className="outer">
             //     <div className="container pt-5">
