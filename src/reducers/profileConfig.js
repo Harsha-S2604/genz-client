@@ -1,5 +1,6 @@
 const profileConfigInitState = {
     userProfileData: {},
+    aboutYou: "",
     userProfileDataError: "",
     userProfileDataFetchLoader: false,
     userName: ""
@@ -10,10 +11,12 @@ const profileConfig = (state = profileConfigInitState, action) => {
     
     switch(action.type) {
         case "SAVE_USER_PROFILE_DATA":
+            let profile = JSON.parse(action.data["Profile"])
             return {
                 ...state,
                 userProfileData: action.data,
                 userName: action.data["Name"],
+                aboutYou: profile["about"],
                 userProfileDataError: "",
                 userProfileDataFetchLoader: false
             }
@@ -43,6 +46,13 @@ const profileConfig = (state = profileConfigInitState, action) => {
             return {
                 ...state,
                 userName
+            }
+
+        case "EDIT_ABOUT_YOU":
+            let aboutYou = action.aboutYou
+            return {
+                ...state,
+                aboutYou
             }
 
         case "EDIT_USER_NAME_SUCCESS":

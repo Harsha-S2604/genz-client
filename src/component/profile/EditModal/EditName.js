@@ -11,7 +11,8 @@ class EditName extends Component {
         super(props);
         this.state = {
             userName: "",
-            editNameLoader: true
+            editNameLoader: true,
+            isSaveDisabled: true,
         }
     }
 
@@ -30,7 +31,8 @@ class EditName extends Component {
     componentDidUpdate(prevProps) {
         if(prevProps.userName !== this.props.userName) {
             this.setState({
-                userName: this.props.userName
+                userName: this.props.userName,
+                isSaveDisabled: false
             })
         }
     }
@@ -88,7 +90,7 @@ class EditName extends Component {
                                         </form>
                                     </div>
                                     <div style={{float: "right", paddingTop: "30px", paddingBottom: "10px"}}>
-                                        <button className="btn btn-outline-dark" onClick={this.handleChangeEditName}>Save</button>
+                                        <button className="btn btn-outline-dark" disabled={this.state.isSaveDisabled} onClick={this.handleChangeEditName}>Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -110,6 +112,6 @@ const mapDispatchProps = (dispatch) => {
     return {
         editUserName: (userName) => dispatch(editUserName(userName))
     }
-  }
+}
 
-  export default connect(mapStatetoProps, mapDispatchProps)(EditName)
+export default connect(mapStatetoProps, mapDispatchProps)(EditName)

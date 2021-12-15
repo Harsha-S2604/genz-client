@@ -56,3 +56,9 @@ export const updateUserName = (userName, userId) => {
         }
     }
 }
+
+export const editAboutYou = (aboutYou) => {
+    return(dispatch) => {
+        dispatch({type: "EDIT_ABOUT_YOU", aboutYou})
+    }
+}

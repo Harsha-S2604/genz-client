@@ -7,6 +7,7 @@ import { getUserProfileAndStore, userProfileLoader } from '../../actions/profile
 import './__profile.scss';
 import Loader from '../extras/Loader';
 import EditName from './EditModal/EditName';
+import EditAboutYou from './EditModal/EditAboutYou';
 
 class Profile extends Component {
 
@@ -151,7 +152,11 @@ class Profile extends Component {
                                         <span><b>About you</b></span>
                                     </div>
                                     <div>
-                                        <a className="edit_css" href="#edit_description"><MdModeEditOutline />{" "}Edit about you</a>
+                                        <a 
+                                            className="edit_css" 
+                                            data-toggle="modal" 
+                                            data-target="#edit_about_you"
+                                            href="#edit_about_you"><MdModeEditOutline />{" "}Edit about you</a>
                                     </div>
                                 </div>
                                 <hr />
@@ -254,6 +259,7 @@ class Profile extends Component {
                     </div>
                 </div>
                 <EditName />
+                <EditAboutYou />
             </div>
             // <div className="outer">
             //     <div className="container pt-5">
