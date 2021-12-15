@@ -172,9 +172,6 @@ class Profile extends Component {
                                     <div>
                                         <span><b>Profile info</b></span>
                                     </div>
-                                    <div>
-                                        <a className="edit_css" href="#edit_profile_info"><MdModeEditOutline />{" "}Edit profile info</a>
-                                    </div>
                                 </div>
                                 <hr />
                                 <div className="d-flex justify-content-between">

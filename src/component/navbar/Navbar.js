@@ -88,7 +88,7 @@ class Navbar extends Component {
                             <div className={"collapse navbar-collapse justify-content-end "} id="navbarSupportedContent">
                                 <ul className="navbar-nav">
                                     <li className="nav-item">
-                                        <a data-toggle="modal" href="/signin" data-backdrop="static" data-target="#signInModalCenter" 
+                                        <a data-toggle="modal" href="#signin" data-backdrop="static" data-target="#signInModalCenter" 
                                         data-keyboard="false" className="pointer nav-link"><FaSignInAlt style={{marginRight: "5px"}}/>Sign in</a>
                                     </li>
                                     <li className="nav-item">
