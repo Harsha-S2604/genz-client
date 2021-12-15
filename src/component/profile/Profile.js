@@ -8,6 +8,7 @@ import './__profile.scss';
 import Loader from '../extras/Loader';
 import EditName from './EditModal/EditName';
 import EditAboutYou from './EditModal/EditAboutYou';
+import EditContact from './EditModal/EditContact';
 
 class Profile extends Component {
 
@@ -219,7 +220,11 @@ class Profile extends Component {
                                         <span><b>Contact</b></span>
                                     </div>
                                     <div>
-                                        <a className="edit_css" href="#edit_profile_info"><MdModeEditOutline />{" "}Edit contact</a>
+                                        <a  
+                                            className="edit_css" 
+                                            data-toggle="modal" 
+                                            data-target="#edit_contact"
+                                            href="#edit_contact"><MdModeEditOutline />{" "}Edit contact</a>
                                     </div>
                                 </div>
                                 <hr />
@@ -257,6 +262,7 @@ class Profile extends Component {
                 </div>
                 <EditName />
                 <EditAboutYou />
+                <EditContact />
             </div>
             // <div className="outer">
             //     <div className="container pt-5">
