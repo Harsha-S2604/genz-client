@@ -4,7 +4,7 @@ import { editUserName } from '../../../actions/profileConfig';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-
+var userApiCommonPattern = "http://localhost:8080/api/v1/users/"
 class EditName extends Component {
 
     constructor(props) {
@@ -48,7 +48,7 @@ class EditName extends Component {
                 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
             }
         }
-        axios.post('http://localhost:8080/genz-server/user-api/edit-username', user, reqConfig)
+        axios.post(userApiCommonPattern+'edit/username', user, reqConfig)
             .then(response => {
                 if(response.data.success) {
                     window.location.reload();

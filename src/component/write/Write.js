@@ -33,7 +33,7 @@ import "./image/_image.scss";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './_write.scss'
 
-
+var blogApiCommonPattern = "http://localhost:8080/api/v1/blogs/"
 class Write extends Component {
 
     constructor(props) {
@@ -180,7 +180,7 @@ class Write extends Component {
             }
         }
         try {
-            const response = await axios.post("http://localhost:8080/genz-server/blog-api/add-blog", blog, reqConfig)
+            const response = await axios.post(blogApiCommonPattern+"add", blog, reqConfig)
             if(response.data.success) {
                 this.props.blogPublishLoader(false);
                 if(!is_draft) {

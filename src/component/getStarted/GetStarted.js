@@ -9,7 +9,7 @@ import { showLoginForm } from "../../actions/signupConfig";
 import { showRegisterForm } from "../../actions/signinConfig";
 
 
-
+var userApiCommonPattern = "http://localhost:8080/api/v1/users/"
 class GetStarted extends Component {
 
     constructor(props) {
@@ -47,7 +47,7 @@ class GetStarted extends Component {
                 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
             }
         }
-        axios.post('http://localhost:8080/genz-server/user-api/register', user, reqConfig)
+        axios.post(userApiCommonPattern+'register', user, reqConfig)
             .then(response => {
                 if(response.data.success) {
                     this.props.cookies.set('registeredEmail', this.state.email);

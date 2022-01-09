@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 
-
+var userApiCommonPattern = "http://localhost:8080/api/v1/users/"
 class ChangePassword extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +30,7 @@ class ChangePassword extends Component {
                 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
             }
         }
-        axios.post('http://localhost:8080/genz-server/user-api/change-passwd', passwordObj, reqConfig)
+        axios.post(userApiCommonPattern+'change-passwd', passwordObj, reqConfig)
             .then(response => {
                 if(response.data.success) {
                     this.setState({

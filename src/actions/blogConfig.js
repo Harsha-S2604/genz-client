@@ -1,7 +1,9 @@
+var blogApicommonPattern = "http://localhost:8080/api/v1/blogs/"
+
 export const fetchBlogsAndStore = (email, isGetDraft) => {
     return async(dispatch) => {
         try {
-            var url = new URL("http://localhost:8080/genz-server/blog-api/fetch-blogs")
+            var url = new URL(blogApicommonPattern+"allBlogs")
             url.searchParams.append("email", email)
             url.searchParams.append("get_draft", isGetDraft)
             const response = await fetch(url, {
@@ -44,7 +46,7 @@ export const fetchStoryLoader = (isFetchStoryLoader) => {
 export const displayBlog = (blogId, email, isGetDraft) => {
     return async (dispatch) => {
         try {
-            var url = new URL("http://localhost:8080/genz-server/blog-api/fetch-blog")
+            var url = new URL(blogApicommonPattern+"blog")
             url.searchParams.append("email", email)
             url.searchParams.append("blogId", blogId)
             url.searchParams.append("get_draft", isGetDraft)
@@ -80,7 +82,7 @@ export const homeLoader = (isHomeLoader) => {
 export const fetchRecentBlogs = () => {
     return async(dispatch) => {
         try {
-            var url = new URL("http://localhost:8080/genz-server/blog-api/recent-blogs")
+            var url = new URL(blogApicommonPattern+"recent")
             const response = await fetch(url, {
                 method: 'GET', // *GET, POST, PUT, DELETE, etc.
                 mode: 'cors', // no-cors, *cors, same-origin

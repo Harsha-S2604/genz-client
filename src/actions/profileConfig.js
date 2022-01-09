@@ -1,8 +1,10 @@
+var userApiCommonPattern = "http://localhost:8080/api/v1/users/"
+
 export const getUserProfileAndStore = (user_id) => {
 
     return async (dispatch) => {
         try {
-            var url = new URL("http://localhost:8080/genz-server/user-api/fetch-profile")
+            var url = new URL(userApiCommonPattern+"profile")
             url.searchParams.append("userId", user_id)
             const response = await fetch(url, {
                 method: 'GET', // *GET, POST, PUT, DELETE, etc.

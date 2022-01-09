@@ -6,6 +6,7 @@ import UserSignup from "../../model/UserSignup";
 import axios from "axios";
 import { toast } from 'react-toastify';
 
+var userApiCommonPattern = "http://localhost:8080/api/v1/users/"
 export default class GetStartedBody extends Component {
 
     constructor(props) {
@@ -42,7 +43,7 @@ export default class GetStartedBody extends Component {
                 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
             }
         }
-        axios.post('http://localhost:8080/genz-server/user-api/register', user, reqConfig)
+        axios.post(userApiCommonPattern+'register', user, reqConfig)
             .then(response => {
                 if(response.data.success) {
                     this.props.cookies.set('registeredEmail', this.state.email);

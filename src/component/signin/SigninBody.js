@@ -5,6 +5,7 @@ import UserSignin from "../../model/UserSignin";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+var userApiCommonPattern = "http://localhost:8080/api/v1/users/"
 export default class SigninBody extends Component {
 
     constructor(props) {
@@ -43,7 +44,7 @@ export default class SigninBody extends Component {
             }
         }
         try {
-            const response = await axios.post("http://localhost:8080/genz-server/user-api/login", user, reqConfig)
+            const response = await axios.post(userApiCommonPattern+"login", user, reqConfig)
             if(response.data.success) {
                 this.setState({
                     loggedEmail: response.data.data.Email,
