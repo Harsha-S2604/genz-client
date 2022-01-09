@@ -30,7 +30,19 @@ class Navbar extends Component {
             showCollapseMenu: false,
             modalOpen: false,
             isLoggedIn: false,
-            isShowProfileMenu: false
+            isShowProfileMenu: false,
+            isEmailVerification: false
+        }
+    }
+
+    componentDidMount() {
+
+        var urlPath = window.location.href.split("/")[3]
+        console.log(urlPath)
+        if(urlPath === "email_verification") {
+        this.setState({
+            isEmailVerification: true
+        })
         }
     }
 
@@ -75,48 +87,52 @@ class Navbar extends Component {
         return (
             <div>
                 <Router>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top navbar-toggleable-md shadow">
-                    <div className="container">
-                        <NavLink className="navbar-brand" id="navbar-title" to="/">GenZ</NavLink>
-                        <button className="navbar-toggler navbar-toggler-right collapsed" onClick={this.toggleMenu} 
-                            type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
+                { !(this.state.isEmailVerification) ?
+                    <div>
+                    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top navbar-toggleable-md shadow" style={{display: !this.state.isEmailVerification ? '' : 'none' }}>
+                        <div className="container">
+                            <NavLink className="navbar-brand" id="navbar-title" to="/">GenZ BlogX</NavLink>
+                            <button className="navbar-toggler navbar-toggler-right collapsed" onClick={this.toggleMenu} 
+                                type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                
+                                <span className="navbar-toggler-icon"></span>
+                            </button>
 
-                        {!(this.props.cookies.get("email") && this.props.cookies.get("id")) ? 
-                            <div className={"collapse navbar-collapse justify-content-end "} id="navbarSupportedContent">
-                                <ul className="navbar-nav">
-                                    <li className="nav-item">
-                                        <a data-toggle="modal" href="#signin" data-backdrop="static" data-target="#signInModalCenter" 
-                                        data-keyboard="false" className="pointer nav-link"><FaSignInAlt style={{marginRight: "5px"}}/>Sign in</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a  data-toggle="modal" href="/register" data-backdrop="static" data-target="#getStartedModal" 
-                                            data-keyboard="false" className="pointer nav-link"><FaUserPlus style={{marginRight: "5px"}}/>Get Started</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink className="nav-link" to="/write"
-                                        activeStyle={this.state.activeBottomColor}><RiPencilFill style={{marginRight: "5px"}}/>Write</NavLink>
-                                    </li>
-                                </ul>
-                            </div> : <div className={"collapse navbar-collapse justify-content-end"} id="navbarSupportedContent">
-                                <ul className="navbar-nav">
-                                    <li className="nav-item">
-                                        <NavDropdown title={<div><CgProfile style={{fontSize: "18px", color: "black", marginRight: "5px"}}/>{" "}Hi, {this.props.cookies.get("name")}</div>} id="basic-nav-profile-dropdown" style={{content: "none"}}>
-                                            <NavDropdown.Item href="/profile"><CgProfile />{" "}Your Profile</NavDropdown.Item>
-                                            <NavDropdown.Item href="/write"><RiPencilFill />{" "}Write</NavDropdown.Item>
-                                            <NavDropdown.Item href="/stories"><MdOutlineAutoStories />{" "}Stories</NavDropdown.Item>
-                                            <NavDropdown.Item href="/favorites"><BsFillBookmarksFill />{" "}Favorites</NavDropdown.Item>
-                                            <NavDropdown.Item href="/signout" onClick={this.handleSignout}><FaSignOutAlt />{" "}Sign out</NavDropdown.Item>
-                                        </NavDropdown>
-                                    </li>                                    
-                                </ul>
-                            </div>
-                        }
-                        
-                    </div>
-                </nav>
+                            {!(this.props.cookies.get("email") && this.props.cookies.get("id")) ? 
+                                <div className={"collapse navbar-collapse justify-content-end "} id="navbarSupportedContent">
+                                    <ul className="navbar-nav">
+                                        <li className="nav-item">
+                                            <a data-toggle="modal" href="#signin" data-backdrop="static" data-target="#signInModalCenter" 
+                                            data-keyboard="false" className="pointer nav-link"><FaSignInAlt style={{marginRight: "5px"}}/>Sign in</a>
+                                        </li>
+                                        <li className="nav-item">
+                                            <a  data-toggle="modal" href="/register" data-backdrop="static" data-target="#getStartedModal" 
+                                                data-keyboard="false" className="pointer nav-link"><FaUserPlus style={{marginRight: "5px"}}/>Get Started</a>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink className="nav-link" to="/write"
+                                            activeStyle={this.state.activeBottomColor}><RiPencilFill style={{marginRight: "5px"}}/>Write</NavLink>
+                                        </li>
+                                    </ul>
+                                </div> : <div className={"collapse navbar-collapse justify-content-end"} id="navbarSupportedContent">
+                                    <ul className="navbar-nav">
+                                        <li className="nav-item">
+                                            <NavDropdown title={<div><CgProfile style={{fontSize: "18px", color: "black", marginRight: "5px"}}/>{" "}Hi, {this.props.cookies.get("name")}</div>} id="basic-nav-profile-dropdown" style={{content: "none"}}>
+                                                <NavDropdown.Item href="/profile"><CgProfile />{" "}Your Profile</NavDropdown.Item>
+                                                <NavDropdown.Item href="/write"><RiPencilFill />{" "}Write</NavDropdown.Item>
+                                                <NavDropdown.Item href="/stories"><MdOutlineAutoStories />{" "}Stories</NavDropdown.Item>
+                                                <NavDropdown.Item href="/favorites"><BsFillBookmarksFill />{" "}Favorites</NavDropdown.Item>
+                                                <NavDropdown.Item href="/signout" onClick={this.handleSignout}><FaSignOutAlt />{" "}Sign out</NavDropdown.Item>
+                                            </NavDropdown>
+                                        </li>                                    
+                                    </ul>
+                                </div>
+                            }
+                            
+                        </div>
+                    </nav>
+                    </div> : null
+                }
                 <Signin {...this.props} cookies={this.props.cookies} handleLoggedIn={this.handleLoggedIn}/>
                 <GetStarted {...this.props}/>
                 <Switch>
