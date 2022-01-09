@@ -91,7 +91,7 @@ class Navbar extends Component {
                     <div>
                     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top navbar-toggleable-md shadow" style={{display: !this.state.isEmailVerification ? '' : 'none' }}>
                         <div className="container">
-                            <NavLink className="navbar-brand" id="navbar-title" to="/">GenZ BlogX</NavLink>
+                            <NavLink className="navbar-brand" id="navbar-title" to="/">GenZ BlogZ</NavLink>
                             <button className="navbar-toggler navbar-toggler-right collapsed" onClick={this.toggleMenu} 
                                 type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 
