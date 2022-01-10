@@ -20,6 +20,7 @@ import Published from '../write/Published';
 import "./__navbar.scss"
 import Stories from '../stories/Stories';
 import ViewBlog from '../viewblog/ViewBlog';
+import EmailVerificationSuccess from '../emailVerify/EmailVerificationSuccess';
 
 class Navbar extends Component {
 
@@ -74,6 +75,12 @@ class Navbar extends Component {
         this.setState({
             showCollapseMenu: !this.state.showCollapseMenu
         })       
+    }
+
+    handleIsEmailVerification = () => {
+        this.setState({
+            isEmailVerification: false
+        })
     }
 
     handleShowProfileMenu = () => {
@@ -144,6 +151,7 @@ class Navbar extends Component {
                     <Route exact path="/write/published"  render={(props) => <Published {...props}/>} />
                     <Route exact path="/email_verification" component={() => <EmailVerificationMessage cookies={this.props.cookies}/>} />
                     <Route exact path="/stories/:id/:title" component={(props) => <ViewBlog {...props}/>} />
+                    <Route exact path="/email_verification_success" component={(props) => <EmailVerificationSuccess emailVerify={this.state.isEmailVerification} isEmailVerification={this.handleIsEmailVerification} {...props}/>} />
                     <Route component={() => <NotFound />} />
                 </Switch>
                 </Router>

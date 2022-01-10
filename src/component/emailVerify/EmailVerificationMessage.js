@@ -4,6 +4,7 @@ import NotFound from '../notfound/NotFound';
 import { withCookies } from 'react-cookie';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Redirect } from 'react-router';
 
 
 
@@ -18,6 +19,8 @@ class EmailVerificationMessage extends Component {
             createdTime: "",
             isVerified: false,
             verificationCodeErr: "",
+            seconds: 30,
+            isHideResend: true,
         }
     }
 
@@ -41,6 +44,7 @@ class EmailVerificationMessage extends Component {
                 hiddenEmail: finalHiddenEmail,
                 createdTime: finalCreatedTime
             })
+            this.startTimer();
         }
         
     }
@@ -64,13 +68,35 @@ class EmailVerificationMessage extends Component {
                     verificationCode: value
                 })
                 break;
-                
+
             default:
                 break;
 
         }
 
     }
+
+    startTimer = () => {
+        if(this.state.seconds > 0) {
+            this.interval = setInterval(() => this.countDown(), 1000);
+        }
+    }
+
+    countDown = () => {
+        // Remove one second, set state so a re-render happens.
+        let seconds = this.state.seconds - 1;
+        this.setState({
+          seconds: seconds,
+        });
+        
+        // Check if we're at zero.
+        if (seconds == 0) { 
+          clearInterval(this.interval);
+          this.setState({
+              isHideResend: false
+          })
+        }
+      }
 
     handleVerifiyCode = () => {
         let email = this.props.cookies.get("registeredEmail")
@@ -111,6 +137,11 @@ class EmailVerificationMessage extends Component {
     }
 
     render() {
+        if(this.state.isVerified) {
+            return (
+                <Redirect to="/email_verification_success" />
+            )
+        }
         const isDisabled = (this.state.verificationCodeErr === "" && this.state.verificationCode !== "")
         if(this.props.cookies.get("registeredEmail") && this.props.cookies.get("createdTime")) {
             return (
@@ -144,7 +175,8 @@ class EmailVerificationMessage extends Component {
                                     <p className="pt-3">
                                         {"We sent you a verification code to your email " + this.state.hiddenEmail + ". The code will expire at " + this.state.createdTime}
                                     </p>
-                                    <button className="btn-config btn-primary-col" type="button">re-send verification code</button>
+                                    <button className="btn-config btn-primary-col" type="button" disabled={this.state.isHideResend}>re-send verification code</button><br /><br />
+                                    <p style={{color: "gray"}}>resend verification code in {this.state.seconds}s</p>
                                 </div>
                             </div>
                         </div>
