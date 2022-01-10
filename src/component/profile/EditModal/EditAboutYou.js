@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { editAboutYou, editUserName } from '../../../actions/profileConfig';
+import { editAboutYou } from '../../../actions/profileConfig';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 

@@ -2,8 +2,12 @@ import React, {Component} from 'react';
 import {AiOutlineMail} from 'react-icons/ai';
 import NotFound from '../notfound/NotFound';
 import { withCookies } from 'react-cookie';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
+
+var userApiCommonPattern = "http://localhost:8080/api/v1/users/"
 class EmailVerificationMessage extends Component {
 
     constructor(props) {
@@ -11,7 +15,9 @@ class EmailVerificationMessage extends Component {
         this.state = {
             verificationCode: "",
             hiddenEmail : "",
-            createdTime: ""
+            createdTime: "",
+            isVerified: false,
+            verificationCodeErr: "",
         }
     }
 
@@ -27,7 +33,6 @@ class EmailVerificationMessage extends Component {
     componentDidMount() {
         if(this.props.cookies.get("registeredEmail") && this.props.cookies.get("createdTime")) {
             let emailFromRegisterForm = this.props.cookies.get("registeredEmail")
-            // let emailFromRegisterForm = "harsha@gmail.com"
             let createdTime = new Date(this.props.cookies.get("createdTime"))
             createdTime.setHours(createdTime.getHours() + 1);
             let finalCreatedTime = new Date(createdTime.getTime()).toLocaleTimeString();
@@ -40,7 +45,73 @@ class EmailVerificationMessage extends Component {
         
     }
 
+    handleChange = (event) => {
+        const {name, value} = event.target;
+
+        switch(name) {
+            case "verification_code":
+                if(value.length !== 6) {
+                    this.setState({
+                        verificationCodeErr: "*verification code should be a 6 digit number"
+                    })
+                } else {
+                    this.setState({
+                        verificationCodeErr: ""
+                    })
+                }
+
+                this.setState({
+                    verificationCode: value
+                })
+                break;
+                
+            default:
+                break;
+
+        }
+
+    }
+
+    handleVerifiyCode = () => {
+        let email = this.props.cookies.get("registeredEmail")
+        let verificationCode = this.state.verificationCode
+
+        let userVerificationCode = {
+            "verificationCode": verificationCode,
+            "email": email,
+        }
+
+        let reqConfig = {
+            headers: {
+                "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",
+                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }
+        
+        axios.post(userApiCommonPattern+'verify', userVerificationCode, reqConfig)
+            .then(response => {
+                if(response.data.success) {
+                    this.setState({
+                        isVerified: true
+                    })
+                } else {
+                    this.setState({
+                        isVerified: false
+                    })
+                    toast.error(response.data.message);
+
+                }
+            })
+            .catch((error) => {
+                this.setState({
+                    isVerified: false
+                })
+                toast.error("Something went wrong. Our team is working on it. Please try again later.")
+            })
+    }
+
     render() {
+        const isDisabled = (this.state.verificationCodeErr === "" && this.state.verificationCode !== "")
         if(this.props.cookies.get("registeredEmail") && this.props.cookies.get("createdTime")) {
             return (
                 <div style={{marginTop: "50px"}}>
@@ -61,9 +132,13 @@ class EmailVerificationMessage extends Component {
                                                     className="form-control"
                                                     onChange={this.handleChange}
                                                     id="verification_code" aria-describedby="verification_codeHelp" placeholder="Enter 6-Digit Code" />
+                                            {
+                                                this.state.verificationCodeErr ? 
+                                                <p className="text-danger">{this.state.verificationCodeErr}</p> : null
+                                            }
                                         </div>
                                         <div className="form-group pt-3">
-                                            <button className="btn btn-success form-control" type="button">Verify</button>
+                                            <button onClick={this.handleVerifiyCode} className="btn btn-success form-control" type="button" disabled={!isDisabled}>Verify</button>
                                         </div>
                                     </form>
                                     <p className="pt-3">
