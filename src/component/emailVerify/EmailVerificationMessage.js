@@ -5,6 +5,8 @@ import { withCookies } from 'react-cookie';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Redirect } from 'react-router';
+import { getCodeCount } from '../../actions/signupConfig';
+import { connect } from 'react-redux';
 
 
 
@@ -19,8 +21,10 @@ class EmailVerificationMessage extends Component {
             createdTime: "",
             isVerified: false,
             verificationCodeErr: "",
-            seconds: 30,
-            isHideResend: true,
+            /* FOR LATER DEVELOPMENT*/
+            // seconds: 0,
+            // isHideResend: true,
+            resentCount: null,
         }
     }
 
@@ -35,28 +39,70 @@ class EmailVerificationMessage extends Component {
 
     componentDidMount() {
         if(this.props.cookies.get("registeredEmail") && this.props.cookies.get("createdTime")) {
+            this.getCount()
             let emailFromRegisterForm = this.props.cookies.get("registeredEmail")
-            let createdTime = new Date(this.props.cookies.get("createdTime"))
-            createdTime.setHours(createdTime.getHours() + 1);
-            let finalCreatedTime = new Date(createdTime.getTime()).toLocaleTimeString();
             let finalHiddenEmail = this.composeHiddenEmail(emailFromRegisterForm)
+            this.composeTime()
             this.setState({
                 hiddenEmail: finalHiddenEmail,
-                createdTime: finalCreatedTime
             })
-            this.startTimer();
+            /* FOR LATER DEVELOPMENT*/
+            // this.startTimer();
         }
         
     }
+
+    composeTime = () => {
+
+        let createdTime = new Date(this.props.cookies.get("createdTime"))
+        createdTime.setHours(createdTime.getHours() + 1);
+        let finalCreatedTime = new Date(createdTime.getTime()).toLocaleTimeString();
+        this.setState({
+            createdTime: finalCreatedTime
+        })
+    }
+
+    getCount = () => {
+        let email = this.props.cookies.get("registeredEmail")
+
+        let userVerificationCode = {
+            "email": email,
+        }
+
+        let reqConfig = {
+            headers: {
+                "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",
+                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }
+        
+        axios.post(userApiCommonPattern+'verify/resend/count', userVerificationCode, reqConfig)
+            .then(response => {
+                if(response.data.success) {
+                    this.setState({
+                        resentCount: response.data.data
+                    })
+                } else {
+                    this.setState({
+                        resentCount: null
+                    })
+                    toast.error(response.data.message);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                toast.error("Something went wrong. Our team is working on it. Please try again later.")
+            })
+    }    
 
     handleChange = (event) => {
         const {name, value} = event.target;
 
         switch(name) {
             case "verification_code":
-                if(value.length !== 6) {
+                if(!(value.length >= 5 && value.length <= 6)) {
                     this.setState({
-                        verificationCodeErr: "*verification code should be a 6 digit number"
+                        verificationCodeErr: "*verification code should be a 5 or 6 digit number"
                     })
                 } else {
                     this.setState({
@@ -76,27 +122,28 @@ class EmailVerificationMessage extends Component {
 
     }
 
-    startTimer = () => {
-        if(this.state.seconds > 0) {
-            this.interval = setInterval(() => this.countDown(), 1000);
-        }
-    }
+    /* FOR LATER DEVELOPMENT */
+    // startTimer = () => {
+    //     if(this.state.seconds > 0) {
+    //         this.interval = setInterval(() => this.countDown(), 1000);
+    //     }
+    // }
 
-    countDown = () => {
-        // Remove one second, set state so a re-render happens.
-        let seconds = this.state.seconds - 1;
-        this.setState({
-          seconds: seconds,
-        });
+    // countDown = () => {
+    //     // Remove one second, set state so a re-render happens.
+    //     let seconds = this.state.seconds - 1;
+    //     this.setState({
+    //       seconds: seconds,
+    //     });
         
-        // Check if we're at zero.
-        if (seconds == 0) { 
-          clearInterval(this.interval);
-          this.setState({
-              isHideResend: false
-          })
-        }
-      }
+    //     // Check if we're at zero.
+    //     if (seconds === 0) { 
+    //       clearInterval(this.interval);
+    //       this.setState({
+    //           isHideResend: false
+    //       })
+    //     }
+    //   }
 
     handleVerifiyCode = () => {
         let email = this.props.cookies.get("registeredEmail")
@@ -134,6 +181,51 @@ class EmailVerificationMessage extends Component {
                 })
                 toast.error("Something went wrong. Our team is working on it. Please try again later.")
             })
+    }
+
+    handleResend = () => {
+        if(this.state.resentCount >= 0 && (this.state.resentCount + 1) <= 3) {
+
+            let email = this.props.cookies.get("registeredEmail")
+
+            let userVerificationCode = {
+                "email": email,
+            }
+
+            let reqConfig = {
+                headers: {
+                    "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",
+                    'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+                }
+            }
+            
+            axios.post(userApiCommonPattern+'verify/resend', userVerificationCode, reqConfig)
+                .then(response => {
+                    if(response.data.success) {
+                        this.props.cookies.set("createdTime", response.data.data["CreatedAt"])
+                        this.composeTime()
+                        this.setState({
+                            resentCount: response.data.data["CodeSentCount"]
+                        })
+                        toast.success(response.data.message)
+                    } else {
+                        this.setState({
+                            resentCount: null
+                        })
+                        toast.error(response.data.message);
+
+                    }
+                })
+                .catch((error) => {
+                    this.setState({
+                        resentCount: null
+                    })
+                    toast.error("Something went wrong. Our team is working on it. Please try again later.")
+                })
+        } else {
+            console.log(this.state.resentCount)
+            toast.error("You have exceeded maximum number of attempts. Please register again.")
+        }
     }
 
     render() {
@@ -175,8 +267,7 @@ class EmailVerificationMessage extends Component {
                                     <p className="pt-3">
                                         {"We sent you a verification code to your email " + this.state.hiddenEmail + ". The code will expire at " + this.state.createdTime}
                                     </p>
-                                    <button className="btn-config btn-primary-col" type="button" disabled={this.state.isHideResend}>re-send verification code</button><br /><br />
-                                    <p style={{color: "gray"}}>resend verification code in {this.state.seconds}s</p>
+                                    <button className="btn-config btn-primary-col" type="button" onClick={this.handleResend}>re-send verification code</button><br /><br />
                                 </div>
                             </div>
                         </div>
@@ -193,4 +284,15 @@ class EmailVerificationMessage extends Component {
     }
 }
 
-export default withCookies(EmailVerificationMessage);
+const mapStatetoProps = (state) => {
+    let { signupConfig } = state;
+    return { ...signupConfig }
+}
+
+const mapDispatchProps = (dispatch) => {
+    return {
+        getCodeCount: (email) => dispatch(getCodeCount(email)),
+    }
+}
+
+export default connect(mapStatetoProps, mapDispatchProps)(withCookies(EmailVerificationMessage));

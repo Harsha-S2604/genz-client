@@ -1,6 +1,7 @@
 const signupConfigInitState = {
     registeredEmail: "",
-    isShowLoginForm: false
+    isShowLoginForm: false,
+    resendCount: 0,
 }
 
 const signupConfig = (state = signupConfigInitState, action) => {
@@ -19,6 +20,12 @@ const signupConfig = (state = signupConfigInitState, action) => {
                 ...state,
                 isShowLoginForm: action.data.isShowLoginForm
 
+            }
+        
+        case "SAVE_COUNT_DATA":
+            return {
+                ...state,
+                resendCount: action.data
             }
         
         default:

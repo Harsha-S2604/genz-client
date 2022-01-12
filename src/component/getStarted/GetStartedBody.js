@@ -48,6 +48,7 @@ export default class GetStartedBody extends Component {
                 if(response.data.success) {
                     this.props.cookies.set('registeredEmail', this.state.email);
                     this.props.cookies.set('createdTime', response.data.data)
+                    this.props.cookies.set('name', this.state.username)
                     this.setState({
                         registerMessage: response.data.message,
                         isRegistered: true,
