@@ -25,6 +25,8 @@ class EmailVerificationMessage extends Component {
             // seconds: 0,
             // isHideResend: true,
             resentCount: null,
+            isVerifying: false,
+            isSending: false
         }
     }
 
@@ -185,6 +187,9 @@ class EmailVerificationMessage extends Component {
 
     handleResend = () => {
         if(this.state.resentCount >= 0 && (this.state.resentCount + 1) <= 3) {
+            this.setState({
+                isSending: true,
+            })
 
             let email = this.props.cookies.get("registeredEmail")
 
@@ -205,12 +210,14 @@ class EmailVerificationMessage extends Component {
                         this.props.cookies.set("createdTime", response.data.data["CreatedAt"])
                         this.composeTime()
                         this.setState({
-                            resentCount: response.data.data["CodeSentCount"]
+                            resentCount: response.data.data["CodeSentCount"],
+                            isSending: false,
                         })
                         toast.success(response.data.message)
                     } else {
                         this.setState({
-                            resentCount: null
+                            resentCount: null,
+                            isSending: false,
                         })
                         toast.error(response.data.message);
 
@@ -218,12 +225,12 @@ class EmailVerificationMessage extends Component {
                 })
                 .catch((error) => {
                     this.setState({
-                        resentCount: null
+                        resentCount: null,
+                        isSending: false,
                     })
                     toast.error("Something went wrong. Our team is working on it. Please try again later.")
                 })
         } else {
-            console.log(this.state.resentCount)
             toast.error("You have exceeded maximum number of attempts. Please register again.")
         }
     }
@@ -261,13 +268,26 @@ class EmailVerificationMessage extends Component {
                                             }
                                         </div>
                                         <div className="form-group pt-3">
-                                            <button onClick={this.handleVerifiyCode} className="btn btn-success form-control" type="button" disabled={!isDisabled}>Verify</button>
+                                        {
+                                            this.state.isVerifying ? 
+                                            <button className="btn-config btn-primary-col" type="button" disabled>
+                                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{" "}
+                                                <span className="sr-only">Verifying...</span>
+                                            </button> : <button onClick={this.handleVerifiyCode} className="btn btn-success form-control" type="button" disabled={!isDisabled}>Verify</button>
+                                        }
                                         </div>
                                     </form>
                                     <p className="pt-3">
                                         {"We sent you a verification code to your email " + this.state.hiddenEmail + ". The code will expire at " + this.state.createdTime}
                                     </p>
-                                    <button className="btn-config btn-primary-col" type="button" onClick={this.handleResend}>re-send verification code</button><br /><br />
+                                    {
+                                            this.state.isSending ? 
+                                            <button className="btn-config btn-primary-col" type="button" disabled>
+                                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{" "}
+                                                <span className="sr-only">re-send verification code</span>
+                                            </button> : <div><button className="btn-config btn-primary-col" type="button" onClick={this.handleResend}>re-send verification code</button><br /><br /></div>
+                                    }
+                                    
                                 </div>
                             </div>
                         </div>

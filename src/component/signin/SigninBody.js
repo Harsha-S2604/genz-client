@@ -20,7 +20,8 @@ export default class SigninBody extends Component {
             loggedEmail: "",
             loggedId: "",
             loggedAccVerfied: "",
-            isShowSignUpForm: false
+            isShowSignUpForm: false,
+            isLoggingIn: false,
         }
     }
 
@@ -32,6 +33,9 @@ export default class SigninBody extends Component {
     }
 
     handleLogin = async () => {
+        this.setState({
+            isLoggingIn: true
+        })
         let email = document.getElementById("email").value
         let password = document.getElementById("password").value
         let user = new UserSignin();
@@ -47,6 +51,7 @@ export default class SigninBody extends Component {
             const response = await axios.post(userApiCommonPattern+"login", user, reqConfig)
             if(response.data.success) {
                 this.setState({
+                    isLoggingIn: false,
                     loggedEmail: response.data.data.Email,
                     loggedId: response.data.data.UserId,
                     loggedAccVerfied: response.data.data.IsEmailVerified,
@@ -61,9 +66,12 @@ export default class SigninBody extends Component {
             window.location="/"
 
             } else {
-                this.setState({loginErrorMessage: response.data.message, isLoggedIn: false})
+                this.setState({loginErrorMessage: response.data.message, isLoggedIn: false, isLoggingIn: false})
             }
         } catch(error) {
+            this.setState({
+                isLoggingIn: false
+            })
             toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later.")
         }
         
@@ -176,7 +184,13 @@ export default class SigninBody extends Component {
                         </div>
                         
                         <div className="form-group">
-                            <button type="button" onClick={this.handleLogin} className="btn-config btn-primary-col" disabled={!isEnabled}>Log in</button>
+                            {
+                                this.state.isLoggingIn ? 
+                                <button className="btn-config btn-primary-col" type="button" disabled>
+                                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{" "}
+                                    <span className="sr-only">Logging in...</span>
+                                </button> : <button type="button" onClick={this.handleLogin} className="btn-config btn-primary-col" disabled={!isEnabled}>Log in</button>
+                            }
                         </div>
                     </form><br/>
                 </div>  
