@@ -5,8 +5,9 @@ import { toast } from 'react-toastify';
 import GetStartedBody from "./GetStartedBody";
 import SigninBody from "../signin/SigninBody";
 import { connect } from 'react-redux';
-import { showLoginForm } from "../../actions/signupConfig";
+import { changeShowVerification, showLoginForm, onChangeEmail, onChangeName, onChangePassword, sendVerificationCode } from "../../actions/signupConfig";
 import { showRegisterForm } from "../../actions/signinConfig";
+import EmailVerificationMessage from "../emailVerify/EmailVerificationMessage";
 
 
 var userApiCommonPattern = "http://localhost:8080/api/v1/users/"
@@ -111,6 +112,8 @@ class GetStarted extends Component {
                                     <div>
                                         <SigninBody {...this.props} showLoginForm={this.props.showLoginForm}/>
                                     </div> : 
+                                    this.props.isShowVerification ? 
+                                    <EmailVerificationMessage {...this.props}/> :
                                     <div className="container">
                                         <GetStartedBody {...this.props} />
                                         <p className="container pb-4">Already have an account? <a className="primary-color" onClick={() => this.props.showLoginForm(true)} href="#signin">Sign in</a></p> 
@@ -134,7 +137,12 @@ const mapStatetoProps = (state) => {
 const mapDispatchProps = (dispatch) => {
     return {
         showLoginForm: (isShowLoginForm) => dispatch(showLoginForm(isShowLoginForm)),
-        showRegisterForm: (isShowRegisterForm) => dispatch(showRegisterForm(isShowRegisterForm))
+        showRegisterForm: (isShowRegisterForm) => dispatch(showRegisterForm(isShowRegisterForm)),
+        changeShowVerification: (isShowVerification) => dispatch(changeShowVerification(isShowVerification)),
+        onChangeEmail: (email) => dispatch(onChangeEmail(email)),
+        onChangeName: (username) => dispatch(onChangeName(username)),
+        onChangePassword: (password) => dispatch(onChangePassword(password)),
+        sendVerificationCode: (email) => dispatch(sendVerificationCode(email))
     }
 }
 

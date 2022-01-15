@@ -13,9 +13,9 @@ export default class GetStartedBody extends Component {
         super(props);
         this.state = {
             showForm: false,
-            email: "",
-            username: "",
-            password: "",
+            email: this.props.email,
+            username: this.props.username,
+            password: this.props.password,
             confirmPassword: "",
             emailErrorMessage: "",
             passwordErrorMessage: "",
@@ -24,7 +24,27 @@ export default class GetStartedBody extends Component {
             passwordShow: false,
             registerMessage: "",
             isRegistering: false,
-            isRegistered: false
+            isRegistered: false,
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.email !== this.props.email) {
+            this.setState({
+                email: this.props.email
+            })
+        }
+
+        if(prevProps.password !== this.props.password) {
+            this.setState({
+                password: this.props.password
+            })
+        }
+
+        if(prevProps.username !== this.props.username) {
+            this.setState({
+                username: this.props.username
+            })
         }
     }
 
@@ -92,6 +112,59 @@ export default class GetStartedBody extends Component {
         })
     }
 
+    checkIfUserExist = () => {
+        let user = new UserSignup()
+        user.email = this.state.email;
+        let reqConfig = {
+            headers: {
+                "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",
+                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }
+
+        return axios.post(userApiCommonPattern+'check/email', user, reqConfig)
+            .then(response => {
+                return response
+            })
+            .catch((err) => {
+                return err
+            })
+    }
+
+    handleVerification = () => {
+        this.setState({
+            isRegistering: true
+        })
+
+        this.checkIfUserExist()
+            .then(async (response) => {
+                if(response.data.success) {
+                    await this.props.sendVerificationCode(this.state.email)
+                    if(this.props.isCodeSent) {
+                        await this.props.changeShowVerification(true);
+                        toast.success("Verification code sent to your email.")
+                    } else {
+                        toast.error(this.props.isCodeSentErr)
+                    }
+                    this.setState({
+                        isRegistering: false,
+                    })
+                } else {
+                    await this.props.changeShowVerification(false);
+                    this.setState({
+                        isRegistering: false,
+                    })
+                }
+            })
+            .catch(async (err) => {
+                await this.props.changeShowVerification(false);
+                this.setState({
+                    isRegistering: false,
+                })
+                toast.error("Sorry dude, Something went wrong. Our team is working on it. Please try again later.")
+            })
+    }
+
     handleChange = (event) => {
 
         const {name, value} = event.target;
@@ -100,36 +173,33 @@ export default class GetStartedBody extends Component {
                 if(value === "") {
                     this.setState({
                         emailErrorMessage: "*Field required",
-                        email: value
                     })
                 } else {
                     const emailRegExp = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/
                     if(value.match(emailRegExp)) {
                         this.setState({
                             emailErrorMessage: "",
-                            email: value
                         })
                     } else {
                         this.setState({
                             emailErrorMessage: "*Invalid email",
-                            email: value
                         })
                     }
                 }
+                this.props.onChangeEmail(value)
                 break;
             
             case "username":
                 if(value === "") {
                     this.setState({
                         usernameErrorMessage: "*Field required",
-                        username: value
                     })
                 } else {
                     this.setState({
                         usernameErrorMessage: "",
-                        username: value
                     })
                 }
+                this.props.onChangeName(value)
                 break;
             case "password":
                 var passwordPattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$");
@@ -148,27 +218,24 @@ export default class GetStartedBody extends Component {
                 if(value === "") {
                     this.setState({
                         passwordErrorMessage: "*Field required",
-                        password: value
                     })
                 } else if(!(value.length > 5)) {
                     this.setState({
                         passwordErrorMessage: "*Minimum 6 characters required.",
-                        password: value
                     })
                 } else {
                     if(passwordPattern.test(value)) {
                         this.setState({
                             passwordErrorMessage: "",
-                            password: value
                         })
                     } else {
                         this.setState({
                             passwordErrorMessage: "*should contain atleast 1 uppercase letter, 1 lowercase letter, 1 numeric, 1 special character.",
-                            password: value
                         })
                     }
                     
                 }
+                this.props.onChangePassword(value)
                 break;
 
             case "confirmPassword":
@@ -204,9 +271,6 @@ export default class GetStartedBody extends Component {
     }
 
     render() {
-        if(this.state.isRegistered) {
-            window.location = "/email_verification";
-        }
         const isButtonDisabled = (this.state.emailErrorMessage === "" && this.state.passwordErrorMessage === "" && this.state.confirmPasswordErrorMessage === "" && this.state.usernameErrorMessage === "" 
         && this.state.email !== "" && this.state.password !== "" && this.state.confirmPassword !== "" && this.state.username !== "")
         return (
@@ -296,7 +360,7 @@ export default class GetStartedBody extends Component {
                                                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{" "}
                                                 <span className="sr-only">Signing Up...</span>
                                             </button> : 
-                                            <button type="button" className="btn-config btn-primary-col" onClick={this.handleRegister} disabled={!isButtonDisabled}>Continue</button>
+                                            <button type="button" className="btn-config btn-primary-col" onClick={this.handleVerification} disabled={!isButtonDisabled}>Continue</button>
 
                                         }
                                         

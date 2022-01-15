@@ -50,7 +50,7 @@ export default class SigninBody extends Component {
         try {
             const response = await axios.post(userApiCommonPattern+"login", user, reqConfig)
             if(response.data.success) {
-                this.setState({
+                await this.setState({
                     isLoggingIn: false,
                     loggedEmail: response.data.data.Email,
                     loggedId: response.data.data.UserId,
@@ -58,11 +58,11 @@ export default class SigninBody extends Component {
                     loginErrorMessage: "", 
                     isLoggedIn: true
                 })
-            this.props.cookies.set('email', this.state.loggedEmail);
-            this.props.cookies.set('id', this.state.loggedId);
-            this.props.cookies.set('isVerified', this.state.loggedAccVerfied);
-            this.props.cookies.set('isLoggedIn', this.state.isLoggedIn);
-            this.props.cookies.set('name', response.data.data.Name)
+            await this.props.cookies.set('email', this.state.loggedEmail);
+            await this.props.cookies.set('id', this.state.loggedId);
+            await this.props.cookies.set('isVerified', this.state.loggedAccVerfied);
+            await this.props.cookies.set('isLoggedIn', this.state.isLoggedIn);
+            await this.props.cookies.set('name', response.data.data.Name)
             window.location="/"
 
             } else {

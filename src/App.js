@@ -11,6 +11,9 @@ export default class App extends Component {
       <Provider store={store}>
           <ToastContainer 
             position="bottom-center" 
+            hideProgressBar={true}
+            autoClose={3000}
+            toastClassName="dark-toast"
           />
         <Navbar />
       </Provider>

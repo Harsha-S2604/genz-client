@@ -41,7 +41,8 @@ class Profile extends Component {
 
     manipulateProfileData = () => {
         let userProfile = this.state.userProfileData["Profile"]
-        userProfile = userProfile.replace(/""/g, '"-')
+        userProfile = userProfile.replace(/""/g, '"-"')
+        console.log(userProfile)
         userProfile = JSON.parse(userProfile)
         let userName = this.state.userProfileData["Email"].split("@")[0]
         this.setState({
@@ -248,15 +249,15 @@ class Profile extends Component {
                                 <div className="d-flex flex-row justify-content-between margin_top__2">
                                     <div className="blog_analysis__box">
                                         <h5><b>Total views</b></h5>
-                                        <p>1056 views</p>
+                                        <p>0 views</p>
                                     </div>
                                     <div className="blog_analysis__box">
                                         <h5><b>Total likes</b></h5>
-                                        <p>144 likes</p>
+                                        <p>0 likes</p>
                                     </div>
                                     <div className="blog_analysis__box">
                                         <h5><b>Profile reached</b></h5>
-                                        <p>1045 people</p>
+                                        <p>0 people</p>
                                     </div>
                                 </div>
                             </div>
