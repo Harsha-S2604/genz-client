@@ -16,12 +16,9 @@ class EmailVerificationMessage extends Component {
             createdTime: "",
             isVerified: false,
             verificationCodeErr: "",
-            /* FOR LATER DEVELOPMENT*/
-            // seconds: 0,
-            // isHideResend: true,
             resentCount: null,
             isVerifying: false,
-            isSending: false
+            isSending: false,
         }
     }
 
@@ -40,8 +37,6 @@ class EmailVerificationMessage extends Component {
             this.setState({
                 hiddenEmail: finalHiddenEmail,
             })
-            /* FOR LATER DEVELOPMENT*/
-            // this.startTimer();
     }
 
     composeTime = () => {
@@ -96,28 +91,43 @@ class EmailVerificationMessage extends Component {
         })
     }
 
-    /* FOR LATER DEVELOPMENT */
-    // startTimer = () => {
-    //     if(this.state.seconds > 0) {
-    //         this.interval = setInterval(() => this.countDown(), 1000);
-    //     }
-    // }
+    handleRegister = () => {
+        this.setState({
+            isVerifying: true
+        })
+        let user = {
+            "email": this.props.email,
+            "name": this.props.username,
+            "password": this.props.password,
+            "verificationCode": this.state.verificationCode
+        }
+        let reqConfig = {
+            headers: {
+                "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",
+                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }
 
-    // countDown = () => {
-    //     // Remove one second, set state so a re-render happens.
-    //     let seconds = this.state.seconds - 1;
-    //     this.setState({
-    //       seconds: seconds,
-    //     });
-        
-    //     // Check if we're at zero.
-    //     if (seconds === 0) { 
-    //       clearInterval(this.interval);
-    //       this.setState({
-    //           isHideResend: false
-    //       })
-    //     }
-    //   }
+        axios.post(userApiCommonPattern+'register', user, reqConfig)
+            .then(response => {
+                if(response.data.success) {
+                    console.log("registered successfully")
+                } else {
+                    console.log("Failed to register")
+                    toast.error(response.data.message);
+                }
+                this.setState({
+                    isVerifying: false
+                })
+            })
+            .catch((err) => {
+                this.setState({
+                    isVerifying: false
+                })
+                console.log("failed to register")
+                toast.error("Sorry dude, something went wrong. Our team is working on it. Please try again later.")
+            })
+    }
 
     handleVerifiyCode = () => {
         let email = this.props.email
@@ -188,7 +198,7 @@ class EmailVerificationMessage extends Component {
                                 <button className="btn-config btn-primary-col" type="button" disabled>
                                     <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>{" "}
                                     <span className="sr-only">Verifying...</span>
-                                </button> : <button onClick={this.handleVerifiyCode} className="btn btn-success form-control" type="button" disabled={!isDisabled}>Verify</button>
+                                </button> : <button onClick={this.handleRegister} className="btn btn-success form-control" type="button" disabled={!isDisabled}>Verify</button>
                             }
                             </div>
                         </form>

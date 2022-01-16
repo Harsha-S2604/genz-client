@@ -53,10 +53,9 @@ export default class GetStartedBody extends Component {
             isRegistering: true
         })
         let user = new UserSignup()
-        user.email = this.state.email;
-        user.name = this.state.username
-        user.isEmailVerified = false;
-        user.password = this.state.password;
+        user.email = this.props.email;
+        user.name = this.props.username
+        user.password = this.props.password;
         let reqConfig = {
             headers: {
                 "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",

@@ -13,7 +13,6 @@ export default class App extends Component {
             position="bottom-center" 
             hideProgressBar={true}
             autoClose={3000}
-            toastClassName="dark-toast"
           />
         <Navbar />
       </Provider>

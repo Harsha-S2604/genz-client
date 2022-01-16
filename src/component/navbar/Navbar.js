@@ -12,7 +12,6 @@ import Write from '../write/Write';
 import Favorties from '../favorites/Favorites';
 import Profile from '../profile/Profile';
 import { withCookies } from 'react-cookie';
-import EmailVerificationMessage from '../emailVerify/EmailVerificationMessage';
 import NotFound from '../notfound/NotFound';
 import { NavDropdown } from 'react-bootstrap';
 import Published from '../write/Published';
@@ -20,7 +19,6 @@ import Published from '../write/Published';
 import "./__navbar.scss"
 import Stories from '../stories/Stories';
 import ViewBlog from '../viewblog/ViewBlog';
-import EmailVerificationSuccess from '../emailVerify/EmailVerificationSuccess';
 
 class Navbar extends Component {
 
