@@ -5,6 +5,7 @@ import {RiPencilFill} from 'react-icons/ri';
 import {BsFillBookmarksFill} from 'react-icons/bs';
 import {CgProfile} from 'react-icons/cg';
 import {MdOutlineAutoStories} from 'react-icons/md';
+import {GrIntegration} from 'react-icons/gr';
 import Home from '../home/Home';
 import Signin from '../signin/Signin';
 import GetStarted from '../getStarted/GetStarted';
@@ -19,6 +20,7 @@ import Published from '../write/Published';
 import "./__navbar.scss"
 import Stories from '../stories/Stories';
 import ViewBlog from '../viewblog/ViewBlog';
+import Integrations from '../integrations/Integrations';
 
 class Navbar extends Component {
 
@@ -109,6 +111,7 @@ class Navbar extends Component {
                                                     <NavDropdown.Item href="/profile"><CgProfile />{" "}Your Profile</NavDropdown.Item>
                                                     <NavDropdown.Item href="/write"><RiPencilFill />{" "}Write</NavDropdown.Item>
                                                     <NavDropdown.Item href="/stories"><MdOutlineAutoStories />{" "}Stories</NavDropdown.Item>
+                                                    <NavDropdown.Item href="/integrations"><GrIntegration />{" "}Integrations</NavDropdown.Item>
                                                     <NavDropdown.Item href="/favorites"><BsFillBookmarksFill />{" "}Favorites</NavDropdown.Item>
                                                     <NavDropdown.Item href="/signout" onClick={this.handleSignout}><FaSignOutAlt />{" "}Sign out</NavDropdown.Item>
                                                 </NavDropdown>
@@ -127,6 +130,7 @@ class Navbar extends Component {
                     <Route exact path="/write" data-target="#signInModalCenter" component={() => <Write cookies={this.props.cookies}/>} />
                     <Route exact path="/stories" component={() => <Stories cookies={this.props.cookies}/>} />
                     <Route exact path="/favorites" component={() => <Favorties cookies={this.props.cookies}/>} />
+                    <Route exact path="/integrations" component={() => <Integrations cookies={this.props.cookies}/>} />
                     <Route exact path="/profile" component={() => <Profile cookies={this.props.cookies}/>} />
                     <Route exact path="/write/published"  render={(props) => <Published {...props}/>} />
                     <Route exact path="/stories/:id/:title" component={(props) => <ViewBlog {...props}/>} />
