@@ -12,42 +12,12 @@ class EmailVerificationMessage extends Component {
         super(props);
         this.state = {
             verificationCode: "",
-            hiddenEmail : "",
-            createdTime: "",
             isVerified: false,
             verificationCodeErr: "",
-            resentCount: null,
             isVerifying: false,
             isSending: false,
         }
-    }
-
-    composeHiddenEmail = (email) => {
-        let replacedEmail = email[0];
-        let emailAtIndex = email.indexOf("@")
-        for(let i = 1 ; i < emailAtIndex; i++) {
-            replacedEmail += "*"
-        }
-        return replacedEmail+email.substring(emailAtIndex)
-    };
-
-    componentDidMount() {
-            let emailFromRegisterForm = this.props.email
-            let finalHiddenEmail = this.composeHiddenEmail(emailFromRegisterForm)
-            this.setState({
-                hiddenEmail: finalHiddenEmail,
-            })
-    }
-
-    composeTime = () => {
-
-        let createdTime = new Date(this.props.cookies.get("createdTime"))
-        createdTime.setHours(createdTime.getHours() + 1);
-        let finalCreatedTime = new Date(createdTime.getTime()).toLocaleTimeString();
-        this.setState({
-            createdTime: finalCreatedTime
-        })
-    }    
+    }   
 
     handleChange = (event) => {
         const {name, value} = event.target;
@@ -111,9 +81,10 @@ class EmailVerificationMessage extends Component {
         axios.post(userApiCommonPattern+'register', user, reqConfig)
             .then(response => {
                 if(response.data.success) {
-                    console.log("registered successfully")
+                    this.props.handleChangeRegister(true)
+                    this.props.changeShowVerification(false)
                 } else {
-                    console.log("Failed to register")
+                    this.props.handleChangeRegister(false)
                     toast.error(response.data.message);
                 }
                 this.setState({
@@ -122,9 +93,9 @@ class EmailVerificationMessage extends Component {
             })
             .catch((err) => {
                 this.setState({
-                    isVerifying: false
+                    isVerifying: false,
                 })
-                console.log("failed to register")
+                this.props.handleChangeRegister(false)
                 toast.error("Sorry dude, something went wrong. Our team is working on it. Please try again later.")
             })
     }
@@ -203,7 +174,7 @@ class EmailVerificationMessage extends Component {
                             </div>
                         </form>
                         <p className="pt-3">
-                            {"We sent you a verification code to your email " + this.state.hiddenEmail + ". The code will expire after one hour."}
+                            {"We sent you a verification code to your email " + this.props.email + ". The code will expire after one hour."}
                         </p>
                         {
                                 this.state.isSending ? 

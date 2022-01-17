@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { changeShowVerification, showLoginForm, onChangeEmail, onChangeName, onChangePassword, sendVerificationCode } from "../../actions/signupConfig";
 import { showRegisterForm } from "../../actions/signinConfig";
 import EmailVerificationMessage from "../emailVerify/EmailVerificationMessage";
+import EmailVerificationSuccess from "../emailVerify/EmailVerificationSuccess";
 
 
 var userApiCommonPattern = "http://localhost:8080/api/v1/users/"
@@ -29,8 +30,15 @@ class GetStarted extends Component {
             registerMessage: "",
             isRegistering: false,
             isRegistered: false,
-            isShowLoginForm: false
+            isShowLoginForm: false,
         }
+    }
+
+    handleChangeRegister = (isRegistered) => {
+        console.log("isReg", isRegistered)
+        this.setState({
+            isRegistered
+        })
     }
 
     handleRegister = () => {
@@ -105,7 +113,7 @@ class GetStarted extends Component {
             <div>
                 <div className="modal fade" id="getStartedModal" tabIndex="-1" role="dialog" aria-labelledby="getStartedModal" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered" role="document">
-                        <div className="modal-content">
+                        <div className="modal-content" style={{borderTop: "6px solid #673ab7"}}>
                             <div className="modal-body">
                                 {
                                     this.props.isShowLoginForm ? 
@@ -113,7 +121,9 @@ class GetStarted extends Component {
                                         <SigninBody {...this.props} showLoginForm={this.props.showLoginForm}/>
                                     </div> : 
                                     this.props.isShowVerification ? 
-                                    <EmailVerificationMessage {...this.props}/> :
+                                    <EmailVerificationMessage {...this.props} handleChangeRegister={this.handleChangeRegister}/> :
+                                    this.state.isRegistered ? 
+                                    <EmailVerificationSuccess {...this.props}/> :
                                     <div className="container">
                                         <GetStartedBody {...this.props} />
                                         <p className="container pb-4">Already have an account? <a className="primary-color" onClick={() => this.props.showLoginForm(true)} href="#signin">Sign in</a></p> 

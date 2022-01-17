@@ -48,63 +48,6 @@ export default class GetStartedBody extends Component {
         }
     }
 
-    handleRegister = () => {
-        this.setState({
-            isRegistering: true
-        })
-        let user = new UserSignup()
-        user.email = this.props.email;
-        user.name = this.props.username
-        user.password = this.props.password;
-        let reqConfig = {
-            headers: {
-                "X-Genz-Token": "4439EA5BDBA8B179722265789D029477",
-                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        }
-        axios.post(userApiCommonPattern+'register', user, reqConfig)
-            .then(response => {
-                if(response.data.success) {
-                    this.props.cookies.set('registeredEmail', this.state.email);
-                    this.props.cookies.set('createdTime', response.data.data)
-                    this.props.cookies.set('name', this.state.username)
-                    this.setState({
-                        registerMessage: response.data.message,
-                        isRegistered: true,
-                    })
-                    this.resetRegisterState();
-                } else {
-                    this.setState({
-                        isRegistering: false
-                    })
-                    toast.error(response.data.message);
-                }
-            })
-            .catch((err) => {
-                this.setState({
-                    isRegistering: false
-                })
-                console.log("Err", err,);
-                console.log("Errors", this.props)
-                toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later.")
-            })
-    }
-
-    resetRegisterState = () => {
-        this.setState({
-            email: "",
-            username: "",
-            password: "",
-            confirmPassword: "",
-            emailErrorMessage: "",
-            passwordErrorMessage: "",
-            confirmPasswordErrorMessage: "",
-            usernameErrorMessage: "",
-            passwordShow: false,
-            isRegistering: false
-        })
-    }
-
     handleShowForm = () => {
         this.setState({
             showForm: !this.state.showForm
@@ -296,7 +239,7 @@ export default class GetStartedBody extends Component {
                                         <input  type="text"
                                                 name="username"
                                                 required
-                                                className="form-control"
+                                                className="form-control shadow-none"
                                                 value={this.state.username}
                                                 onChange={this.handleChange}
                                                 id="username" aria-describedby="usernameHelp" placeholder="Name" />
@@ -309,7 +252,7 @@ export default class GetStartedBody extends Component {
                                         <input  type="email"
                                                 name="email"
                                                 required
-                                                className="form-control"
+                                                className="form-control shadow-none"
                                                 value={this.state.email}
                                                 onChange={this.handleChange}
                                                 id="email" aria-describedby="emailHelp" placeholder="Email" />
@@ -321,7 +264,7 @@ export default class GetStartedBody extends Component {
                                         <input  type={this.state.passwordShow ? "text" : "password"}
                                                 name="password"
                                                 required
-                                                className="form-control"
+                                                className="form-control shadow-none"
                                                 value={this.state.password}
                                                 onChange={this.handleChange}
                                                 id="password" aria-describedby="passwordHelp" placeholder="Password" />
@@ -333,7 +276,7 @@ export default class GetStartedBody extends Component {
                                         <input  type={this.state.passwordShow ? "text" : "password"}
                                                 name="confirmPassword"
                                                 required
-                                                className="form-control"
+                                                className="form-control shadow-none"
                                                 value={this.state.confirmPassword}
                                                 onChange={this.handleChange}
                                                 id="confirmPassword" aria-describedby="confirmPasswordHelp" placeholder="Confirm Password" />

@@ -11,11 +11,14 @@ export default class EmailVerificationSuccess extends Component {
 
     render() {
         return (
-            <div style={{marginTop: "175px"}}>
+            <div>
                 <div className="container">
-                    <center>
+                    <button type="button" onClick={() => this.props.showRegisterForm(false)} className="close remove-button-css" data-dismiss="modal" aria-label="Close">
+                        <span className="font-size-25" aria-hidden="true">&times;</span>
+                    </button>
+                    <center style={{paddingTop: "40px"}}>
                         <AiFillLike style={{fontSize: "75px", color: "#673ab7"}}/><br /><br />
-                        <h2>We have successfully verified your email. Click on login to continue.</h2>
+                        <h4>We have successfully registered your email. Please, Login to continue.</h4>
                     </center>
                 </div>
             </div>

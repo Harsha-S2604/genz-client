@@ -12,7 +12,7 @@ export default class App extends Component {
           <ToastContainer 
             position="bottom-center" 
             hideProgressBar={true}
-            autoClose={3000}
+            autoClose={2000}
           />
         <Navbar />
       </Provider>
