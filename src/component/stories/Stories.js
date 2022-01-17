@@ -42,7 +42,7 @@ class Stories extends Component {
             <div className="container stories__config">
                 <h3><b>Your Stories</b></h3>
                 <ul id="your_stories__tab" className="nav navlinks">
-                    <li><a className="active" data-toggle="tab" href="#published" onClick={() => this.fetchBlogs(this.props.cookies.get("email"), false)}>Published</a></li>
+                    <li style={{paddingRight: "20px"}}><a className="active" data-toggle="tab" href="#published" onClick={() => this.fetchBlogs(this.props.cookies.get("email"), false)}>Published</a></li>
                     <li><a data-toggle="tab" href="#draft" onClick={() => this.fetchBlogs(this.props.cookies.get("email"), true)}>Draft</a></li>
                 </ul>
                 <div className="tab-content">
