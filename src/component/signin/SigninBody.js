@@ -143,11 +143,11 @@ export default class SigninBody extends Component {
                 <div className="pb-4"></div>
                 <h2 className="primary-color text-center card-title pt-4">Welcome to GenZ blog</h2><br/>
                 <div className="container">
-                    <div>
+                    {/* <div>
                         <button type="button" className="btn btn-light col-12"><FcGoogle />&nbsp; Sign in with Google</button><br/><br/>
                         <button type="button" className="btn btn-light col-12"><AiFillFacebook />&nbsp; Sign in with Facebook</button><br/><br/>
                     </div><br/>
-                    <hr className="sep-login-hr" data-content="Have an account? continue with your email address" /><br/>
+                    <hr className="sep-login-hr" data-content="Have an account? continue with your email address" /><br/> */}
                     <form>
                         <div className="form-group">
                             <label  className="pb-3" htmlFor="email">Email</label>

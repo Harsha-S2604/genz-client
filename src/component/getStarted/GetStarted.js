@@ -108,6 +108,11 @@ class GetStarted extends Component {
         })
     }
 
+    handleSignUpForm = () => {
+        this.props.showRegisterForm(true);
+        this.props.showLoginForm(false);
+    }
+
     render() {
         return (
             <div>
@@ -119,6 +124,7 @@ class GetStarted extends Component {
                                     this.props.isShowLoginForm ? 
                                     <div>
                                         <SigninBody {...this.props} showLoginForm={this.props.showLoginForm}/>
+                                        <p className="container">Don't have an account? <span className="primary-color pointer" onClick={this.handleSignUpForm}><u>Sign up</u></span></p>
                                     </div> : 
                                     this.props.isShowVerification ? 
                                     <EmailVerificationMessage {...this.props} handleChangeRegister={this.handleChangeRegister}/> :
@@ -126,7 +132,7 @@ class GetStarted extends Component {
                                     <EmailVerificationSuccess {...this.props}/> :
                                     <div className="container">
                                         <GetStartedBody {...this.props} />
-                                        <p className="container pb-4">Already have an account? <a className="primary-color" onClick={() => this.props.showLoginForm(true)} href="#signin">Sign in</a></p> 
+                                        <center><p className="container pb-4">Already have an account? <span className="primary-color pointer" onClick={() => this.props.showLoginForm(true)}><u>Sign in</u></span></p></center>
                                     </div>
                                 }
                             </div>

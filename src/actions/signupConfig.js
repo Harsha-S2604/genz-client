@@ -9,6 +9,7 @@ export const saveRegisteredEmail = (email) => {
 }
 
 export const showLoginForm = (isShowLoginForm) => {
+    console.log("SHow login form", isShowLoginForm)
 
     return (dispatch) => {
         dispatch({type: "SHOW_LOGIN_FORM", data: {isShowLoginForm}})

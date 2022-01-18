@@ -31,6 +31,11 @@ class Signin extends Component {
         })
     }
 
+    handleSignInForm = () => {
+        this.props.showLoginForm(true);
+        this.props.showRegisterForm(false);
+    }
+
 
 
     render() {
@@ -44,10 +49,14 @@ class Signin extends Component {
                         <div className="modal-content"> 
                             <div className="modal-body">
                                 {
-                                    this.props.isShowRegisterForm ? <div><GetStartedBody {...this.props}/></div>:
+                                    this.props.isShowRegisterForm ? 
+                                    <div>
+                                        <GetStartedBody {...this.props}/>
+                                        <center><p className="container pb-4">Already have an account? <span className="primary-color pointer" onClick={this.handleSignInForm}><u>Sign in</u></span></p></center>
+                                    </div>:
                                     <div className="container">
                                         <SigninBody {...this.props} cookies={this.props.cookies} handleLoggedIn={this.props.handleLoggedIn}/>
-                                        <p className="container">Don't have an account? <a className="primary-color" onClick={() => this.props.showRegisterForm(true)}href="#signup">Sign up</a></p>
+                                        <p className="container">Don't have an account? <span className="primary-color pointer" onClick={() => this.props.showRegisterForm(true)}><u>Sign up</u></span></p>
                                     </div>
                                 }
                             </div>
