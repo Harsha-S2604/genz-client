@@ -162,6 +162,27 @@ class Write extends Component {
         )
     }
 
+    uploadBlogImage = async (file, userId, blogId) => {
+        try {
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('userId', userId)
+            formData.append('blogId', blogId)
+            const response = await axios.post(
+                blogApiCommonPattern+"story/image/upload",
+                formData,
+                {
+                  headers: {'Content-Type': 'multipart/form-data', 'X-Genz-Token': '4439EA5BDBA8B179722265789D029477'},
+                }
+              );
+            
+            const json = response.data
+            return json
+        } catch(err) {
+            return ""
+        }
+    }
+
     handleAddBlog = async (htmlMarkup, is_draft) => {
         let blog = new AddBlog();
         blog.blogTitle = this.props.title;
@@ -179,9 +200,15 @@ class Write extends Component {
                 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
             }
         }
+        let userId = this.props.cookies.get("id")
+        let file = this.props.blogImage
         try {
             const response = await axios.post(blogApiCommonPattern+"add", blog, reqConfig)
             if(response.data.success) {
+                let isUploadedJson = await this.uploadBlogImage(file, userId, response.data["blog_id"])
+                if(!isUploadedJson || !isUploadedJson.success) {
+                    throw new Error("Failed to publish, Something went wrong. Our team is working on it. Please try again later.")
+                }           
                 this.props.blogPublishLoader(false);
                 if(!is_draft) {
                     this.setState({
@@ -197,7 +224,7 @@ class Write extends Component {
             }
         } catch(error) {
             this.props.blogPublishLoader(false);
-            toast.error("Sorry my friend, There's a problem from our side. We'll fix it ASAP. Please try again later.")
+            toast.error("Sorry, Something went wrong. Our team is working on it. Please try again later.")
         }
     }
 
@@ -320,7 +347,7 @@ class Write extends Component {
                                     </div>
                                 }
                                 <div className="form-group" style={{paddingTop: "5%"}}>
-                                    <h4><b>Story image</b></h4>
+                                    <h4><b>Story image</b><i style={{fontSize:"18px"}}> (optional)</i></h4>
                                     <div className="pt-3">
                                         <input id="story_image" name="story_image" className="blog-image__input"
                                             type="file"
