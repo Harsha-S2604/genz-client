@@ -205,10 +205,14 @@ class Write extends Component {
         try {
             const response = await axios.post(blogApiCommonPattern+"add", blog, reqConfig)
             if(response.data.success) {
-                let isUploadedJson = await this.uploadBlogImage(file, userId, response.data["blog_id"])
-                if(!isUploadedJson || !isUploadedJson.success) {
-                    throw new Error("Failed to publish, Something went wrong. Our team is working on it. Please try again later.")
-                }           
+                console.log(file)
+                if(!(Object.keys(file).length === 0)) {
+                    let isUploadedJson = await this.uploadBlogImage(file, userId, response.data["blog_id"])
+                    if(!isUploadedJson || !isUploadedJson.success) {
+                        throw new Error("Failed to publish, Something went wrong. Our team is working on it. Please try again later.")
+                    }
+                }
+                           
                 this.props.blogPublishLoader(false);
                 if(!is_draft) {
                     this.setState({
