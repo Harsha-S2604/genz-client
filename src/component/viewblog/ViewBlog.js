@@ -50,7 +50,7 @@ class ViewBlog extends Component {
                                         </div>
                                     </div>
                                     <hr />
-                                    <img src={"https://genztest.s3.ap-south-1.amazonaws.com/genz_story_image/"+this.props.viewBlogData.BlogID} height="550" width="450" />
+                                    <img src={"data:image/jpeg;base64,"+this.props.viewBlogData.BlogImage} alt="article_image" height="550" width="450" />
                                 </header>
                             </section>
                             <section className="view-blog__content-section">

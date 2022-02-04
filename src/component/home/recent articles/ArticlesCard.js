@@ -73,8 +73,8 @@ export default class ArticlesCard extends Component {
                                             <div className="articles__card-image">
                                                 {
                                                     isDesktop?
-                                                    <img src={"https://genztest.s3.ap-south-1.amazonaws.com/genz_story_image/"+this.props.blog.BlogID} width="130" height="100" alt="demo goes here" />:
-                                                    <img src={"https://genztest.s3.ap-south-1.amazonaws.com/genz_story_image/"+this.props.blog.BlogID} width="56" height="56" alt="demo goes here" />
+                                                    <img src={"data:image/jpeg;base64,"+this.props.blog.BlogImage} width="130" height="100" alt="demo goes here" />:
+                                                    <img src={"data:image/jpeg;base64,"+this.props.blog.BlogImage} width="56" height="56" alt="demo goes here" />
 
                                                 }
                                             </div>
