@@ -86,6 +86,7 @@ export default class GetStartedBody extends Component {
                         await this.props.changeShowVerification(true);
                         toast.success("Verification code sent to your email.")
                     } else {
+                        console.log("error")
                         toast.error(this.props.isCodeSentErr)
                     }
                     this.setState({
@@ -96,6 +97,7 @@ export default class GetStartedBody extends Component {
                     this.setState({
                         isRegistering: false,
                     })
+                    toast.error(response.data.message)
                 }
             })
             .catch(async (err) => {
